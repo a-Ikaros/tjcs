@@ -1,0 +1,424 @@
+<template>
+  <breadCrumb :breadCrumbList="breadCrumbList" class="search-p"></breadCrumb>
+  <div class="search-type">
+    <span class="head-tag">
+      <span class="tag-content">
+        <img src="../../assets/img/dataSearch/icon_计算尺度.png" alt="计算尺度" class="tag-img" />计算尺度
+      </span>
+    </span>
+    <el-segmented v-model="computeRules" :options="rulesOptions" @change="onRulesChange" />
+  </div>
+  <div class="search-content search-p">
+    <div class="content-left">
+      <div class="card-title">
+        <img src="../../assets/img/dataSearch/icon_数据类型.png" alt="数据类型." class="card-title-img" />
+        <span>{{`${rulesOptions.find(item => item.value === computeRules).label}`}}</span>
+      </div>
+      <div class="card-item" v-for="(card, index) in cardList" :key="card.key">
+        <div class="card-first-level"
+          :class="{ 'first-selected': selectedCard === card.key, 'is-last-expanded': (index === cardList.length - 1) && expandedCard.indexOf(card.key) !== -1 }"
+          @click="handleSelect(card)">
+          <span class="child-li"></span>
+          <span class="title">{{ card.name }}</span>
+          <span v-if="card?.children?.length" class="card-collapse" @click.stop="handleExpand(card)">
+            <el-icon v-if="expandedCard.indexOf(card.key) !== -1">
+              <ArrowDown />
+            </el-icon>
+            <el-icon v-else>
+              <ArrowRight />
+            </el-icon>
+          </span>
+        </div>
+        <div class="card-second-level" v-if="card?.children?.length && expandedCard.indexOf(card.key) !== -1"
+          :class="{ 'last-expanded-second': (index === cardList.length - 1) && expandedCard.indexOf(card.key) !== -1 }">
+          <span v-for="child in card?.children" :key="child.key" class="child-tag"
+            :class="{ 'second-selected': selectedCard === child.key }" @click.stop="handleSelect(card, child)">{{
+              child.name
+            }}</span>
+        </div>
+      </div>
+    </div>
+    <div class="content-right">
+      <el-input v-model="searchValue" class="source-input" placeholder="请输入您要搜索的内容" clearable>
+        <template #append>
+          <div class="search-append">
+            <img src="@/assets/img/dataSearch/pic_元素.png" alt="元素周期表"
+              v-if="computeRules === 'micro' && elemTableVisible" class="elem-table-ctr"
+              @click="handleElemTableVisible(false)" />
+            <img src="@/assets/img/dataSearch/pic_元素1.png" alt="元素周期表" class="elem-table-ctr"
+              v-if="computeRules === 'micro' && !elemTableVisible" @click="handleElemTableVisible(true)" />
+            <el-button :icon="Search" class="search-icon" />
+            <span class="search-font">搜索</span>
+          </div>
+        </template>
+      </el-input>
+      <div class="elem-table" v-if="computeRules === 'micro' && elemTableVisible">
+        <periodicTable @handleSelElem="handleSelElem"></periodicTable>
+      </div>
+      <div class="search-path">
+        检索范围：
+        <span v-for="(item, index) in searchPath" :key="item.value" class="path-item">
+          {{ item.label + (index === searchPath.length - 1 ? '' : ' / ') }}
+        </span>
+      </div>
+      <div class="search-result">
+        <resultTable ref="resTable"></resultTable>
+      </div>
+    </div>
+  </div>
+</template>
+
+<script setup lang="ts">
+import { computed, onActivated, ref, watchEffect } from 'vue';
+import periodicTable from './periodicTable/PeriodicTable.vue'
+import breadCrumb from '@/components/breadCrumb/index.vue'
+import { ArrowDown, Search } from "@element-plus/icons-vue";
+import {
+  microDataTypes,
+  mesoDataTypes,
+  macroDataTypes
+} from "./dataRules";
+import resultTable from "@/views/dataSearch/resultTable/resultTable.vue";
+
+const breadCrumbList = ['首页', '数据检索']
+const computeRules = ref('micro')
+const rulesOptions = [
+  { label: '微观尺度', value: 'micro' },
+  { label: '介观尺度', value: 'meso' },
+  { label: '宏观尺度', value: 'macro' },
+]
+const onRulesChange = (e) => {
+  searchPath.value = [rulesOptions.find(item => item.value === e)]
+  searchValue.value = ''
+}
+// 标签列表
+const cardList = computed(() => {
+  const listMap = {
+    micro: microDataTypes,
+    meso: mesoDataTypes,
+    macro: macroDataTypes
+  }
+  return listMap[computeRules.value]
+})
+
+const resTable = ref<any>(null)
+
+// 选择左侧标签事件
+const selectedCard = ref('')
+const handleSelect = (card, child = null) => {
+  if (selectedCard.value === (child?.key || card.key)) {
+    selectedCard.value = ''
+    searchPath.value = [rulesOptions.find(item => item.value === computeRules.value)]
+    return
+  }
+  searchPath.value = [rulesOptions.find(item => item.value === computeRules.value), { label: card.name, value: card.key }]
+  if (child) {
+    searchPath.value.push({ label: child.name, value: child.key })
+  }
+  // 临时造数据
+  const arr = [searchPath.value[searchPath.value.length - 1]]
+  const childArr = cardList.value.find(item => item.key === searchPath.value[searchPath.value.length - 1].value)?.children
+  childArr?.length && arr.push(...childArr)
+  resTable.value.refResTableData(arr)
+  // 临时造数据
+
+  selectedCard.value = child?.key || card.key
+}
+
+// 展开左侧标签
+const expandedCard = ref([])
+const handleExpand = (card) => {
+  const index = expandedCard.value.indexOf(card.key)
+  if (index === -1) {
+    expandedCard.value.push(card.key)
+  } else {
+    expandedCard.value.splice(index, 1)
+  }
+}
+
+const searchValue = ref('')
+
+// 检索范围路径
+const searchPath = ref([rulesOptions.find(item => item.value === computeRules.value)])
+
+// 元素周期表显示与隐藏
+const elemTableVisible = ref(true)
+const handleElemTableVisible = (isShow: boolean) => {
+  elemTableVisible.value = isShow
+}
+
+const handleSelElem = (elem) => {
+  if (elem.symbol !== 'Ac-Lr' && elem.symbol !== 'La-Lu') {
+    searchValue.value = searchValue.value + elem.symbol
+  }
+}
+onActivated(() => {
+  // 重置搜索条件
+  window.scroll(0, 0);
+})
+</script>
+
+<style lang="scss" scoped>
+.search-p {
+  max-width: 1200px;
+  margin: 12px auto;
+}
+
+.search-content {
+  width: 76vw;
+  display: flex;
+  position: relative;
+  min-height: 70vh;
+}
+
+.search-type {
+  width: 100%;
+  background-color: #f7f9fb;
+  height: 80px;
+  box-sizing: border-box;
+  max-width: 1200px;
+  margin: 0 auto;
+  display: flex;
+
+  .head-tag {
+    height: 80px;
+    width: 250px;
+    display: inline-block;
+    background-image: url("@/assets/img/dataSearch/pic_计算尺度.png");
+    background-size: cover;
+    position: relative;
+
+    .tag-content {
+      margin: 0 auto;
+      position: absolute;
+      left: calc(50% - 45px);
+      top: calc(50% - 12px);
+      font-size: 16px;
+      font-weight: 600;
+      color: #1760c2;
+    }
+
+    .tag-img {
+      display: inline-block;
+      margin-right: 6px;
+    }
+  }
+}
+
+.search-append {
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+
+  .elem-table-ctr {
+    margin-right: 24px;
+  }
+}
+
+.content-left {
+  width: 250px;
+  height: 100%;
+  margin-right: 24px;
+  border-radius: 12px;
+  position: relative;
+
+  .card-title {
+    box-sizing: border-box;
+    background-color: #f3f9ff;
+    width: 100%;
+    padding: 24px;
+    display: flex;
+    align-items: center;
+    border-bottom: 2px solid #e4e7ed;
+    border-top-left-radius: 12px;
+    border-top-right-radius: 12px;
+
+    .card-title-img {
+      margin-right: 12px;
+    }
+  }
+
+  .card-item {
+    .card-first-level {
+      padding: 12px 24px;
+      color: #333333;
+      display: flex;
+      align-items: center;
+      position: relative;
+      flex-wrap: wrap;
+      font-size: 16px;
+      background-color: #f7f9fb;
+      cursor: pointer;
+      border-bottom: 2px solid #e4e7ed;
+      font-weight: 600;
+
+      .child-li {
+        display: inline-block;
+        width: 6px;
+        height: 6px;
+        background-color: #1760c2;
+        margin-right: 4px;
+        border-radius: 3px;
+      }
+
+      .title {
+        margin-left: 12px;
+        display: inline-block;
+        line-height: 32px;
+      }
+
+      .card-collapse {
+        position: absolute;
+        top: 16px;
+        right: 24px;
+        font-size: 20px;
+      }
+
+      .card-collapse:hover {
+        color: #3498db;
+      }
+    }
+
+    .first-selected {
+      color: #3498db;
+      background-color: #f3f9ff;
+    }
+
+    .is-last-expanded {
+      border-bottom-left-radius: 0 !important;
+      border-bottom-right-radius: 0 !important;
+    }
+
+    .card-second-level {
+      background-color: #f7f9fb;
+      font-size: 14px;
+      color: #333333;
+      padding: 12px;
+      border-bottom: 2px solid #e4e7ed;
+      font-weight: 500;
+
+      .child-tag {
+        background-color: white;
+        color: #1760c2;
+        padding: 5px;
+        border-radius: 5px;
+        margin: 5px;
+        display: inline-block;
+        font-size: 14px;
+        cursor: pointer;
+      }
+
+      .second-selected {
+        color: #3498db !important;
+        background-color: #a6ddf5 !important;
+      }
+    }
+
+    .last-expanded-second {
+      border-bottom-left-radius: 12px;
+      border-bottom-right-radius: 12px;
+    }
+  }
+
+  .card-item:last-child {
+    .card-first-level {
+      border-bottom-left-radius: 12px;
+      border-bottom-right-radius: 12px;
+    }
+  }
+}
+
+.content-right {
+  flex: 1;
+  width: calc(100% - 300px);
+
+  .source-input {
+    width: 100%;
+    height: 60px;
+
+    .search-icon {
+      margin-right: 6px;
+      width: 16px;
+      color: #1760c2;
+      font-size: 16px
+    }
+
+    .search-font {
+      color: #1760c2;
+      font-size: 16px
+    }
+  }
+
+  .elem-table {
+    width: 100%;
+    box-sizing: border-box;
+    border: 2px solid #e5e5e5;
+    border-radius: 12px;
+    margin: 24px 0;
+  }
+
+  .search-path {
+    width: 100%;
+    background-color: #f7f9fb;
+    box-sizing: border-box;
+    padding: 12px;
+    margin: 24px 0;
+
+    .path-item {
+      cursor: pointer;
+      color: #666666;
+    }
+
+    .path-item:last-child {
+      color: #1760c2;
+    }
+  }
+}
+
+.search-result {
+  min-height: 600px;
+}
+
+.el-segmented {
+  height: 100%;
+  font-size: 16px;
+  font-weight: 600;
+}
+
+:deep(.el-segmented__item) {
+  width: 228px !important;
+}
+
+:deep(.el-segmented__item-selected) {
+  border-bottom: 2px solid #063e8b;
+}
+
+.search-type .el-segmented {
+  --el-segmented-item-selected-color: #1760c2;
+  --el-segmented-item-selected-bg-color: #e3f1ff;
+}
+
+:deep(.el-select__wrapper) {
+  height: 100%;
+}
+
+:deep(.el-input__wrapper) {
+  box-shadow: none;
+  border-top: 2px solid #e5e5e5;
+  border-left: 2px solid #e5e5e5;
+  border-bottom: 2px solid #e5e5e5;
+}
+
+:deep(.el-input-group__append) {
+  background-color: transparent !important;
+}
+
+:deep(.el-input-group__prepend) {
+  background-color: transparent !important;
+}
+
+:deep(.el-select__placeholder) {
+  color: #333333 !important;
+  font-weight: bold;
+}
+</style>
