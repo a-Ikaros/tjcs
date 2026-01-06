@@ -81,7 +81,7 @@ const actinides = computed(() => elementsData.filter(e => e.atomicNumber >= 89 &
 
 // 布局：f 行从第 3 列开始放 14 个（columns 3..16）
 const F_START_COL = 3;
-const F_END_COL = 16;
+const F_END_COL = 17;
 
 const isLanthanidePosition = (col) => {
   const idx = col - F_START_COL;

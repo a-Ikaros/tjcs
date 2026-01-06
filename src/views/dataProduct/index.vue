@@ -291,7 +291,7 @@ const getCurProductList = () => {
 
   const engineProducts = [
     {
-      title: '高通量计算管理器',
+      title: '连贯性计算引擎',
       desc: '任务调度、结果收集与错误重试一体化管理，支持常见 DFT 软件（VASP、Quantum ESPRESSO）接入。',
       img: productBlockImg,
       user: '计算材料平台',
@@ -394,6 +394,21 @@ onMounted(() => {
       title: '生产引擎',
       key: 'engine',
       num: 11,
+    },
+    {
+      title: '材料数据库系统',
+      key: 'materialData',
+      num: 3,
+    },
+    {
+      title: '私域数据交易系统',
+      key: 'privateData',
+      num: 3,
+    },
+    {
+      title: '全球材料计算软件库',
+      key: 'materialSoftware',
+      num: 3,
     },
     {
       title: '定制服务',

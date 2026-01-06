@@ -88,14 +88,13 @@ onMounted(() => {
 <style lang="scss" scoped>
 .resources-box {
   box-sizing: border-box;
-  width: 100%;
   max-width: 1200px;
   margin: 0 auto;
   min-height: calc(100vh - 344px);;
-
+position: relative;
   .resources-content {
     display: flex;
-
+    width: 1200px;
     .card-item {
       width: 220px;
       margin-bottom: 12px;
@@ -169,7 +168,7 @@ onMounted(() => {
   }
 
   .right-card {
-    width: 100%;
+    width: 1000px;
     box-sizing: border-box;
   }
 }

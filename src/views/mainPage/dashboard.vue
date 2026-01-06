@@ -52,15 +52,15 @@
       <div class="introduce-content">
         <div class="container-block">
           <div class="block-left">
-            <titleLine :nameZh="'通知公告'" :nameEn="'/ NOTICE BOARD'" :showMore="true"
-              :moreLink="'/field-updates'" class="block-title"></titleLine>
+            <titleLine :nameZh="'通知公告'" :nameEn="'/ NOTICE BOARD'" :showMore="true" :moreLink="'/field-updates'"
+              class="block-title"></titleLine>
             <div>
               <noticeAnnouncement></noticeAnnouncement>
             </div>
           </div>
           <div class="block-right">
-            <titleLine :nameZh="'新闻中心'" :nameEn="'/ NEWS CENTER'" :showMore="true"
-              :moreLink="'/field-updates'" class="block-title"></titleLine>
+            <titleLine :nameZh="'新闻中心'" :nameEn="'/ NEWS CENTER'" :showMore="true" :moreLink="'/field-updates'"
+              class="block-title"></titleLine>
             <div>
               <newsCenter></newsCenter>
             </div>
@@ -68,13 +68,13 @@
         </div>
         <div class="container-block">
           <div class="block-left">
-            <titleLine :nameZh="'数据资源'" :nameEn="'/ DATA RESOURCES'" :showMore="true"
-              :moreLink="'/data-search'" class="block-title"></titleLine>
+            <titleLine :nameZh="'数据资源'" :nameEn="'/ DATA RESOURCES'" :showMore="true" :moreLink="'/data-search'"
+              class="block-title"></titleLine>
             <div><img src="../../assets/img/data-sources.png" alt="" class="data-sources-img" /></div>
           </div>
           <div class="block-right">
-            <titleLine :nameZh="'数据产品'" :nameEn="'/ COLLECTION TOOL'" :showMore="true"
-              :moreLink="'/data-product'" class="block-title"></titleLine>
+            <titleLine :nameZh="'数据产品'" :nameEn="'/ COLLECTION TOOL'" :showMore="true" :moreLink="'/data-product'"
+              class="block-title"></titleLine>
             <div class="data-production">
               <div class="production-block" @click="router.push('/data-product')">
                 <img src="../../assets/img/database-tools.png" alt="数据库交互工具" style="width: 96px;height: 96px" />
@@ -101,8 +101,15 @@
       <div class="introduce-content main-container">
         <div class="mtb30">
           <titleLine :nameZh="'建设单位'" :nameEn="'/ CONSTRUCTION ENTITY'"></titleLine>
-          <div class="mtb30 wp100" style="cursor: pointer;" @click="jumpTo('')">
-            <img class="wp100" src="../../assets/img/unit-construction.png" alt="" />
+          <div class="mtb30 wp100 construction-box">
+            <img class="" src="../../assets/img/construction/国家超级计算天津中心.png" alt="" @click="jumpTo('https://www.nscc-tj.cn/zxjj/index')" />
+            <img class="" src="../../assets/img/construction/四川大学.png" alt="" @click="jumpTo('https://www.scu.edu.cn/')" />
+            <img class="" src="../../assets/img/construction/中国工程物理研究院计算机应用研究所.png" alt="" @click="jumpTo('https://www.caep.ac.cn/')" />
+            <img class="" src="../../assets/img/construction/中国一重.png" alt="" @click="jumpTo('https://www.cfhi.com/')" />
+            <img class="" src="../../assets/img/construction/北京航空航天大学.png" alt="" @click="jumpTo('https://www.buaa.edu.cn/')" />
+            <img class="" src="../../assets/img/construction/福州大学.png" alt="" @click="jumpTo('https://www.fzu.edu.cn/')" />
+            <img class="" src="../../assets/img/construction/中山大学.png" alt="" @click="jumpTo('https://www.sysu.edu.cn/')" />
+            <img class="" src="../../assets/img/construction/信创海河实验室.png" alt="" @click="jumpTo('https://www.hl-it.cn/')" />
           </div>
         </div>
         <div class="mtb30">
@@ -300,6 +307,7 @@ onMounted(() => {
     align-items: center;
     justify-content: flex-start;
     cursor: pointer;
+
     .block-content {
       margin-left: 24px;
       display: flex;
@@ -462,8 +470,8 @@ onMounted(() => {
   margin-top: 24px;
 
   .link-block {
+    font-size: 18px;
     color: #1760c2;
-    font-size: 20px;
     width: calc(25% - 12px);
     font-weight: 700;
     display: flex;
@@ -493,6 +501,22 @@ onMounted(() => {
   max-width: 1200px;
   margin: 0 auto;
   box-sizing: border-box;
+
+  .construction-box {
+    background-color: #f8fbfe;
+    padding: 24px 24px 0 24px;
+    box-sizing: border-box;
+    cursor: pointer;
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-around;
+    img {
+      width: 24%;
+      height: 100%;
+      margin-bottom: 24px;
+      object-fit: cover;
+    }
+  }
 }
 
 :deep(.el-input__wrapper) {

@@ -18,7 +18,7 @@
         <span>筛选</span>
       </span>
     </div>
-    <el-table :data="tableData" border style="width: 100%">
+    <el-table :data="tableData" border style="width: 100%" @row-click="handleRowClick">
       <el-table-column label="序号" type="index" width="60" align="center" />
       <el-table-column prop="name" label="数据名称" width="180" />
       <el-table-column prop="type" label="数据类型" width="180" />
@@ -53,6 +53,7 @@
 import { onMounted, ref, computed, watchEffect } from 'vue'
 import watchIcon from '@/assets/img/dataSearch/icon_查看.png'
 import { crystalData, moleculeData } from "./data";
+import { jumpTo } from '@/utils';
 interface Tree {
   name: string
 }
@@ -77,12 +78,14 @@ const selectedType = ref(badgeList.value[0].key)
 // 根据选中的类型切换表格数据
 const tableData = ref([])
 const refResTableData = (arr) => {
+  console.log(arr,'arr')
   badgeList.value = arr.map(item => ({
     label: item.name || item.label,
     key: item.key || item.value,
     value: Math.floor(Math.random() * 10000) + 100 // 模拟数据数量
   }))
-  selectedType.value = badgeList.value[0].key
+  // selectedType.value = badgeList.value[0].key
+  selectedType.value = ''
 }
 
 const tableFlag = ref(true)
@@ -115,9 +118,13 @@ const handleCurrentChange = (val: number) => {
 const handleWatch = (row) => {
   console.log(row, 'row')
 }
+const handleRowClick = (row) => {
+  console.log(row, 'row')
+  jumpTo('')
+}
 
 const handleSel = (key) => {
-  selectedType.value = key
+  selectedType.value === key ? selectedType.value = '' : selectedType.value = key
 }
 
 const filterVisible = ref(false)

@@ -30,7 +30,7 @@ export default defineConfig({
 	},
 	server: {
 		host: true, // 或者使用具体的 IP 地址，例如 '0.0.0.0'
-		port: 5174,
+		port: 9999,
 		open: false,
 		https: false,
 	},

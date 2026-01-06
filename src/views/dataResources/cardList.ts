@@ -33,15 +33,8 @@ export const list: Array<cardInfo> = [
             {
                 path:'private/zgyz',
                 name:'中国一重私域数据'
-            }
-        ]
-    },
-    {
-        path: 'special',
-        name: '专题数据集',
-        icon: specialIcon,
-        children: [
-            {
+            },
+             {
                 path: 'special/battery',
                 name: '电池有机正极材料数据'
             },
@@ -55,6 +48,7 @@ export const list: Array<cardInfo> = [
             },
         ]
     },
+  
     {
         path: 'template',
         name: '数据模板',
@@ -102,9 +96,4 @@ export const list: Array<cardInfo> = [
         name: '全球材料数据库',
         icon: materialDataIcon
     },
-    {
-        path: 'materialSoftware',
-        name: '全球材料计算软件库',
-        icon: materialSoftwareIcon
-    }
 ]

@@ -6,7 +6,7 @@
         <img src="../../assets/img/dataSearch/icon_计算尺度.png" alt="计算尺度" class="tag-img" />计算尺度
       </span>
     </span>
-    <el-segmented v-model="computeRules" :options="rulesOptions" @change="onRulesChange" />
+    <el-segmented style="flex: 1;" v-model="computeRules" :options="rulesOptions" @change="onRulesChange" />
   </div>
   <div class="search-content search-p">
     <div class="content-left">
@@ -109,16 +109,18 @@ const handleSelect = (card, child = null) => {
   if (selectedCard.value === (child?.key || card.key)) {
     selectedCard.value = ''
     searchPath.value = [rulesOptions.find(item => item.value === computeRules.value)]
+     resTable.value.refResTableData([])
     return
   }
   searchPath.value = [rulesOptions.find(item => item.value === computeRules.value), { label: card.name, value: card.key }]
   if (child) {
     searchPath.value.push({ label: child.name, value: child.key })
   }
+  console.log(searchPath.value, 'searchPath.value')
   // 临时造数据
-  const arr = [searchPath.value[searchPath.value.length - 1]]
+  let arr = [searchPath.value[searchPath.value.length - 1]]
   const childArr = cardList.value.find(item => item.key === searchPath.value[searchPath.value.length - 1].value)?.children
-  childArr?.length && arr.push(...childArr)
+  childArr?.length && (arr = [...childArr])
   resTable.value.refResTableData(arr)
   // 临时造数据
 
@@ -129,6 +131,7 @@ const handleSelect = (card, child = null) => {
 const expandedCard = ref([])
 const handleExpand = (card) => {
   const index = expandedCard.value.indexOf(card.key)
+  expandedCard.value = []
   if (index === -1) {
     expandedCard.value.push(card.key)
   } else {
@@ -303,7 +306,7 @@ onActivated(() => {
         padding: 5px;
         border-radius: 5px;
         margin: 5px;
-        display: inline-block;
+        display: block;
         font-size: 14px;
         cursor: pointer;
       }
@@ -386,7 +389,7 @@ onActivated(() => {
 }
 
 :deep(.el-segmented__item) {
-  width: 228px !important;
+  width: 33.3% !important;
 }
 
 :deep(.el-segmented__item-selected) {
