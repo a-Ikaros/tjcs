@@ -73,7 +73,7 @@ const badgeList = ref([
     value: '241'
   },
 ])
-const selectedType = ref(badgeList.value[0].key)
+const selectedType = ref()
 
 // 根据选中的类型切换表格数据
 const tableData = ref([])
