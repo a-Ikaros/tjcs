@@ -257,7 +257,6 @@ watch(() => selectedLi.value, () => {
 })
 const curProductList = ref([])
 const getCurProductList = () => {
-  // 为不同左侧分类返回更合理的条目列表（保留 img 不变）
   const toolProducts = [
     {
       title: '文献爬取器 v2.0',
@@ -369,10 +368,128 @@ const getCurProductList = () => {
     }
   ]
 
+  const materialDataProducts = [
+    {
+      title: '无机材料晶体结构数据库',
+      desc: '收录超过 50 万条无机材料晶体结构数据，包含晶格参数、原子坐标、空间群等完整信息，支持 CIF 格式导出。',
+      img: productBlockImg,
+      user: '新材料大数据中心',
+      time: '2025.10.20'
+    },
+    {
+      title: '材料热力学性能数据库',
+      desc: '整合相图、热容、熵等热力学数据，覆盖 2000+ 材料体系，提供相稳定性分析与热力学计算支持。',
+      img: productBlockImg,
+      user: '热力学数据组',
+      time: '2025.09.15'
+    },
+    {
+      title: '材料力学性能数据库',
+      desc: '收集各类材料的拉伸、压缩、疲劳等力学性能数据，包含应力-应变曲线与失效模式分析。',
+      img: productBlockImg,
+      user: '力学性能组',
+      time: '2025.08.25'
+    }
+  ]
+
+  const privateDataProducts = [
+    {
+      title: '企业私域数据管理平台',
+      desc: '为企业提供私域数据存储、管理与交易服务，支持数据确权、定价与安全共享，保障数据资产价值。',
+      img: productBlockImg,
+      user: '数据交易部',
+      time: '2025.11.01'
+    },
+    {
+      title: '科研数据交易市场',
+      desc: '连接科研机构与企业的数据交易平台，支持材料数据、实验结果等科研资产的合规交易与溯源。',
+      img: productBlockImg,
+      user: '数据交易部',
+      time: '2025.10.10'
+    },
+    {
+      title: '数据价值评估系统',
+      desc: '基于多维度指标对材料数据进行价值评估，提供智能定价建议与市场行情分析。',
+      img: productBlockImg,
+      user: '数据交易部',
+      time: '2025.09.20'
+    }
+  ]
+
+  const materialSoftwareProducts = [
+    {
+      title: 'VASP 计算软件集成包',
+      desc: '提供 VASP 软件的安装配置、参数优化与结果分析工具，支持高通量计算与自动化工作流。',
+      img: productBlockImg,
+      user: '计算软件组',
+      time: '2025.10.15'
+    },
+    {
+      title: 'LAMMPS 分子动力学软件库',
+      desc: '集成 LAMMPS 分子动力学模拟软件，提供常用势函数库、参数模板与后处理工具。',
+      img: productBlockImg,
+      user: '计算软件组',
+      time: '2025.09.28'
+    },
+    {
+      title: 'Materials Studio 工具集',
+      desc: '提供 Materials Studio 软件的使用教程、脚本模板与常用模块配置指南，加速材料模拟研究。',
+      img: productBlockImg,
+      user: '计算软件组',
+      time: '2025.08.18'
+    }
+  ]
+
+  const serviceProducts = [
+    {
+      title: '材料数据定制化采集服务',
+      desc: '根据客户需求定制化采集特定领域的材料数据，包括文献、专利、实验数据等多源数据整合。',
+      img: productBlockImg,
+      user: '定制服务部',
+      time: '2025.11.05'
+    },
+    {
+      title: '材料计算仿真服务',
+      desc: '提供专业的材料计算仿真服务，包括第一性原理计算、分子动力学模拟、相图计算等。',
+      img: productBlockImg,
+      user: '定制服务部',
+      time: '2025.10.25'
+    },
+    {
+      title: '材料数据分析与建模服务',
+      desc: '提供材料数据分析、机器学习建模与预测服务，帮助客户挖掘数据价值与优化材料设计。',
+      img: productBlockImg,
+      user: '定制服务部',
+      time: '2025.09.30'
+    },
+    {
+      title: '材料数据库搭建服务',
+      desc: '为企业或科研机构提供材料数据库搭建服务，包括数据标准化、系统开发与运维支持。',
+      img: productBlockImg,
+      user: '定制服务部',
+      time: '2025.09.10'
+    },
+    {
+      title: '材料咨询与培训服务',
+      desc: '提供材料领域的专业咨询与技术培训，包括材料设计、数据分析、软件使用等方面的指导。',
+      img: productBlockImg,
+      user: '定制服务部',
+      time: '2025.08.20'
+    }
+  ]
+
   if (selectedLi.value === 'tool') {
     curProductList.value = toolProducts
   } else if (selectedLi.value === 'engine') {
     curProductList.value = engineProducts
+  } else if (selectedLi.value === 'materialData') {
+    curProductList.value = materialDataProducts
+  } else if (selectedLi.value === 'privateData') {
+    curProductList.value = privateDataProducts
+  } else if (selectedLi.value === 'materialSoftware') {
+    curProductList.value = materialSoftwareProducts
+  } else if (selectedLi.value === 'service') {
+    curProductList.value = serviceProducts
   } else {
     curProductList.value = []
   }
@@ -413,7 +530,7 @@ onMounted(() => {
     {
       title: '定制服务',
       key: 'service',
-      num: 0,
+      num: 5,
     },
   ]
   getProductList()
