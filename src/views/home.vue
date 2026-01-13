@@ -7,7 +7,7 @@
 
     <div class="content-box">
       <div class="content">
-        <router-view v-slot="{ Component }">
+        <router-view v-slot="{ Component }" :key="route.name">
           <!-- <keep-alive :include="tabs.nameList"> -->
             <component :is="Component"></component>
           <!-- </keep-alive> -->
@@ -24,7 +24,8 @@
 import {useTabsStore} from '@/store/tabs';
 import vHeader from '@/components/header.vue';
 import vSidebar from '@/components/sidebar.vue';
-
+import { useRoute } from 'vue-router';
+const route = useRoute();
 const tabs = useTabsStore();
 </script>
 

@@ -85,7 +85,7 @@ const microDataTypes: Array<cardInfo> = [
         children: [
             {
                 name:'对势',
-                key:"ds",
+                key:"reaxffPotential",
             },
             {
                 name:'多体势',

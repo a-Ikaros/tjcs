@@ -89,7 +89,7 @@ const microSelectData: Array<cardInfo> = [
         children: [
             {
                 label:'对势',
-                value:"ds",
+                value:"reaxffPotential",
             },
             {
                 label:'多体势',

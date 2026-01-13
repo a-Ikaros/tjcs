@@ -20,3 +20,20 @@ export const fetchRoleData = () => {
         method: 'get'
     });
 };
+
+export const searchPotData = ( params: {
+    rule:string;
+    elements: string;
+    page: number;
+    pageSize: number;
+}) => {
+    return request({
+        url: `http://60.204.244.133/potdata/${params.rule}/pageQuery`,
+        method: 'get',
+        params: {
+            elements: params.elements,
+            page: params.page,
+            pageSize: params.pageSize
+        }
+    });
+};

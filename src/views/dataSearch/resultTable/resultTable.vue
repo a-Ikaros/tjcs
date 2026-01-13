@@ -31,7 +31,7 @@
       </el-table-column>
     </el-table>
     <el-pagination v-model:current-page="currentPage3" v-model:page-size="pageSize" :small="small"
-      layout="prev, pager, next, jumper" :total="1000" @size-change="handleSizeChange"
+      layout="total, sizes, prev, pager, next, jumper" :total="total" @size-change="handleSizeChange"
       @current-change="handleCurrentChange" class="table-pager" />
     <el-dialog v-model="filterVisible" title="数据筛选" width="500">
       <el-tree style="max-width: 600px" :props="defaultProps" :data="nodeData" show-checkbox
@@ -98,19 +98,38 @@ watchEffect(() => {
     tableFlag.value = !tableFlag.value
   }
 })
-defineExpose({
-  refResTableData
-})
 
 const currentPage3 = ref(1)
-const pageSize = ref(100)
+const pageSize = ref(10)
+const total = ref(0)
 const small = ref(false)
+const emit = defineEmits(['page-change'])
+
 const handleSizeChange = (val: number) => {
-  console.log(`${val} items per page`)
+  pageSize.value = val
+  emit('page-change', { page: currentPage3.value, pageSize: pageSize.value })
 }
 const handleCurrentChange = (val: number) => {
-  console.log(`current page: ${val}`)
+  currentPage3.value = val
+  emit('page-change', { page: currentPage3.value, pageSize: pageSize.value })
 }
+
+const setTableData = (data) => {
+  tableData.value = data || []
+}
+
+const setTotal = (t) => {
+  total.value = Number(t) || 0
+}
+
+const getPagination = () => ({ page: currentPage3.value, pageSize: pageSize.value })
+
+defineExpose({
+  refResTableData,
+  setTableData,
+  setTotal,
+  getPagination
+})
 
 const handleWatch = (row) => {
   console.log(row, 'row')

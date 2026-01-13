@@ -6,6 +6,8 @@ const service: AxiosInstance = axios.create({
 
 service.interceptors.request.use(
     (config: InternalAxiosRequestConfig) => {
+        config.headers = config.headers || {};
+        config.headers['Content-Type'] = 'application/json';
         return config;
     },
     (error: AxiosError) => {

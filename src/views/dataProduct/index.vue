@@ -28,10 +28,15 @@
               </div>
             </template>
             <div class="col-content mt12">
-              <div class="production-block" v-for="(item, index) in onlineProduct" :key="index" @click="jumpTo(item?.link)">
+              <div class="production-block" v-for="(item, index) in onlineProduct" :key="index"
+                @click="jumpToDetail(item.id || (index + 1).toString())">
                 <img :src="item.img" alt="数据库交互工具" style="width: 5.8vw;height: 5.8vw;background-color: #e9eff8" />
                 <div class="block-content">
-                  <div class="block-title">{{ item.title }}</div>
+                  <div class="block-title">
+                    <el-text line-clamp="1" class="block-title">
+                      {{ item.title }}
+                    </el-text>
+                  </div>
                   <div class="block-desc">
                     <el-text line-clamp="2" class="title-text">
                       {{ item.desc }}
@@ -54,10 +59,15 @@
               </div>
             </template>
             <div class="col-content mt12">
-              <div class="production-block" v-for="(item, index) in offlineProduct" :key="index" @click="jumpTo(item?.link)">
+              <div class="production-block" v-for="(item, index) in offlineProduct" :key="index"
+                @click="jumpToDetail(item.id || (index + 4).toString())">
                 <img :src="item.img" alt="数据库交互工具" style="width: 5.8vw;height: 5.8vw;background-color: #e9eff8" />
                 <div class="block-content">
-                  <div class="block-title">{{ item.title }}</div>
+                  <div class="block-title">
+                    <el-text line-clamp="1" class="block-title">
+                      {{ item.title }}
+                    </el-text>
+                  </div>
                   <div class="block-desc">
                     <el-text line-clamp="2" class="title-text">
                       {{ item.desc }}
@@ -99,11 +109,16 @@
 
 <script setup lang="ts">
 import { onMounted, ref, watch } from 'vue';
+import { useRouter } from 'vue-router';
 import breadCrumb from '@/components/breadCrumb/index.vue'
 import dataProductUser from '@/assets/img/dataProduct/product-icon-user.png'
 import dataProductTime from '@/assets/img/dataProduct/product-icon-time.png'
 import productBlockImg from '@/assets/img/dataProduct/product-block-img.png'
+import ReaxFFLogo from '@/assets/img/dataProduct/detail/ReaXFF/logo.jpg'
+
 import { jumpTo } from '@/utils';
+
+const router = useRouter();
 
 const breadCrumbList = ['首页', '数据产品']
 const menuList = ref([])
@@ -115,6 +130,11 @@ const onSelProduct = (item) => {
   }
   selectedLi.value = item.key
 }
+
+const jumpToDetail = (productId) => {
+  const url = router.resolve({ name: 'data-product-detail', params: { id: productId } }).href;
+  window.open(url, '_blank', 'noreferrer');
+}
 const activeNames = ref(['1', '2'])
 const onlineProduct = ref([])
 const offlineProduct = ref([])
@@ -122,14 +142,16 @@ const offlineProduct = ref([])
 const getProductList = () => {
   onlineProduct.value = [
     {
-      title: '材料文献爬取器',
-      desc: '基于规则与模型的自动爬取工具，聚合材料领域期刊与会议论文，抽取化学成分、工艺参数与性能指标，支持导出结构化 JSON/CSV。',
-      img: productBlockImg,
+      id: 'ReaxFFData',
+      title: '材料计算设计专用数据资源节点eaxFF',
+      desc: '反应力场数据采集软件ReaxFFCollector面向文献中ReaXFF参数主要以PDF形式发布、难以直接复用的问题，提供从PDF自动提取、清洗与格式修复的一体化解决方案。该软件可将分散目易出错的反应力场文本标准化为可被LAMMPS等主流分子动力学软件直接读取的力场文件，并通过自动化验证快速评估参数可用性，显著降低人工整理成本，提高反应力场参数复用的可靠性与分子动力学研究效率。',
+      img: ReaxFFLogo,
       user: '新材料大数据中心',
       time: '2025.10.17',
       link: ''
     },
     {
+      id: '2',
       title: '晶体结构可视化平台',
       desc: '在线展示晶体结构三维视图，支持 CIF 文件导入、晶格参数可视化与晶面标注，便于科研人员快速浏览结构特征。',
       img: productBlockImg,
@@ -138,6 +160,7 @@ const getProductList = () => {
       link: ''
     },
     {
+      id: '3',
       title: '高通量计算管理器',
       desc: '用于提交与监控高通量第一性原理计算任务，自动收集计算结果并入库，支持批量失败重试与资源配额管理。',
       img: productBlockImg,
@@ -148,6 +171,7 @@ const getProductList = () => {
   ]
   offlineProduct.value = [
     {
+      id: '4',
       title: '多尺度模拟数据集',
       desc: '包含从原子到宏观的仿真结果样本（能带、应力-应变曲线、相图等），计划支持按体系类型下载完整数据包。',
       img: productBlockImg,
@@ -156,6 +180,7 @@ const getProductList = () => {
       link: ''
     },
     {
+      id: '5',
       title: '晶体结构数据库升级',
       desc: '对现有晶体数据库进行结构清洗、重标注与索引优化，支持更精准的相似结构检索与批量导出。',
       img: productBlockImg,
@@ -164,6 +189,7 @@ const getProductList = () => {
       link: ''
     },
     {
+      id: '6',
       title: '分子动力学分析模块',
       desc: '提供 MD 轨迹分析、配位数统计、能量分布与可视化报告生成功能，便于离线批量处理大规模轨迹数据。',
       img: productBlockImg,
@@ -172,6 +198,7 @@ const getProductList = () => {
       link: ''
     },
     {
+      id: '7',
       title: '材料合成路线推荐',
       desc: '基于文献与专利数据的合成路线挖掘模块，输出可行实验步骤与关键试剂/条件建议（待内测）。',
       img: productBlockImg,
@@ -180,6 +207,7 @@ const getProductList = () => {
       link: ''
     },
     {
+      id: '8',
       title: '材料性能预测API',
       desc: '离线训练的机器学习模型服务化接口，预测弹性模量、带隙等指标，支持批量预测与模型版本管理。',
       img: productBlockImg,
@@ -188,6 +216,7 @@ const getProductList = () => {
       link: ''
     },
     {
+      id: '9',
       title: '设备数据接入器',
       desc: '用于将实验表征设备（XRD、SEM、CV 等）数据接入平台并标准化保存，支持批量上传与元数据标注功能。',
       img: productBlockImg,
@@ -196,6 +225,7 @@ const getProductList = () => {
       link: ''
     },
     {
+      id: '10',
       title: '用户行为分析仪表盘',
       desc: '离线分析用户行为与访问日志，生成热力图、使用频次与功能偏好，辅助产品决策与资源规划。',
       img: productBlockImg,
@@ -204,6 +234,7 @@ const getProductList = () => {
       link: ''
     },
     {
+      id: '11',
       title: '定制模型训练服务',
       desc: '提供数据标注、特征工程与模型训练一站式离线服务，交付可部署模型或 API 接入包。',
       img: productBlockImg,
@@ -213,6 +244,7 @@ const getProductList = () => {
     }
     ,
     {
+      id: '12',
       title: '材料数据标准化工具包',
       desc: '一套离线工具用于字段映射、单位换算与元数据模板生成，便于批量标准化历史数据并输出可入库格式。',
       img: productBlockImg,
@@ -221,6 +253,7 @@ const getProductList = () => {
       link: ''
     },
     {
+      id: '13',
       title: '实验室信息管理系统（LIMS）集成',
       desc: '离线集成包，支持将 LIMS 导出的实验记录批量转换并同步到平台，保留原始附件与制样信息。',
       img: productBlockImg,
@@ -229,6 +262,7 @@ const getProductList = () => {
       link: ''
     },
     {
+      id: '14',
       title: '知识图谱构建服务（离线）',
       desc: '提供基于实体抽取与关系抽取的离线知识图谱构建服务，可从文献与数据库中抽取材料-性能-制备等关系。',
       img: productBlockImg,
@@ -238,6 +272,7 @@ const getProductList = () => {
     }
     ,
     {
+      id: '15',
       title: '离线数据脱敏与合规审计工具',
       desc: '为敏感科研数据提供批量脱敏、访问审计与合规性检查功能，输出可审计的脱敏报告，便于数据共享与合规发布。',
       img: productBlockImg,

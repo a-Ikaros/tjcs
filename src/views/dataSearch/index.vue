@@ -45,10 +45,13 @@
             <img src="@/assets/img/dataSearch/pic_元素.png" alt="元素周期表"
               v-if="computeRules === 'micro' && elemTableVisible" class="elem-table-ctr"
               @click="handleElemTableVisible(false)" />
+
             <img src="@/assets/img/dataSearch/pic_元素1.png" alt="元素周期表" class="elem-table-ctr"
               v-if="computeRules === 'micro' && !elemTableVisible" @click="handleElemTableVisible(true)" />
-            <el-button :icon="Search" class="search-icon" />
-            <span class="search-font">搜索</span>
+            <span @click="searchTableData">
+              <el-button :icon="Search" class="search-icon" />
+              <span class="search-font">搜索</span>
+            </span>
           </div>
         </template>
       </el-input>
@@ -79,6 +82,7 @@ import {
   macroDataTypes
 } from "./dataRules";
 import resultTable from "@/views/dataSearch/resultTable/resultTable.vue";
+import { searchPotData } from '@/api/index';
 
 const breadCrumbList = ['首页', '数据检索']
 const computeRules = ref('micro')
@@ -109,7 +113,7 @@ const handleSelect = (card, child = null) => {
   if (selectedCard.value === (child?.key || card.key)) {
     selectedCard.value = ''
     searchPath.value = [rulesOptions.find(item => item.value === computeRules.value)]
-     resTable.value.refResTableData([])
+    resTable.value.refResTableData([])
     return
   }
   searchPath.value = [rulesOptions.find(item => item.value === computeRules.value), { label: card.name, value: card.key }]
@@ -152,7 +156,35 @@ const handleElemTableVisible = (isShow: boolean) => {
 
 const handleSelElem = (elem) => {
   if (elem.symbol !== 'Ac-Lr' && elem.symbol !== 'La-Lu') {
-    searchValue.value = searchValue.value + elem.symbol
+    searchValue.value = searchValue.value ? searchValue.value + ',' + elem.symbol : elem.symbol
+  }
+}
+
+const searchTableData = async () => {
+  try {
+    let page = 1
+    let pageSize = 10
+    if (resTable.value && resTable.value.getPagination) {
+      const p = resTable.value.getPagination()
+      page = p.page
+      pageSize = p.pageSize
+    }
+    const response = await searchPotData({
+      rule: selectedCard.value,
+      elements: searchValue.value || 'C,H',
+      page,
+      pageSize
+    })
+    console.log('搜索结果:', response.data)
+    const dataList = response?.data?.items || response?.data?.list || response?.data?.data || response?.data || []
+    const total = response?.data?.total || response?.data?.count || (Array.isArray(dataList) ? dataList.length : 0)
+    // 更新左侧 badge 数据（保留原有行为）
+    resTable.value.refResTableData(response.data)
+    // 同步表格数据与分页总数到 resultTable
+    resTable.value.setTableData && resTable.value.setTableData(dataList)
+    resTable.value.setTotal && resTable.value.setTotal(total)
+  } catch (error) {
+    console.error('搜索失败:', error)
   }
 }
 onActivated(() => {
