@@ -28,9 +28,9 @@ export const searchPotData = ( params: {
     pageSize: number;
 }) => {
     return request({
-        url: `http://60.204.244.133/potdata/${params.rule}/pageQuery`,
-        method: 'get',
-        params: {
+        url: `/potdata/${params.rule}/pageQuery`,
+        method: 'post',
+        data: {
             elements: params.elements,
             page: params.page,
             pageSize: params.pageSize

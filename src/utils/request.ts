@@ -1,6 +1,7 @@
 import axios, { AxiosInstance, AxiosError, AxiosResponse, InternalAxiosRequestConfig } from 'axios';
 
 const service: AxiosInstance = axios.create({
+    baseURL: import.meta.env.VITE_BASE_URL,
     timeout: 5000
 });
 
@@ -8,6 +9,7 @@ service.interceptors.request.use(
     (config: InternalAxiosRequestConfig) => {
         config.headers = config.headers || {};
         config.headers['Content-Type'] = 'application/json';
+        config.headers['ngrok-skip-browser-warning'] = 'true';
         return config;
     },
     (error: AxiosError) => {

@@ -65,7 +65,7 @@
         </span>
       </div>
       <div class="search-result">
-        <resultTable ref="resTable"></resultTable>
+        <resultTable ref="resTable" @page-change="handlePageChange"></resultTable>
       </div>
     </div>
   </div>
@@ -169,23 +169,33 @@ const searchTableData = async () => {
       page = p.page
       pageSize = p.pageSize
     }
-    const response = await searchPotData({
+    const { data: response } = await searchPotData({
       rule: selectedCard.value,
-      elements: searchValue.value || 'C,H',
+      elements: searchValue.value || null,
       page,
       pageSize
     })
-    console.log('搜索结果:', response.data)
-    const dataList = response?.data?.items || response?.data?.list || response?.data?.data || response?.data || []
-    const total = response?.data?.total || response?.data?.count || (Array.isArray(dataList) ? dataList.length : 0)
-    // 更新左侧 badge 数据（保留原有行为）
-    resTable.value.refResTableData(response.data)
-    // 同步表格数据与分页总数到 resultTable
+
+    console.log('搜索结果:', response)
+
+    // 正确处理响应数据结构
+    const dataList = response?.data || []
+    const total = response?.total || 0
+    const currentPage = response?.current || 1
+
+    // 同步表格数据与分页信息到 resultTable
     resTable.value.setTableData && resTable.value.setTableData(dataList)
     resTable.value.setTotal && resTable.value.setTotal(total)
+    resTable.value.setCurrentPage && resTable.value.setCurrentPage(currentPage)
   } catch (error) {
     console.error('搜索失败:', error)
   }
+}
+
+// 处理分页变化
+const handlePageChange = (pagination) => {
+  console.log('分页变化:', pagination)
+  searchTableData()
 }
 onActivated(() => {
   // 重置搜索条件

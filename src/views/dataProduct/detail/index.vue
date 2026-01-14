@@ -35,22 +35,23 @@
                 <div class="describe-box">
                     <div class="describe-info">
                         <template v-for="(item, index) in data.content" :key="index">
-                            <div class="descibe-name">
+                            <div class="title">
+                                <i></i>
                                 {{ item.descName }}
                             </div>
-                            <template v-for="li in item.content">
+                            <div v-for="li in item.content" class="describe-item">
                                 <p v-if="li.type === 'p'">
                                     {{ li.text }}
                                 </p>
-                                <strong v-if="li.type === 'strong'">
+                                <strong v-if="li.type === 'strong'" class="strong-red">
                                     {{ li.text }}
                                 </strong>
-                                <img v-if="li.type === 'img'" :src="li.src" :alt="item.descName" />
+                                <img v-if="li.type === 'img'" :src="li.src" :alt="item.descName"  class="img-item"/>
                                 </img>
-                                 <p v-if="li.type === 'title'">
+                                <strong v-if="li.type === 'subTitle'" class="sub-title">
                                     {{ li.text }}
-                                </p>
-                            </template>
+                                </strong>
+                            </div>
                         </template>
                     </div>
                     <div class="right-content-box"></div>
@@ -93,6 +94,8 @@ onMounted(() => {
         gap: 40px;
 
         .frame-top-left {
+            width: calc(55% - 20px);
+
             .top {
                 display: flex;
                 align-items: center;
@@ -169,7 +172,16 @@ onMounted(() => {
                 width: calc(100% - 240px);
                 overflow: hidden;
             }
-
+            .describe-item{
+                margin: 24px 0;
+                .strong-red{
+                    color: #C00000;
+                }
+                .img-item{
+                    max-width: 100%;
+                    max-height: 400px;
+                }
+            }
             .right-content-box {
                 width: 200px;
                 position: relative;

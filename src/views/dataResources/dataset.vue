@@ -16,7 +16,7 @@
 </template>
 
 <script setup lang="ts">
-import { generatedDatasets, privateDatasets, specialDatasets, standardDatasets, templateDatasets, computationalDatasets } from "@/mock/generatedDatasets";
+import { generatedDatasets, privateDatasets, standardDatasets, templateDatasets, computationalDatasets } from "@/mock/generatedDatasets";
 import { jumpTo } from "@/utils";
 import { ref, watchEffect } from "vue";
 
@@ -24,7 +24,6 @@ const datasetList = ref([])
 const props = defineProps<{ selectedCard: string }>()
 const dataMap = {
   public: generatedDatasets,
-  special: specialDatasets,
   standard: standardDatasets,
   template: templateDatasets,
   private: privateDatasets,

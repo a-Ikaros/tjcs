@@ -85,7 +85,7 @@ const microDataTypes: Array<cardInfo> = [
         children: [
             {
                 name:'对势',
-                key:"reaxffPotential",
+                key:"pairPotential",
             },
             {
                 name:'多体势',
@@ -97,7 +97,7 @@ const microDataTypes: Array<cardInfo> = [
             },
             {
                 name:'反应力场',
-                key:"fylc",
+                key:"reaxffPotential",
             },
             {
                 name:'专用领域势',
@@ -111,7 +111,7 @@ const microDataTypes: Array<cardInfo> = [
         children: [
             {
                 name:'神经网络势',
-                key:"sjwls",
+                key:"machineLearningPotential",
             },
             {
                 name:'核方法与高斯过程势',

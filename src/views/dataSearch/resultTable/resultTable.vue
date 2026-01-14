@@ -12,7 +12,7 @@
       </el-badge>
     </div>
     <div class="res-total-line">
-      共找到 <span class="res-num">{{ tableData.length }}</span> 个结果
+      共找到 <span class="res-num">{{ total }}</span> 个结果
       <span class="res-filter" @click="handleFilter">
         <img src="@/assets/img/dataSearch/icon_筛选.png" alt="筛选" class="filter-icon" />
         <span>筛选</span>
@@ -20,11 +20,18 @@
     </div>
     <el-table :data="tableData" border style="width: 100%" @row-click="handleRowClick">
       <el-table-column label="序号" type="index" width="60" align="center" />
-      <el-table-column prop="name" label="数据名称" width="180" />
-      <el-table-column prop="type" label="数据类型" width="180" />
-      <el-table-column prop="source" label="数据来源" />
-      <el-table-column prop="date" label="更新日期" />
-      <el-table-column label="操作" width="60" align="center">
+      <el-table-column prop="potentialType" label="势函数类型" width="120" />
+      <el-table-column prop="elements" label="元素" width="150">
+        <template #default="scope">
+          <span>{{ scope.row.elements?.join(', ') || '-' }}</span>
+        </template>
+      </el-table-column>
+      <el-table-column prop="year" label="年份" width="80" align="center" />
+      <el-table-column prop="computeDevice" label="计算设备" width="100" align="center" />
+      <el-table-column prop="datasetSize" label="数据集大小" width="110" align="center" />
+      <el-table-column prop="reference" label="参考文献" width="150" />
+      <el-table-column prop="modifyTime" label="更新时间" width="160" />
+      <el-table-column label="操作" width="80" align="center" fixed="right">
         <template #default="scope">
           <img :src="watchIcon" alt="查看" style="cursor: pointer" @click="handleWatch(scope.row)" />
         </template>
@@ -86,18 +93,19 @@ const refResTableData = (arr) => {
   selectedType.value = badgeList.value[0]?.key
 }
 
-const tableFlag = ref(true)
-watchEffect(() => {
-  // 根据选中的类型切换表格数据
-  if (selectedType.value === 'jtjg') {
-    tableData.value = crystalData
-  } else if (selectedType.value === 'fzjg') {
-    tableData.value = moleculeData
-  } else {
-    tableData.value = tableFlag.value ? crystalData : moleculeData
-    tableFlag.value = !tableFlag.value
-  }
-})
+// 注释掉模拟数据逻辑，使用真实API数据
+// const tableFlag = ref(true)
+// watchEffect(() => {
+//   // 根据选中的类型切换表格数据
+//   if (selectedType.value === 'jtjg') {
+//     tableData.value = crystalData
+//   } else if (selectedType.value === 'fzjg') {
+//     tableData.value = moleculeData
+//   } else {
+//     tableData.value = tableFlag.value ? crystalData : moleculeData
+//     tableFlag.value = !tableFlag.value
+//   }
+// })
 
 const currentPage3 = ref(1)
 const pageSize = ref(10)
@@ -122,12 +130,17 @@ const setTotal = (t) => {
   total.value = Number(t) || 0
 }
 
+const setCurrentPage = (page) => {
+  currentPage3.value = page || 1
+}
+
 const getPagination = () => ({ page: currentPage3.value, pageSize: pageSize.value })
 
 defineExpose({
   refResTableData,
   setTableData,
   setTotal,
+  setCurrentPage,
   getPagination
 })
 

@@ -35,15 +35,15 @@ export const list: Array<cardInfo> = [
                 name:'中国一重私域数据'
             },
              {
-                path: 'special/battery',
+                path: 'private/battery',
                 name: '电池有机正极材料数据'
             },
             {
-                path: 'special/optoelectronics',
+                path: 'private/optoelectronics',
                 name: '有机光电材料数据'
             },
             {
-                path: 'special/composite',
+                path: 'private/composite',
                 name: '三维编织复合材料数据'
             },
         ]

@@ -279,12 +279,8 @@ export const privateDatasets: DatasetMock[] = [
     num: '1,200',
     example: '1',
     link: ''
-  }
-]
-
-// 以下根据 `cardList.ts` 中的三个对象（special / template / standard）生成独立数组
-export const specialDatasets: DatasetMock[] = [
-  {
+  },
+    {
     title: '电池有机正极材料数据',
     desc: '收录有机正极材料的合成信息、电化学性能（容量、循环寿命）、结构与表征数据，支持电池材料设计与筛选。',
     num: '1,320',
@@ -306,6 +302,7 @@ export const specialDatasets: DatasetMock[] = [
     link: ''
   }
 ]
+
 
 export const templateDatasets: DatasetMock[] = [
   {
