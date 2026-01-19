@@ -219,8 +219,17 @@ router.beforeEach((to, from, next) => {
 });
 
 router.afterEach(() => {
-  // NProgress.done();
-  window.scroll(0, 0);
+  // 滚动主容器到顶部
+  setTimeout(() => {
+    const wrapper = document.querySelector('.wrapper');
+    const content = document.querySelector('.content');
+    if (wrapper) {
+      wrapper.scrollTop = 0;
+    }
+    if (content) {
+      content.scrollTop = 0;
+    }
+  }, 0);
 });
 
 export default router;

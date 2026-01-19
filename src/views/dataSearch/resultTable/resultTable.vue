@@ -20,20 +20,16 @@
     </div>
     <el-table :data="tableData" border style="width: 100%" @row-click="handleRowClick">
       <el-table-column label="序号" type="index" width="60" align="center" />
-      <el-table-column prop="potentialType" label="势函数类型" width="120" />
-      <el-table-column prop="elements" label="元素" width="150">
-        <template #default="scope">
+      <el-table-column v-for="col in currentTableColumns" :key="col.key" :prop="col.key" :label="col.label"
+        :width="col.width || 'auto'" :align="col.align || 'center'">
+        <template #default="scope" v-if="col.key === 'elements'">
           <span>{{ scope.row.elements?.join(', ') || '-' }}</span>
         </template>
       </el-table-column>
-      <el-table-column prop="year" label="年份" width="80" align="center" />
-      <el-table-column prop="computeDevice" label="计算设备" width="100" align="center" />
-      <el-table-column prop="datasetSize" label="数据集大小" width="110" align="center" />
-      <el-table-column prop="reference" label="参考文献" width="150" />
-      <el-table-column prop="modifyTime" label="更新时间" width="160" />
-      <el-table-column label="操作" width="80" align="center" fixed="right">
-        <template #default="scope">
-          <img :src="watchIcon" alt="查看" style="cursor: pointer" @click="handleWatch(scope.row)" />
+      <el-table-column label="操作" width="120" align="center" fixed="right">
+        <template #default="{ row }">
+          <span> <img :src="watchIcon" alt="查看" style="cursor: pointer" @click="handleWatch(row)" /></span>
+          <el-icon  style="cursor: pointer;margin-left: 10px;color: blue;font-size: 20px;" @click.stop="handleDownload(row)"><Download /></el-icon>
         </template>
       </el-table-column>
     </el-table>
@@ -61,6 +57,7 @@ import { onMounted, ref, computed, watchEffect } from 'vue'
 import watchIcon from '@/assets/img/dataSearch/icon_查看.png'
 import { crystalData, moleculeData } from "./data";
 import { jumpTo } from '@/utils';
+import { tableCol } from './tableCol'
 interface Tree {
   name: string
 }
@@ -81,16 +78,23 @@ const badgeList = ref([
   },
 ])
 const selectedType = ref(badgeList.value[0].key)
+const currentDataType = ref('pairPotential')
+
+const currentTableColumns = computed(() => {
+  return tableCol[selectedType.value] || tableCol.pairPotential
+})
 
 // 根据选中的类型切换表格数据
 const tableData = ref([])
-const refResTableData = (arr) => {
+const refResTableData = (arr, dataType = 'pairPotential') => {
   badgeList.value = arr.map(item => ({
     label: item.name || item.label,
     key: item.key || item.value,
-    value: Math.floor(Math.random() * 10000) + 100 // 模拟数据数量
+    value: Math.floor(Math.random() * 10000) + 100
   }))
   selectedType.value = badgeList.value[0]?.key
+  console.log(selectedType, 'selectedType')
+  currentDataType.value = dataType
 }
 
 // 注释掉模拟数据逻辑，使用真实API数据
@@ -136,16 +140,24 @@ const setCurrentPage = (page) => {
 
 const getPagination = () => ({ page: currentPage3.value, pageSize: pageSize.value })
 
+const setDataType = (dataType) => {
+  currentDataType.value = dataType
+}
+
 defineExpose({
   refResTableData,
   setTableData,
   setTotal,
   setCurrentPage,
-  getPagination
+  getPagination,
+  setDataType
 })
 
 const handleWatch = (row) => {
   console.log(row, 'row')
+}
+const handleDownload = (row) => {
+  console.log(row.reference, 'row')
 }
 const handleRowClick = (row) => {
   console.log(row, 'row')

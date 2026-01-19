@@ -89,7 +89,7 @@ const microSelectData: Array<cardInfo> = [
         children: [
             {
                 label:'对势',
-                value:"reaxffPotential",
+                value:"pairPotential",
             },
             {
                 label:'多体势',
@@ -101,7 +101,7 @@ const microSelectData: Array<cardInfo> = [
             },
             {
                 label:'反应力场',
-                value:"fylc",
+                value:"reaxffPotential",
             },
             {
                 label:'专用领域势',
@@ -115,7 +115,7 @@ const microSelectData: Array<cardInfo> = [
         children: [
             {
                 label:'神经网络势',
-                value:"sjwls",
+                value:"machineLearningPotential",
             },
             {
                 label:'核方法与高斯过程势',

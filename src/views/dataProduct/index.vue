@@ -143,7 +143,7 @@ const getProductList = () => {
   onlineProduct.value = [
     {
       id: 'ReaxFFData',
-      title: '材料计算设计专用数据资源节点eaxFF',
+      title: '反应力场数据采集软件ReaxFFCollector',
       desc: '反应力场数据采集软件ReaxFFCollector面向文献中ReaXFF参数主要以PDF形式发布、难以直接复用的问题，提供从PDF自动提取、清洗与格式修复的一体化解决方案。该软件可将分散目易出错的反应力场文本标准化为可被LAMMPS等主流分子动力学软件直接读取的力场文件，并通过自动化验证快速评估参数可用性，显著降低人工整理成本，提高反应力场参数复用的可靠性与分子动力学研究效率。',
       img: ReaxFFLogo,
       user: '新材料大数据中心',
@@ -719,7 +719,6 @@ onMounted(() => {
     display: flex;
     flex-direction: column;
     justify-content: space-between;
-    height: 100%;
 
     .block-title {
       width: 100%;

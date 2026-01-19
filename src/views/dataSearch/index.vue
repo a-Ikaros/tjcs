@@ -63,6 +63,7 @@
         <span v-for="(item, index) in searchPath" :key="item.value" class="path-item">
           {{ item.label + (index === searchPath.length - 1 ? '' : ' / ') }}
         </span>
+        <spam class="total-num">{{ totalNum }}</spam>
       </div>
       <div class="search-result">
         <resultTable ref="resTable" @page-change="handlePageChange"></resultTable>
@@ -72,7 +73,7 @@
 </template>
 
 <script setup lang="ts">
-import { computed, onActivated, ref, watchEffect } from 'vue';
+import { computed, onActivated, ref } from 'vue';
 import periodicTable from './periodicTable/PeriodicTable.vue'
 import breadCrumb from '@/components/breadCrumb/index.vue'
 import { ArrowDown, Search } from "@element-plus/icons-vue";
@@ -110,6 +111,7 @@ const resTable = ref<any>(null)
 // 选择左侧标签事件
 const selectedCard = ref('')
 const handleSelect = (card, child = null) => {
+  totalNum.value = ''
   if (selectedCard.value === (child?.key || card.key)) {
     selectedCard.value = ''
     searchPath.value = [rulesOptions.find(item => item.value === computeRules.value)]
@@ -159,7 +161,7 @@ const handleSelElem = (elem) => {
     searchValue.value = searchValue.value ? searchValue.value + ',' + elem.symbol : elem.symbol
   }
 }
-
+const totalNum = ref('')
 const searchTableData = async () => {
   try {
     let page = 1
@@ -186,6 +188,7 @@ const searchTableData = async () => {
     // 同步表格数据与分页信息到 resultTable
     resTable.value.setTableData && resTable.value.setTableData(dataList)
     resTable.value.setTotal && resTable.value.setTotal(total)
+    totalNum.value = total +'条'
     resTable.value.setCurrentPage && resTable.value.setCurrentPage(currentPage)
   } catch (error) {
     console.error('搜索失败:', error)
@@ -417,6 +420,10 @@ onActivated(() => {
     .path-item:last-child {
       color: #1760c2;
     }
+  }
+  .total-num{
+    margin-left: 24px;
+     color: #666666;
   }
 }
 
