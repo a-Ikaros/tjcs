@@ -14,10 +14,11 @@
                     <div class="bottom">
                         <p>
                             <span>
-                                {{ data.unit }}
+                                <img :src="dataProductUser" alt="用户" class="mr6"> <span class="mr12">{{ data.unit
+                                    }}</span>
                             </span>
                             <span>
-                                {{ data.time }}
+                                <img :src="dataProductTime" alt="时间" class="mr6"> <span>{{ data.time }}</span>
                             </span>
                         </p>
                     </div>
@@ -28,7 +29,7 @@
                     </div>
                 </div>
                 <div class="frame-top-right">
-                    <img :src="data.headImg" :alt="data.name" />
+                    <img :src="data.headImg" :alt="data.name"/>
                 </div>
             </div>
             <div class="frame-bottom">
@@ -46,7 +47,12 @@
                                 <strong v-if="li.type === 'strong'" class="strong-red">
                                     {{ li.text }}
                                 </strong>
-                                <img v-if="li.type === 'img'" :src="li.src" :alt="item.descName"  class="img-item"/>
+                                <p v-if="li.type === 'img'" class="img-box">
+                                    <img :src="li.src" :alt="item.descName" class="img-item" />
+                                    <el-divider />
+                                    <div class="img-desc">{{ li.imgDesc }}</div>
+                                </p>
+
                                 </img>
                                 <strong v-if="li.type === 'subTitle'" class="sub-title">
                                     {{ li.text }}
@@ -64,9 +70,11 @@
 
 <script setup lang="ts">
 import { ref, onMounted } from 'vue';
-import { useRoute, useRouter } from 'vue-router';
+import { useRoute } from 'vue-router';
 import breadCrumb from '@/components/breadCrumb/index.vue';
 import { data as productData } from './productData';
+import dataProductUser from '@/assets/img/dataProduct/product-icon-user.png'
+import dataProductTime from '@/assets/img/dataProduct/product-icon-time.png'
 const breadCrumbList = ref(['首页', '数据产品', '数据产品详情']);
 const data = ref<any>([])
 const route = useRoute();
@@ -107,6 +115,7 @@ onMounted(() => {
                 width: 100%;
                 position: relative;
                 margin-top: 20px;
+                text-indent: 2em;
             }
 
             .bottom {
@@ -172,16 +181,33 @@ onMounted(() => {
                 width: calc(100% - 240px);
                 overflow: hidden;
             }
-            .describe-item{
+
+            .describe-item {
                 margin: 24px 0;
-                .strong-red{
+                text-indent: 2em;
+
+                .strong-red {
                     color: #C00000;
                 }
-                .img-item{
-                    max-width: 100%;
+
+                .img-box {
+                    text-wrap-mode: wrap;
+                    text-align: center;
+                }
+
+                .img-item {
+                    max-width: 800px;
                     max-height: 400px;
+                    padding-bottom: 12px;
+                    border-bottom: 2px solid rgb(165, 165, 165);
+                }
+
+                .img-desc {
+                    color: rgb(165, 165, 165);
+                    background-color: rgb(255, 255, 255);
                 }
             }
+
             .right-content-box {
                 width: 200px;
                 position: relative;
@@ -205,5 +231,8 @@ onMounted(() => {
         height: 24px;
         margin-right: 10px;
     }
+}
+.el-divider{
+    margin: 12px 0px;
 }
 </style>

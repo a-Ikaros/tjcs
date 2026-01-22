@@ -1,7 +1,7 @@
 <template>
   <div class="result-table">
     <div class="badge-line">
-      <el-badge v-for="item in badgeList" :key="item.key" :value="item.value" class="badge-item" type="warning"
+      <el-badge v-for="item in badgeList" :key="item.key" :value="total" class="badge-item" type="warning"
         @click="handleSel(item.key)">
         <div :class="['result-type-btn', selectedType === item.key ? 'type-is-sel' : 'type-not-sel']">
           <div style="max-width: 80px;">
@@ -29,7 +29,10 @@
       <el-table-column label="操作" width="120" align="center" fixed="right">
         <template #default="{ row }">
           <span> <img :src="watchIcon" alt="查看" style="cursor: pointer" @click="handleWatch(row)" /></span>
-          <el-icon  style="cursor: pointer;margin-left: 10px;color: blue;font-size: 20px;" @click.stop="handleDownload(row)"><Download /></el-icon>
+          <el-icon style="cursor: pointer;margin-left: 10px;color: #1760c2;font-size: 24px;"
+            @click.stop="handleDownload(row)">
+            <Download />
+          </el-icon>
         </template>
       </el-table-column>
     </el-table>
@@ -53,11 +56,14 @@
 </template>
 
 <script setup lang="ts">
-import { onMounted, ref, computed, watchEffect } from 'vue'
+import { onMounted, ref, computed, watchEffect, watch } from 'vue'
 import watchIcon from '@/assets/img/dataSearch/icon_查看.png'
 import { crystalData, moleculeData } from "./data";
 import { jumpTo } from '@/utils';
 import { tableCol } from './tableCol'
+import { useRouter } from 'vue-router'
+const router = useRouter()
+
 interface Tree {
   name: string
 }
@@ -99,17 +105,10 @@ const refResTableData = (arr, dataType = 'pairPotential') => {
 
 // 注释掉模拟数据逻辑，使用真实API数据
 // const tableFlag = ref(true)
-// watchEffect(() => {
-//   // 根据选中的类型切换表格数据
-//   if (selectedType.value === 'jtjg') {
-//     tableData.value = crystalData
-//   } else if (selectedType.value === 'fzjg') {
-//     tableData.value = moleculeData
-//   } else {
-//     tableData.value = tableFlag.value ? crystalData : moleculeData
-//     tableFlag.value = !tableFlag.value
-//   }
-// })
+watch(selectedType, () => {
+  // 根据选中的类型切换表格数据
+  tableData.value = []
+})
 
 const currentPage3 = ref(1)
 const pageSize = ref(10)
@@ -154,14 +153,15 @@ defineExpose({
 })
 
 const handleWatch = (row) => {
-  console.log(row, 'row')
+  // 跳转到详情页，传递数据的唯一标识
+  const id = row.id || '1' // 这里假设row有id属性，如果没有可以根据实际情况调整
+  router.push({ name: 'data-detail', params: { id } })
 }
 const handleDownload = (row) => {
   console.log(row.reference, 'row')
 }
 const handleRowClick = (row) => {
-  console.log(row, 'row')
-  jumpTo('')
+  handleWatch(row)
 }
 
 const handleSel = (key) => {
@@ -172,6 +172,7 @@ const filterVisible = ref(false)
 const handleFilter = () => {
   filterVisible.value = true
 }
+
 
 
 const props = {

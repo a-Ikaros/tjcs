@@ -43,11 +43,11 @@
         <template #append>
           <div class="search-append">
             <img src="@/assets/img/dataSearch/pic_元素.png" alt="元素周期表"
-              v-if="computeRules === 'micro' && elemTableVisible" class="elem-table-ctr"
+              v-if="computeRules !== 'macro' && elemTableVisible" class="elem-table-ctr"
               @click="handleElemTableVisible(false)" />
 
             <img src="@/assets/img/dataSearch/pic_元素1.png" alt="元素周期表" class="elem-table-ctr"
-              v-if="computeRules === 'micro' && !elemTableVisible" @click="handleElemTableVisible(true)" />
+              v-if="computeRules !== 'macro' && !elemTableVisible" @click="handleElemTableVisible(true)" />
             <span @click="searchTableData">
               <el-button :icon="Search" class="search-icon" />
               <span class="search-font">搜索</span>
@@ -55,7 +55,7 @@
           </div>
         </template>
       </el-input>
-      <div class="elem-table" v-if="computeRules === 'micro' && elemTableVisible">
+      <div class="elem-table" v-if="computeRules !== 'macro' && elemTableVisible">
         <periodicTable @handleSelElem="handleSelElem"></periodicTable>
       </div>
       <div class="search-path">
@@ -72,8 +72,16 @@
   </div>
 </template>
 
+<script lang="ts">
+import { defineComponent } from 'vue';
+
+export default defineComponent({
+  name: 'data-search'
+});
+</script>
+
 <script setup lang="ts">
-import { computed, onActivated, ref } from 'vue';
+import { computed, onActivated, onMounted, onDeactivated, ref } from 'vue';
 import periodicTable from './periodicTable/PeriodicTable.vue'
 import breadCrumb from '@/components/breadCrumb/index.vue'
 import { ArrowDown, Search } from "@element-plus/icons-vue";
@@ -83,7 +91,24 @@ import {
   macroDataTypes
 } from "./dataRules";
 import resultTable from "@/views/dataSearch/resultTable/resultTable.vue";
-import { searchPotData } from '@/api/index';
+import { searchPotData } from '@/api/dataSearch';
+
+// 调试：生命周期钩子
+onMounted(() => {
+  console.log('数据搜索页：onMounted - 组件首次挂载');
+});
+
+onActivated(() => {
+  console.log('数据搜索页：onActivated - 组件被激活（从缓存中恢复）');
+  // 当从详情页返回时，保持搜索状态不变
+  // 只滚动到顶部
+  window.scroll(0, 0);
+});
+
+onDeactivated(() => {
+  console.log('数据搜索页：onDeactivated - 组件被缓存');
+});
+
 
 const breadCrumbList = ['首页', '数据检索']
 const computeRules = ref('micro')
@@ -112,6 +137,7 @@ const resTable = ref<any>(null)
 const selectedCard = ref('')
 const handleSelect = (card, child = null) => {
   totalNum.value = ''
+   resTable.value.refResTableData([])
   if (selectedCard.value === (child?.key || card.key)) {
     selectedCard.value = ''
     searchPath.value = [rulesOptions.find(item => item.value === computeRules.value)]
@@ -188,7 +214,7 @@ const searchTableData = async () => {
     // 同步表格数据与分页信息到 resultTable
     resTable.value.setTableData && resTable.value.setTableData(dataList)
     resTable.value.setTotal && resTable.value.setTotal(total)
-    totalNum.value = total +'条'
+    totalNum.value = `共计${total}条`
     resTable.value.setCurrentPage && resTable.value.setCurrentPage(currentPage)
   } catch (error) {
     console.error('搜索失败:', error)
@@ -200,10 +226,6 @@ const handlePageChange = (pagination) => {
   console.log('分页变化:', pagination)
   searchTableData()
 }
-onActivated(() => {
-  // 重置搜索条件
-  window.scroll(0, 0);
-})
 </script>
 
 <style lang="scss" scoped>
@@ -421,9 +443,11 @@ onActivated(() => {
       color: #1760c2;
     }
   }
-  .total-num{
+
+  .total-num {
     margin-left: 24px;
-     color: #666666;
+    color: #ffac2d;
+    font-size: 16px;
   }
 }
 

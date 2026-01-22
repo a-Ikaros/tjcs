@@ -49,6 +49,7 @@ export default defineConfig({
 		port: 9999,
 		open: false,
 		https: false,
+		cors: true,
 	},
 	build: {
 		target: 'es2015',

@@ -32,21 +32,6 @@
           <span class="user-operation cur-p">登录</span>
           <span class="user-operation">&nbsp;|&nbsp;</span>
           <span class="user-operation cur-p">注册</span>
-          <!-- 用户名下拉菜单 -->
-          <!--          <el-dropdown class="user-name" trigger="click" @command="handleCommand">-->
-          <!--                    <span class="el-dropdown-link">-->
-          <!--                        {{ username }}-->
-          <!--                        <el-icon class="el-icon&#45;&#45;right">-->
-          <!--                            <arrow-down/>-->
-          <!--                        </el-icon>-->
-          <!--                    </span>-->
-          <!--            <template #dropdown>-->
-          <!--              <el-dropdown-menu>-->
-          <!--                <el-dropdown-item command="user">个人中心</el-dropdown-item>-->
-          <!--                <el-dropdown-item divided command="loginout">退出登录</el-dropdown-item>-->
-          <!--              </el-dropdown-menu>-->
-          <!--            </template>-->
-          <!--          </el-dropdown>-->
         </div>
       </div>
     </div>
@@ -58,8 +43,6 @@ import {onMounted} from 'vue';
 import {useRouter} from 'vue-router';
 import imgurl from '../assets/img/img.png';
 import langImg from '../assets/img/lang-img.png';
-const username: string | null = localStorage.getItem('vuems_name');
-const message: number = 2;
 
 
 onMounted(() => {
@@ -71,18 +54,10 @@ const handleCommand = (command: string) => {
   if (command == 'loginout') {
     localStorage.removeItem('vuems_name');
     router.push('/login');
-  } else if (command == 'user') {
-    router.push('/ucenter');
   }
 };
 
-const setFullScreen = () => {
-  if (document.fullscreenElement) {
-    document.exitFullscreen();
-  } else {
-    document.body.requestFullscreen.call(document.body);
-  }
-};
+
 </script>
 <style scoped>
 

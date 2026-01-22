@@ -149,6 +149,36 @@ const mesoDataTypes: Array<cardInfo> = [
     },{
         key: 'dwlcohcs',
         name: '多物理场耦合参数',
+          children: [
+      {
+        name: "碳材料",
+        key: "tcl",
+      },
+      {
+        name: "金属材料",
+        key: "jscl",
+      },
+      {
+        name: "陶瓷材料",
+        key: "tccl",
+      },
+      {
+        name: "流体材料",
+        key: "ltcl",
+      },
+      {
+        name: "聚合物材料",
+        key: "jhwcl",
+      },
+      {
+        name: "木材材料",
+        key: "mccl",
+      },
+      {
+        name: "其他工程材料",
+        key: "qtgccl",
+      },
+    ],
     },
 
 ]

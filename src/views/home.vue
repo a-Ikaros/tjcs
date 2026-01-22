@@ -7,10 +7,10 @@
 
     <div class="content-box">
       <div class="content">
-        <router-view v-slot="{ Component }" :key="route.name">
-          <!-- <keep-alive :include="tabs.nameList"> -->
+        <router-view v-slot="{ Component }">
+          <keep-alive :include="tabs.nameList">
             <component :is="Component"></component>
-          <!-- </keep-alive> -->
+          </keep-alive>
         </router-view>
       </div>
     </div>
@@ -25,8 +25,15 @@ import {useTabsStore} from '@/store/tabs';
 import vHeader from '@/components/header.vue';
 import vSidebar from '@/components/sidebar.vue';
 import { useRoute } from 'vue-router';
+import { watch } from 'vue';
+
 const route = useRoute();
 const tabs = useTabsStore();
+
+// 调试：监听 tabs.nameList 的变化
+watch(() => tabs.nameList, (newList) => {
+  console.log('Keep-alive include list:', newList);
+}, { immediate: true });
 </script>
 
 <style lang="scss">

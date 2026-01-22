@@ -54,6 +54,13 @@ i {
 .mr10 {
     margin-right: 10px;
 }
+.mr6 {
+  margin-right: 6px;
+}
+
+.mr12 {
+  margin-right: 12px;
+}
 
 .move-enter-active,
 .move-leave-active {

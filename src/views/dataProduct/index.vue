@@ -85,22 +85,29 @@
         </el-collapse>
       </div>
       <div v-else class="func-content">
-        <div class="col-content">
-          <div class="production-block" v-for="(item, index) in curProductList" :key="index">
-            <img :src="item.img" alt="数据库交互工具" style="width: 5.8vw;height: 5.8vw;background-color: #e9eff8" />
-            <div class="block-content">
-              <div class="block-title">{{ item.title }}</div>
-              <div class="block-desc">
-                <el-text line-clamp="2" class="title-text">
-                  {{ item.desc }}
-                </el-text>
-              </div>
-              <div class="block-desc block-info">
-                <img :src="dataProductUser" alt="用户" class="mr6"> <span class="mr12">{{ item.user }}</span>
-                <img :src="dataProductTime" alt="时间" class="mr6"> <span>{{ item.time }}</span>
+        <div class="col-content mt12">
+          <div class="col-content mt12">
+              <div class="production-block" v-for="(item, index) in curProductList" :key="index"
+                @click="jumpToDetail(item.id || (index + 4).toString())">
+                <img :src="item.img" alt="数据库交互工具" style="width: 5.8vw;height: 5.8vw;background-color: #e9eff8" />
+                <div class="block-content">
+                  <div class="block-title">
+                    <el-text line-clamp="1" class="block-title">
+                      {{ item.title }}
+                    </el-text>
+                  </div>
+                  <div class="block-desc">
+                    <el-text line-clamp="2" class="title-text">
+                      {{ item.desc }}
+                    </el-text>
+                  </div>
+                  <div class="block-desc block-info">
+                    <img :src="dataProductUser" alt="用户" class="mr6"> <span class="mr12">{{ item.user }}</span>
+                    <img :src="dataProductTime" alt="时间" class="mr6"> <span>{{ item.time }}</span>
+                  </div>
+                </div>
               </div>
             </div>
-          </div>
         </div>
       </div>
     </div>
@@ -294,11 +301,12 @@ const curProductList = ref([])
 const getCurProductList = () => {
   const toolProducts = [
     {
-      title: '文献爬取器 v2.0',
-      desc: '面向材料领域的高效爬取器，支持期刊/专利/会议爬取与 DOI 解析，内置去重与元数据提取规则。',
+      id: 'LiteratureData',
+      title: '材料文献数据挖掘系统',
+      desc: '支撑新材料计算设计数据资源节点--文献数据挖掘工具。面向PDF、markdown等材料文献文件类型，自动识别并挖掘材料成分、工艺、性能等要素，抽取结构化性质数据，同时构建材料结构化知识图谱，具有图谱可视化功能，同时支持根据抽取的性质数据知识库开展智能知识问答。',
       img: productBlockImg,
       user: '新材料大数据中心',
-      time: '2025.10.17'
+      time: '2025.10.17',
     },
     {
       title: '实验设备接入工具',
@@ -576,14 +584,6 @@ onMounted(() => {
 .page-content {
   max-width: 1200px;
   margin: 0 auto;
-}
-
-.mr6 {
-  margin-right: 6px;
-}
-
-.mr12 {
-  margin-right: 12px;
 }
 
 .mt12 {
