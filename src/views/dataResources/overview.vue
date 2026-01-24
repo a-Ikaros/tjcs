@@ -23,28 +23,23 @@ const formatNumber = (num, separator = ',') => {
 onMounted(() => {
   overviewList.value = [
     {
-      title: '数据记录总量',
-      num: '68715623',
+      title: '数据种类',
+      num: '13',
       icon: dataIcon
     },
     {
-      title: '数据集数量',
-      num: '12,458',
+      title: '数据采集工具',
+      num: '3',
       icon: dataIcon
     },
     {
-      title: '数据来源数量',
-      num: '342',
+      title: '数据生产引擎',
+      num: '6',
       icon: dataIcon
     },
     {
-      title: '资源文件总数',
-      num: '512340',
-      icon: dataIcon
-    },
-    {
-      title: '近30天新增记录',
-      num: '12,567',
+      title: '数据记录量',
+      num: '4175644',
       icon: dataIcon
     },
   ]

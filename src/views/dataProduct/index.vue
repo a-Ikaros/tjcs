@@ -23,7 +23,7 @@
           <el-collapse-item name="1">
             <template #title>
               <div class="col-online-title">
-                <div><span class="col-online-icon"></span>{{ `已上线产品数据（${3}）` }}</div>
+                <div><span class="col-online-icon"></span>{{ `已上线产品数据（${4}）` }}</div>
                 <div class="col-tip">{{ activeNames.includes('1') ? '查看全部' : '收起隐藏' }}</div>
               </div>
             </template>
@@ -85,29 +85,29 @@
         </el-collapse>
       </div>
       <div v-else class="func-content">
-        <div class="col-content mt12">
-          <div class="col-content mt12">
-              <div class="production-block" v-for="(item, index) in curProductList" :key="index"
-                @click="jumpToDetail(item.id || (index + 4).toString())">
-                <img :src="item.img" alt="数据库交互工具" style="width: 5.8vw;height: 5.8vw;background-color: #e9eff8" />
-                <div class="block-content">
-                  <div class="block-title">
-                    <el-text line-clamp="1" class="block-title">
-                      {{ item.title }}
-                    </el-text>
-                  </div>
-                  <div class="block-desc">
-                    <el-text line-clamp="2" class="title-text">
-                      {{ item.desc }}
-                    </el-text>
-                  </div>
-                  <div class="block-desc block-info">
-                    <img :src="dataProductUser" alt="用户" class="mr6"> <span class="mr12">{{ item.user }}</span>
-                    <img :src="dataProductTime" alt="时间" class="mr6"> <span>{{ item.time }}</span>
-                  </div>
+        <div class="col-content ">
+          <div class="col-content">
+            <div class="production-block" v-for="(item, index) in curProductList" :key="index"
+              @click="jumpToDetail(item.id || (index + 4).toString())">
+              <img :src="item.img" alt="数据库交互工具" style="width: 5.8vw;height: 5.8vw;background-color: #e9eff8" />
+              <div class="block-content">
+                <div class="block-title">
+                  <el-text line-clamp="1" class="block-title">
+                    {{ item.title }}
+                  </el-text>
+                </div>
+                <div class="block-desc">
+                  <el-text line-clamp="2" class="title-text">
+                    {{ item.desc }}
+                  </el-text>
+                </div>
+                <div class="block-desc block-info">
+                  <img :src="dataProductUser" alt="用户" class="mr6"> <span class="mr12">{{ item.user }}</span>
+                  <img :src="dataProductTime" alt="时间" class="mr6"> <span>{{ item.time }}</span>
                 </div>
               </div>
             </div>
+          </div>
         </div>
       </div>
     </div>
@@ -115,17 +115,17 @@
 </template>
 
 <script setup lang="ts">
-import { onMounted, ref, watch } from 'vue';
-import { useRouter } from 'vue-router';
+import { onMounted, ref, watch, watchEffect } from 'vue';
+import { useRouter, useRoute } from 'vue-router';
 import breadCrumb from '@/components/breadCrumb/index.vue'
 import dataProductUser from '@/assets/img/dataProduct/product-icon-user.png'
 import dataProductTime from '@/assets/img/dataProduct/product-icon-time.png'
 import productBlockImg from '@/assets/img/dataProduct/product-block-img.png'
 import ReaxFFLogo from '@/assets/img/dataProduct/detail/ReaXFF/logo.jpg'
-
 import { jumpTo } from '@/utils';
 
 const router = useRouter();
+const route = useRoute()
 
 const breadCrumbList = ['首页', '数据产品']
 const menuList = ref([])
@@ -158,23 +158,29 @@ const getProductList = () => {
       link: ''
     },
     {
-      id: '2',
-      title: '晶体结构可视化平台',
-      desc: '在线展示晶体结构三维视图，支持 CIF 文件导入、晶格参数可视化与晶面标注，便于科研人员快速浏览结构特征。',
+      id: 'LiteratureData',
+      title: '材料文献数据挖掘系统',
+      desc: '支撑新材料计算设计数据资源节点--文献数据挖掘工具。面向PDF、markdown等材料文献文件类型，自动识别并挖掘材料成分、工艺、性能等要素，抽取结构化性质数据，同时构建材料结构化知识图谱，具有图谱可视化功能，同时支持根据抽取的性质数据知识库开展智能知识问答。',
       img: productBlockImg,
-      user: '结构解析组',
-      time: '2025.09.30',
-      link: ''
+      user: '新材料大数据中心',
+      time: '2025.10.17',
     },
     {
-      id: '3',
-      title: '高通量计算管理器',
-      desc: '用于提交与监控高通量第一性原理计算任务，自动收集计算结果并入库，支持批量失败重试与资源配额管理。',
+      id: 'FirstPrinciplesData',
+      title: '第一性原理计算数据采集软件',
+      desc: '第一性原理计算数据采集软件是一款专为科研人员开发的自动化Web端采集工具，实现Quantum-ESPRESSO网站UPF赝势数据和Turbomole网站基组数据的自动化高效采集，结合实时监控、自定义采集范围及输出目录和全局重置实用功能，为量子化学与材料科学研究提供稳定可靠的数据获取解决方案。',
       img: productBlockImg,
-      user: '计算材料平台',
-      time: '2025.08.12',
-      link: ''
-    }
+      user: '材料计算设计专用数据资源节点',
+      time: '2025.12.25'
+    },
+    {
+      id: 'PhaseFieldData',
+      title: '相场模拟数据采集软件',
+      desc: '相场模拟数据采集软件是一款专为材料科学研究人员设计的专业数据采集工具。该软件采用自动化技术，通过Web界面实现NIST相场数据库的高效采集，支持批量数据下载和智能断点续传功能。系统提供实时任务监控、日志查看和统计分析等功能，帮助科研人员快速获取高质量的相场模拟数据集，提升科研效率和数据处理精度。',
+      img: productBlockImg,
+      user: '材料计算设计专用数据资源节点',
+      time: '2025.12.25'
+    },
   ]
   offlineProduct.value = [
     {
@@ -301,6 +307,15 @@ const curProductList = ref([])
 const getCurProductList = () => {
   const toolProducts = [
     {
+      id: 'ReaxFFData',
+      title: '反应力场数据采集软件ReaxFFCollector',
+      desc: '反应力场数据采集软件ReaxFFCollector面向文献中ReaXFF参数主要以PDF形式发布、难以直接复用的问题，提供从PDF自动提取、清洗与格式修复的一体化解决方案。该软件可将分散目易出错的反应力场文本标准化为可被LAMMPS等主流分子动力学软件直接读取的力场文件，并通过自动化验证快速评估参数可用性，显著降低人工整理成本，提高反应力场参数复用的可靠性与分子动力学研究效率。',
+      img: ReaxFFLogo,
+      user: '新材料大数据中心',
+      time: '2025.10.17',
+      link: ''
+    },
+    {
       id: 'LiteratureData',
       title: '材料文献数据挖掘系统',
       desc: '支撑新材料计算设计数据资源节点--文献数据挖掘工具。面向PDF、markdown等材料文献文件类型，自动识别并挖掘材料成分、工艺、性能等要素，抽取结构化性质数据，同时构建材料结构化知识图谱，具有图谱可视化功能，同时支持根据抽取的性质数据知识库开展智能知识问答。',
@@ -309,18 +324,20 @@ const getCurProductList = () => {
       time: '2025.10.17',
     },
     {
-      title: '实验设备接入工具',
-      desc: '支持常见表征设备（XRD/SEM/FTIR）数据格式的采集与批量上传，自动生成元数据模板以便归档。',
+      id: 'FirstPrinciplesData',
+      title: '第一性原理计算数据采集软件',
+      desc: '第一性原理计算数据采集软件是一款专为科研人员开发的自动化Web端采集工具，实现Quantum-ESPRESSO网站UPF赝势数据和Turbomole网站基组数据的自动化高效采集，结合实时监控、自定义采集范围及输出目录和全局重置实用功能，为量子化学与材料科学研究提供稳定可靠的数据获取解决方案。',
       img: productBlockImg,
-      user: '数据工程部',
-      time: '2025.09.22'
+      user: '材料计算设计专用数据资源节点',
+      time: '2025.12.25'
     },
     {
-      title: '结构文件转换器',
-      desc: '提供 CIF、POSCAR、SDF 等格式互转服务，同时保证坐标与晶格信息的一致性，便于下游分析使用。',
+      id: 'PhaseFieldData',
+      title: '相场模拟数据采集软件',
+      desc: '相场模拟数据采集软件是一款专为材料科学研究人员设计的专业数据采集工具。该软件采用自动化技术，通过Web界面实现NIST相场数据库的高效采集，支持批量数据下载和智能断点续传功能。系统提供实时任务监控、日志查看和统计分析等功能，帮助科研人员快速获取高质量的相场模拟数据集，提升科研效率和数据处理精度。',
       img: productBlockImg,
-      user: '结构解析组',
-      time: '2025.08.30'
+      user: '材料计算设计专用数据资源节点',
+      time: '2025.12.25'
     },
     {
       title: '批量数据清洗工具',
@@ -521,6 +538,23 @@ const getCurProductList = () => {
     }
   ]
 
+  const dataConnectorProducts = [
+    {
+      title: '数据融通器',
+      desc: '连接不同数据源的数据集成工具，支持跨系统数据交换与共享，实现数据价值最大化。',
+      img: productBlockImg,
+      user: '数据融通部',
+      time: '2025.10.28'
+    },
+    {
+      title: '数据标准连接器',
+      desc: '基于国家标准的数据格式转换工具，确保不同系统间数据交换的一致性与准确性。',
+      img: productBlockImg,
+      user: '数据融通部',
+      time: '2025.09.18'
+    }
+  ]
+
   if (selectedLi.value === 'tool') {
     curProductList.value = toolProducts
   } else if (selectedLi.value === 'engine') {
@@ -533,49 +567,68 @@ const getCurProductList = () => {
     curProductList.value = materialSoftwareProducts
   } else if (selectedLi.value === 'service') {
     curProductList.value = serviceProducts
+  } else if (selectedLi.value === 'dataConnector') {
+    curProductList.value = dataConnectorProducts
   } else {
     curProductList.value = []
   }
 }
-onMounted(() => {
-  menuList.value = [
-    {
-      title: '数据产品',
-      icon: 'svg',
-      key: 'all',
-      num: null
-    },
-    {
-      title: '采集工具',
-      key: 'tool',
-      num: 4,
-    },
-    {
-      title: '生产引擎',
-      key: 'engine',
-      num: 11,
-    },
-    {
-      title: '材料数据库系统',
-      key: 'materialData',
-      num: 3,
-    },
-    {
-      title: '私域数据交易系统',
-      key: 'privateData',
-      num: 3,
-    },
-    {
-      title: '全球材料计算软件库',
-      key: 'materialSoftware',
-      num: 3,
-    },
-    {
-      title: '定制服务',
-      key: 'service',
-      num: 5,
-    },
-  ]
+
+watchEffect(() => {
+  const currentPath = route.path
+
+  if (currentPath === '/data-sharing') {
+    selectedLi.value = 'privateData'
+    // data-sharing 只展示私域数据交易系统和数据融通器
+    menuList.value = [
+      {
+        title: '私域数据交易系统',
+        key: 'privateData',
+        num: 3,
+      },
+      {
+        title: '数据融通器',
+        key: 'dataConnector',
+        num: 2,
+      }
+    ]
+  } else {
+    selectedLi.value = 'all'
+    // data-product 展示原本的数据，去掉私域数据交易系统
+    menuList.value = [
+      {
+        title: '数据产品',
+        icon: 'svg',
+        key: 'all',
+        num: null
+      },
+      {
+        title: '采集工具',
+        key: 'tool',
+        num: 5,
+      },
+      {
+        title: '生产引擎',
+        key: 'engine',
+        num: 11,
+      },
+      {
+        title: '材料数据库系统',
+        key: 'materialData',
+        num: 3,
+      },
+      {
+        title: '全球材料计算软件库',
+        key: 'materialSoftware',
+        num: 3,
+      },
+      {
+        title: '定制服务',
+        key: 'service',
+        num: 5,
+      },
+    ]
+  }
   getProductList()
 })
 </script>

@@ -15,7 +15,7 @@
                         <p>
                             <span>
                                 <img :src="dataProductUser" alt="用户" class="mr6"> <span class="mr12">{{ data.unit
-                                    }}</span>
+                                }}</span>
                             </span>
                             <span>
                                 <img :src="dataProductTime" alt="时间" class="mr6"> <span>{{ data.time }}</span>
@@ -29,7 +29,7 @@
                     </div>
                 </div>
                 <div class="frame-top-right">
-                    <img :src="data.headImg" :alt="data.name"/>
+                    <img :src="data.headImg" :alt="data.name" />
                 </div>
             </div>
             <div class="frame-bottom">
@@ -50,7 +50,7 @@
                                 <p v-if="li.type === 'img'" class="img-box">
                                     <img :src="li.src" :alt="item.descName" class="img-item" />
                                     <el-divider />
-                                    <div class="img-desc">{{ li.imgDesc }}</div>
+                                <div class="img-desc">{{ li.imgDesc }}</div>
                                 </p>
 
                                 </img>
@@ -72,7 +72,7 @@
 import { ref, onMounted } from 'vue';
 import { useRoute } from 'vue-router';
 import breadCrumb from '@/components/breadCrumb/index.vue';
-import { data as productData } from './productData';
+import { data as productData } from './index';
 import dataProductUser from '@/assets/img/dataProduct/product-icon-user.png'
 import dataProductTime from '@/assets/img/dataProduct/product-icon-time.png'
 const breadCrumbList = ref(['首页', '数据产品', '数据产品详情']);
@@ -232,7 +232,8 @@ onMounted(() => {
         margin-right: 10px;
     }
 }
-.el-divider{
+
+.el-divider {
     margin: 12px 0px;
 }
 </style>

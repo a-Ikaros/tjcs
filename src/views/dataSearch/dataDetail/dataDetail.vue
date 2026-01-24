@@ -3,7 +3,7 @@
         <!-- 顶部返回区域 -->
         <div class="detail-header">
             <h1 class="page-title">查看数据</h1>
-             <el-button type="text" class="back-btn" @click="handleBack">
+            <el-button type="text" class="back-btn" @click="handleBack">
                 <el-icon>
                     <ArrowLeft />
                 </el-icon>
@@ -33,64 +33,32 @@
 
             <!-- 右侧数据详情 -->
             <div class="data-info" ref="dataInfoRef" @scroll="handleScroll">
-                <!-- 基本信息 -->
-                <div class="info-section" id="basic-info">
-                    <h3 class="sub-section-title">基本信息</h3>
-                    <h4 class="">{{ dataDetail.name }}</h4>
+                <!-- 基础信息 -->
+                <div v-if="apiResponse.data" class="info-section" id="basic-info">
+                    <h3 class="sub-section-title">基础信息</h3>
                     <div class="section-content">
-                        <div class="data-description">
-                            {{ dataDetail.description }}
-                            <el-button type="text" class="expand-btn" @click="isExpanded = !isExpanded">
-                                {{ isExpanded ? '收起' : '展开' }}
-                            </el-button>
-                        </div>
-
                         <div class="data-meta">
-                            <div class="meta-item">
-                                <span class="meta-label">数据分类:</span>
-                                <span class="meta-value">{{ dataDetail.category || '无' }}</span>
-                            </div>
-                            <div class="meta-item">
-                                <span class="meta-label">数据来源:</span>
-                                <span class="meta-value">{{ dataDetail.source || '无' }}</span>
-                            </div>
-                            <div class="meta-item">
-                                <span class="meta-label">发布时间:</span>
-                                <span class="meta-value">{{ dataDetail.publishDate || '无' }}</span>
+                            <div v-for="(value, key) in apiResponse.data" :key="key" class="meta-item">
+                                <div class="meta-label">{{ formatFieldLabel(key) }}:</div>
+                                <div class="meta-value">{{ formatFieldValue(value) }}</div>
                             </div>
                         </div>
                     </div>
                 </div>
 
                 <!-- 数据来源 -->
-                <div class="info-section" id="data-source">
+                <div v-if="apiResponse.source" class="info-section" id="data-source">
                     <h3 class="sub-section-title">数据来源</h3>
                     <div class="section-content">
-                        <div class="source-item">
-                            <span class="meta-label">系统:</span>
-                            <span class="meta-value">{{ dataDetail.system || '无' }}</span>
-                        </div>
-                        <div class="source-item">
-                            <span class="meta-label">作者:</span>
-                            <span class="meta-value">{{ dataDetail.author || '无' }}</span>
-                        </div>
-                        <div class="source-item">
-                            <span class="meta-label">数据原文:</span>
-                            <span class="meta-value">{{ dataDetail.reference || '无' }}</span>
-                        </div>
-                        <div class="source-item">
-                            <span class="meta-label">doi:</span>
-                            <span class="meta-value">{{ dataDetail.doi || 'null' }}</span>
-                        </div>
-                        <div class="source-item">
-                            <span class="meta-label">数据生产日期:</span>
-                            <span class="meta-value">{{ dataDetail.productionDate || '无' }}</span>
+                        <div v-for="(value, key) in apiResponse.source" :key="key" class="source-item">
+                            <span class="meta-label">{{ formatFieldLabel(key) }}:</span>
+                            <span class="meta-value">{{ formatFieldValue(value) }}</span>
                         </div>
                     </div>
                 </div>
 
                 <!-- TDB数据文件 -->
-                <div class="info-section" id="tdb-file">
+                <div v-if="apiResponse.fileData" class="info-section" id="tdb-file">
                     <h3 class="sub-section-title">
                         TDB文件
                         <el-button type="text" class="download-btn" @click="handleDownload">
@@ -101,7 +69,7 @@
                         </el-button>
                     </h3>
                     <div class="tdb-content">
-                        <pre class="tdb-text">{{ dataDetail.tdbContent || '暂无TDB文件内容' }}</pre>
+                        <pre class="tdb-text">{{ apiResponse.fileData || '暂无TDB文件内容' }}</pre>
                     </div>
                 </div>
             </div>
@@ -110,12 +78,15 @@
 </template>
 
 <script setup lang="ts">
-import { ref, reactive, onMounted, onUnmounted } from 'vue'
+import { ref, reactive, onMounted, onUnmounted, computed } from 'vue'
 import { useRouter, useRoute } from 'vue-router'
 import { ArrowLeft, Document, DataAnalysis, Download } from '@element-plus/icons-vue'
 import fileIcon from '@/assets/img/dataSearch/icon_文件.png'
 import fileIconSel from '@/assets/img/dataSearch/icon_文件1.png'
+import { getDataDetail } from '@/api/dataSearch'
+
 const router = useRouter()
+const route = useRoute()
 
 // 是否展开描述
 const isExpanded = ref(false)
@@ -126,81 +97,118 @@ const activeSection = ref('basic-info')
 // 右侧数据详情区域引用
 const dataInfoRef = ref<HTMLElement | null>(null)
 
-// 目录项配置
-const catalogItems = [
-  { id: 'basic-info', label: '基本信息' },
-  { id: 'data-source', label: '数据来源' },
-  { id: 'tdb-file', label: 'TDB文件' }
-]
+// API响应数据
+interface ApiResponse {
+    data?: Record<string, any> | null
+    source?: Record<string, any> | null
+    fileData?: Record<string, any> | null
+}
 
-// 数据详情
-const dataDetail = reactive({
-    name: 'XXX热力学数据',
-    description: '这是一段文字这是一段文字这是一段文字这是一段文字这是一段文字这是一段文字这是一段文字这是一段文字这是一段文字这是一段文字这是一段文字这是一段文字这是一段文字这是一段文字这是一段文字这是一段文字这是一段文字这是一段文字这是一段文字这是一段文字这是一段文字这是一段文字这是一段文字这是一段文字',
-    category: '物理化学材料',
-    source: 'XXXX大学研究室',
-    publishDate: '2025-11-12 08:13:16',
-    system: 'Be-Hf',
-    author: 'N. Saunders',
-    reference: 'Calphad,9,297-309(1985)',
-    doi: 'null',
-    productionDate: '1995',
-    tdbContent: `\nDatabase for Be-Hf from N. Saunders 1995.\n\n\n# Saunders, Calphad, 9, 297-309(1985).\n# Dataset created 2011-10-17 by Bengt Hallstedt.\n# The phase diagram is only approximately reproduced.\n\n\nELEMENT VA_VACUUM    0.0000000000E+00  1.0000000000E+00  0.0000000000E+00 ! \nELEMENT BE BERYLLIUM  9.0121800000E+00  4.0460000000E+03  1.5860000000E+01 ! \nELEMENT HF HAFNIUM   1.7849000000E+02  2.4150000000E+03  5.3440000000E+01 ! \n\nTYPE_DEFINITION % SEQ * !\nDEFINE_SYSTEM_DEFAULT ELEMENT  VA BE HF !\n\nPARAMETER REFERENCE_FILE  SAUNDERS_BeHf_1985 ! \n\nPHASE LIQUID:L1  %  1 1 ! \n    CONSTITUENT LIQUID:L1  : VA,BE,HF : 1 1 1 ! \n    PARAMETER G(LIQUID:L1,BE;0)  298.15  +7.5338E+03 -4.0530E+01 T +1.3600E-02 T LN T +8.3500E-06 T**2 -1.4630E+05 T**(-1); 505.0 N ! \n    PARAMETER G(LIQUID:L1,HF;0)  298.15  +1.5207E+04 -5.3843E+01 T +1.3600E-02 T LN T +8.3500E-06 T**2; 2506.0 N ! \nPHASE FCC_A1:B1  %  1 1 ! \n    CONSTITUENT FCC_A1:B1  : BE,HF : 1 1 ! \n    PARAMETER G(FCC_A1:B1,BE;0)  298.15  +7.1444E+03 -3.8510E+01 T +1.3600E-02 T LN T +8.3500E-06 T**2 -1.4630E+05 T**(-1); 1560.0 N ! \n    PARAMETER G(FCC_A1:B1,HF;0)  298.15  +1.5255E+04 -5.4605E+01 T +1.3600E-02 T LN T +8.3500E-06 T**2; 2506.0 N ! \nPHASE BCC_A2:B2  %  1 1 ! \n    CONSTITUENT BCC_A2:B2  : BE,HF : 1 1 ! \n    PARAMETER G(BCC_A2:B2,BE;0)  298.15  +9.5000E+03 -3.8510E+01 T +1.3600E-02 T LN T +8.3500E-06 T**2 -1.4630E+05 T**(-1); 1560.0 N ! \n    PARAMETER G(BCC_A2:B2,HF;0)  298.15  +1.7655E+04 -5.4605E+01 T +1.3600E-02 T LN T +8.3500E-06 T**2; 2506.0 N ! \nPHASE HCP_A3:B3  %  1 1 ! \n    CONSTITUENT HCP_A3:B3  : BE,HF : 1 1 ! \n    PARAMETER G(HCP_A3:B3,BE;0)  298.15  +0.0000E+00 -0.0000E+00 T ! \n    PARAMETER G(HCP_A3:B3,HF;0)  298.15  +1.5255E+04 -5.4605E+01 T +1.3600E-02 T LN T +8.3500E-06 T**2; 2506.0 N ! \nPHASE BE12HF:P1  %  1 1 ! \n    CONSTITUENT BE12HF:P1  : BE : 1 ! \n    PARAMETER G(BE12HF:P1,BE;0)  298.15  +1.1000E+04 -3.8510E+01 T +1.3600E-02 T LN T +8.3500E-06 T**2 -1.4630E+05 T**(-1); 1560.0 N ! \nPHASE HF2BE7:P2  %  1 1 ! \n    CONSTITUENT HF2BE7:P2  : BE : 1 ! \n    PARAMETER G(HF2BE7:P2,BE;0)  298.15  +9.2000E+03 -3.8510E+01 T +1.3600E-02 T LN T +8.3500E-06 T**2 -1.4630E+05 T**(-1); 1560.0 N ! \n\n# Keep in P0(2),3(jmol) and M0(3) data files, type PH, Vm, Bm, Bp, M0, V0, T0, n0, beta.\n`
+const apiResponse = ref<ApiResponse>({
+    data: null,
+    source: null,
+    fileData: null
 })
+
+// 动态生成目录项
+const catalogItems = computed(() => {
+    const items = []
+    if (apiResponse.value.data) {
+        items.push({ id: 'basic-info', label: '基础信息' })
+    }
+    if (apiResponse.value.source) {
+        items.push({ id: 'data-source', label: '数据来源' })
+    }
+    if (apiResponse.value.fileData) {
+        items.push({ id: 'tdb-file', label: 'TDB文件' })
+    }
+    return items
+})
+
+// 格式化字段名称（将驼峰转换为可读的中文标签）
+const formatFieldLabel = (key: string): string => {
+    const labelMap: Record<string, string> = {
+        id: 'ID',
+        createTime: '创建时间',
+        createBy: '创建人',
+        modifyTime: '修改时间',
+        modifyBy: '修改人',
+        potentialType: '势函数类型',
+        elements: '元素',
+        epsilon: 'Epsilon',
+        sigma: 'Sigma',
+        reference: '参考文献'
+    }
+    return labelMap[key] || key
+}
+
+// 格式化字段值
+const formatFieldValue = (value: any): string => {
+    if (!value) {
+        return '-'
+    }
+    if (Array.isArray(value)) {
+        return value.join(', ')
+    }
+    if (typeof value === 'object') {
+        return JSON.stringify(value)
+    }
+    return String(value)
+}
 
 // 滚动到指定区域
 const scrollToSection = (event) => {
-  // 获取点击的目录项
-  const target = event.currentTarget
-  const sectionId = target.getAttribute('data-id')
-  if (!sectionId) return
+    // 获取点击的目录项
+    const target = event.currentTarget
+    const sectionId = target.getAttribute('data-id')
+    if (!sectionId) return
 
-  // 更新激活状态
-  activeSection.value = sectionId
+    // 更新激活状态
+    activeSection.value = sectionId
 
-  // 找到对应的内容区域
-  const section = document.getElementById(sectionId)
-  if (!section || !dataInfoRef.value) return
+    // 找到对应的内容区域
+    const section = document.getElementById(sectionId)
+    if (!section || !dataInfoRef.value) return
 
-  // 获取右侧内容滚动容器
-  const dataInfoContainer = dataInfoRef.value
+    // 获取右侧内容滚动容器
+    const dataInfoContainer = dataInfoRef.value
 
-  // 计算目标section相对于滚动容器的位置
-  const containerRect = dataInfoContainer.getBoundingClientRect()
-  const sectionRect = section.getBoundingClientRect()
+    // 计算目标section相对于滚动容器的位置
+    const containerRect = dataInfoContainer.getBoundingClientRect()
+    const sectionRect = section.getBoundingClientRect()
 
-  // 计算需要滚动的距离（section顶部相对于容器顶部的偏移 + 容器当前的滚动位置）
-  const targetScrollTop = dataInfoContainer.scrollTop + (sectionRect.top - containerRect.top) - 20 // 减20px留点间距
+    // 计算需要滚动的距离（section顶部相对于容器顶部的偏移 + 容器当前的滚动位置）
+    const targetScrollTop = dataInfoContainer.scrollTop + (sectionRect.top - containerRect.top) - 20 // 减20px留点间距
 
-  // 平滑滚动到指定位置
-  dataInfoContainer.scrollTo({
-    top: targetScrollTop,
-    behavior: 'smooth'
-  })
+    // 平滑滚动到指定位置
+    dataInfoContainer.scrollTo({
+        top: targetScrollTop,
+        behavior: 'smooth'
+    })
 }
 
 // 监听滚动，更新激活的目录项
 const handleScroll = () => {
-  if (!dataInfoRef.value) return
+    if (!dataInfoRef.value) return
 
-  const container = dataInfoRef.value
-  const containerRect = container.getBoundingClientRect()
-  const scrollTop = container.scrollTop
+    const container = dataInfoRef.value
+    const containerRect = container.getBoundingClientRect()
+    const scrollTop = container.scrollTop
 
-  // 遍历所有section，找到当前在视口中的section
-  for (let i = catalogItems.length - 1; i >= 0; i--) {
-    const sectionId = catalogItems[i].id
-    const section = document.getElementById(sectionId)
+    // 遍历所有section，找到当前在视口中的section
+    for (let i = catalogItems.value.length - 1; i >= 0; i--) {
+        const sectionId = catalogItems.value[i].id
+        const section = document.getElementById(sectionId)
 
-    if (section) {
-      const sectionRect = section.getBoundingClientRect()
-      // 如果section的顶部在容器顶部以上或在容器顶部附近（允许50px的容差）
-      if (sectionRect.top <= containerRect.top + 50) {
-        activeSection.value = sectionId
-        break
-      }
+        if (section) {
+            const sectionRect = section.getBoundingClientRect()
+            // 如果section的顶部在容器顶部以上或在容器顶部附近（允许50px的容差）
+            if (sectionRect.top <= containerRect.top + 50) {
+                activeSection.value = sectionId
+                break
+            }
+        }
     }
-  }
 }
 
 // 返回上一页
@@ -213,6 +221,17 @@ const handleDownload = () => {
     // 这里可以实现文件下载逻辑
     console.log('下载文件')
 }
+
+onMounted(async () => {
+    const { dataType, id } = route.params
+    const res = await getDataDetail({ rule: dataType as string, id: id as string })
+    apiResponse.value = res.data
+
+    // 设置默认激活的section
+    if (catalogItems.value.length > 0) {
+        activeSection.value = catalogItems.value[0].id
+    }
+})
 </script>
 
 <style scoped lang="scss">
@@ -359,20 +378,19 @@ const handleDownload = () => {
 }
 
 .data-meta {
-    display: flex;
     flex-wrap: wrap;
     gap: 20px;
     margin-bottom: 30px;
 }
 
 .meta-item {
-    display: flex;
-    gap: 8px;
+    margin: 8px 0;
 }
 
 .meta-label {
     font-weight: bold;
     color: #303133;
+    display: block;
 }
 
 .meta-value {
@@ -409,5 +427,9 @@ const handleDownload = () => {
     color: #303133;
     white-space: pre-wrap;
     word-break: break-all;
+}
+
+.file-item {
+    margin-bottom: 12px;
 }
 </style>

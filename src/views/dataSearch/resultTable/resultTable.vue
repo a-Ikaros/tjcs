@@ -39,15 +39,19 @@
     <el-pagination v-model:current-page="currentPage3" v-model:page-size="pageSize" :small="small"
       layout="total, sizes, prev, pager, next, jumper" :total="total" @size-change="handleSizeChange"
       @current-change="handleCurrentChange" class="table-pager" />
-    <el-dialog v-model="filterVisible" title="数据筛选" width="500">
-      <el-tree style="max-width: 600px" :props="defaultProps" :data="nodeData" show-checkbox
-        @check-change="handleCheckChange" />
+    <el-dialog v-model="filterVisible" title="数据筛选" width="600px" :close-on-click-modal="false">
+      <!-- 数据筛选组件 -->
+      <DataFilter
+        v-if="currentDataType"
+        :filterConfigs="currentFilterConfigs"
+        :dataType="currentDataType"
+        @filter-change="handleFilterChange"
+        ref="dataFilterRef"
+      />
       <template #footer>
         <div class="dialog-footer">
-          <el-button @click="filterVisible = false">取消</el-button>
-          <el-button type="primary" @click="filterVisible = false">
-            确定
-          </el-button>
+          <el-button @click="handleResetFilter">重置</el-button>
+          <el-button type="primary" @click="handleApplyFilter">确定</el-button>
         </div>
       </template>
     </el-dialog>
@@ -62,6 +66,11 @@ import { crystalData, moleculeData } from "./data";
 import { jumpTo } from '@/utils';
 import { tableCol } from './tableCol'
 import { useRouter } from 'vue-router'
+import { downloadFileById, getDataDetail } from '@/api/dataSearch';
+import DataFilter from '../DataFilter.vue';
+import { getFilterConfig, hasFilterConfig } from '../filterConfig';
+import type { FilterConfig } from '../filterConfig';
+
 const router = useRouter()
 
 interface Tree {
@@ -101,6 +110,13 @@ const refResTableData = (arr, dataType = 'pairPotential') => {
   selectedType.value = badgeList.value[0]?.key
   console.log(selectedType, 'selectedType')
   currentDataType.value = dataType
+
+  // 切换数据类型时重置筛选条件
+  currentFilters.value = {}
+  tempFilters.value = {}
+  if (dataFilterRef.value) {
+    dataFilterRef.value.reset()
+  }
 }
 
 // 注释掉模拟数据逻辑，使用真实API数据
@@ -114,7 +130,7 @@ const currentPage3 = ref(1)
 const pageSize = ref(10)
 const total = ref(0)
 const small = ref(false)
-const emit = defineEmits(['page-change'])
+const emit = defineEmits(['page-change', 'filter-apply'])
 
 const handleSizeChange = (val: number) => {
   pageSize.value = val
@@ -152,13 +168,21 @@ defineExpose({
   setDataType
 })
 
-const handleWatch = (row) => {
+const handleWatch = async (row) => {
   // 跳转到详情页，传递数据的唯一标识
   const id = row.id || '1' // 这里假设row有id属性，如果没有可以根据实际情况调整
-  router.push({ name: 'data-detail', params: { id } })
+  const dataType = currentDataType.value || 'pairPotential'
+  router.push({ name: 'data-detail', params: { dataType,id } })
 }
-const handleDownload = (row) => {
+const handleDownload = async (row) => {
   console.log(row.reference, 'row')
+  try {
+    const res = await downloadFileById({ rule: currentDataType.value, id: row.id })
+    window.open(`${import.meta.env.VITE_BASE_URL}potdata/${currentDataType.value}/download?id=${row.id}`, '_blank', 'noopener,noreferrer')
+    console.log(res,'res')
+  } catch (err) {
+    console.log(err, 'err')
+  }
 }
 const handleRowClick = (row) => {
   handleWatch(row)
@@ -169,6 +193,38 @@ const handleSel = (key) => {
 }
 
 const filterVisible = ref(false)
+const dataFilterRef = ref<any>(null)
+const tempFilters = ref<Record<string, any>>({}) // 临时存储筛选值
+const currentFilters = ref<Record<string, any>>({}) // 实际应用的筛选值
+
+// 当前筛选配置
+const currentFilterConfigs = computed<FilterConfig[]>(() => {
+  if (!currentDataType.value) return []
+  return getFilterConfig(currentDataType.value)
+})
+
+// 处理筛选变化（只临时存储，不立即应用）
+const handleFilterChange = (filters: Record<string, any>) => {
+  console.log('筛选条件临时变化:', filters)
+  tempFilters.value = filters
+}
+
+// 应用筛选（点击确定按钮时）
+const handleApplyFilter = () => {
+  currentFilters.value = { ...tempFilters.value }
+  filterVisible.value = false
+  // 触发筛选搜索事件，传递给父组件
+  emit('filter-apply', currentFilters.value)
+}
+
+// 重置筛选
+const handleResetFilter = () => {
+  if (dataFilterRef.value) {
+    dataFilterRef.value.reset()
+  }
+  tempFilters.value = {}
+}
+
 const handleFilter = () => {
   filterVisible.value = true
 }
@@ -189,6 +245,7 @@ const handleCheckChange = (
 }
 
 const nodeData = ref([])
+const potentialTypeList=ref([])
 onMounted(() => {
   nodeData.value = [
     {
@@ -318,5 +375,11 @@ onMounted(() => {
 :deep(.el-badge__content) {
   background-color: #ffac2d;
   right: 40px;
+}
+
+.dialog-footer {
+  display: flex;
+  justify-content: flex-end;
+  gap: 12px;
 }
 </style>

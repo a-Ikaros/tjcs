@@ -39,7 +39,7 @@ const routes: RouteRecordRaw[] = [
           ),
       },
       {
-        path: "/data-detail/:id",
+        path: "/data-detail/:dataType/:id",
         name: "data-detail",
         meta: {
           title: "数据详情",
@@ -84,6 +84,18 @@ const routes: RouteRecordRaw[] = [
         component: () =>
           import(
             /* webpackChunkName: "data-resources" */ "@/views/dataResources/index.vue"
+          ),
+      },
+      {
+        path: "/data-sharing",
+        name: "data-sharing",
+        meta: {
+          title: "数据共享",
+          noAuth: true,
+        },
+        component: () =>
+          import(
+            /* webpackChunkName: "data-product" */ "@/views/dataProduct/index.vue"
           ),
       },
       {

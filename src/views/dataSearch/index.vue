@@ -63,10 +63,10 @@
         <span v-for="(item, index) in searchPath" :key="item.value" class="path-item">
           {{ item.label + (index === searchPath.length - 1 ? '' : ' / ') }}
         </span>
-        <spam class="total-num">{{ totalNum }}</spam>
+        <span class="total-num">{{ totalNum }}</span>
       </div>
       <div class="search-result">
-        <resultTable ref="resTable" @page-change="handlePageChange"></resultTable>
+        <resultTable ref="resTable" @page-change="handlePageChange" @filter-apply="handleFilterApply"></resultTable>
       </div>
     </div>
   </div>
@@ -133,11 +133,26 @@ const cardList = computed(() => {
 
 const resTable = ref<any>(null)
 
+// 筛选相关
+const currentFilters = ref<Record<string, any>>({})
+
+// 处理来自 resultTable 的筛选应用事件
+const handleFilterApply = (filters: Record<string, any>) => {
+  console.log('应用筛选条件:', filters)
+  currentFilters.value = filters
+  // 触发搜索
+  searchTableData()
+}
+
 // 选择左侧标签事件
 const selectedCard = ref('')
 const handleSelect = (card, child = null) => {
   totalNum.value = ''
-   resTable.value.refResTableData([])
+  resTable.value.refResTableData([])
+
+  // 重置筛选条件
+  currentFilters.value = {}
+
   if (selectedCard.value === (child?.key || card.key)) {
     selectedCard.value = ''
     searchPath.value = [rulesOptions.find(item => item.value === computeRules.value)]
@@ -153,7 +168,7 @@ const handleSelect = (card, child = null) => {
   let arr = [searchPath.value[searchPath.value.length - 1]]
   const childArr = cardList.value.find(item => item.key === searchPath.value[searchPath.value.length - 1].value)?.children
   childArr?.length && (arr = [...childArr])
-  resTable.value.refResTableData(arr)
+  resTable.value.refResTableData(arr, child?.key || card.key)
   // 临时造数据
 
   selectedCard.value = child?.key || card.key
@@ -201,7 +216,8 @@ const searchTableData = async () => {
       rule: selectedCard.value,
       elements: searchValue.value || null,
       page,
-      pageSize
+      pageSize,
+      filters: currentFilters.value // 传递筛选参数
     })
 
     console.log('搜索结果:', response)
@@ -491,10 +507,13 @@ const handlePageChange = (pagination) => {
 
 :deep(.el-input-group__prepend) {
   background-color: transparent !important;
+  border-right: none;
+  padding: 0 12px;
 }
 
-:deep(.el-select__placeholder) {
-  color: #333333 !important;
-  font-weight: bold;
+.dialog-footer {
+  display: flex;
+  justify-content: flex-end;
+  gap: 12px;
 }
 </style>

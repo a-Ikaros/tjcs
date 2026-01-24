@@ -73,7 +73,19 @@ export const list: Array<cardInfo> = [
             {
                 path:"template/metallic",
                 name:'金属材料'
-            }
+            },
+             {
+                path: 'template/battery',
+                name: '电池有机正极材料数据'
+            },
+            {
+                path: 'template/optoelectronics',
+                name: '有机光电材料数据'
+            },
+            {
+                path: 'template/composite',
+                name: '三维编织复合材料数据'
+            },
         ]
     },
     {

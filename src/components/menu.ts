@@ -21,23 +21,28 @@ export const menuData: Menus[] = [
         title: '数据资源',
         index: '/data-resources',
     },
-    {
+     {
         id: '4',
+        title: '数据共享',
+        index: '/data-sharing',
+    },
+    {
+        id: '5',
         title: '需求服务',
         index: '/demand-service',
     },
     {
-        id: '5',
+        id: '6',
         title: '领域动态',
         index: '/field-updates',
     },
     {
-        id: '6',
+        id: '7',
         title: '关于我们',
         index: '/about',
     },
     {
-        id: '7',
+        id: '8',
         title: '意见留言板',
         index: '/comment',
     },
