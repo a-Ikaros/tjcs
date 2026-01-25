@@ -66,7 +66,7 @@
         <span class="total-num">{{ totalNum }}</span>
       </div>
       <div class="search-result">
-        <resultTable ref="resTable" @page-change="handlePageChange" @filter-apply="handleFilterApply"></resultTable>
+        <resultTable ref="resTable" @page-change="handlePageChange" @filter-apply="handleFilterApply" :selectedCard="selectedCard"></resultTable>
       </div>
     </div>
   </div>

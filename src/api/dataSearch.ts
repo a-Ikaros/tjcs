@@ -29,6 +29,7 @@ export const getDataDetail = ( params: {
         method: 'get',
         params: {
             id: params.id,
+            needExtra:true
         }
     });
 };
