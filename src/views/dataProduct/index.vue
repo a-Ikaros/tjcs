@@ -84,6 +84,62 @@
 
         </el-collapse>
       </div>
+      <div v-else-if="selectedLi === 'materialSoftware'" class="func-content">
+        <div class="software-list">
+          <div class="list-header-box">全球材料计算软件库（11个）</div>
+          <div class="header-nav-box">
+            <div class="name">按中英文<span>首字母</span>快速检索</div>
+            <div class="header-nav">
+              <span v-for="header in softwareHeaderList" :key="header" 
+                :class="['header-item', { active: currentSoftwareHeader === header }]"
+                @click="selectSoftwareHeader(header)">
+                {{ header }}
+              </span>
+            </div>
+          </div>
+          <div class="material-list-box">
+            <template v-if="filteredSoftwareList.length > 0">
+              <a v-for="(item, index) in filteredSoftwareList" :key="index" :href="item.url" target="_blank"
+                rel="noopener noreferrer">
+                <dl>
+                  <dd>
+                    <div class="name">
+                      <div>
+                        <p><el-text truncated :tooltip="{ effect: 'dark', placement: 'top' }">{{ item.name
+                          }}</el-text></p>
+                      </div>
+                    </div>
+                    <div class="summary">
+                      <div class="summary-subname">
+                        <div>
+                          <p><el-text truncated :tooltip="{ effect: 'dark', placement: 'top' }">计算尺度: {{ item.calculationScale
+                            }}</el-text></p>
+                        </div>
+                      </div>
+                      <div class="unit-time">
+                        <div class="left">
+                          <span class=""><img src="@/assets/img/dataResources/databaseImgs/icon002.png"
+                              title="" class="img-size"></span>
+                          <el-text truncated :tooltip="{ effect: 'dark', placement: 'top' }" class="country-text">{{ item.country }}</el-text>
+                          <span class="ml12"><img src="@/assets/img/dataResources/databaseImgs/icon003.png" title=""
+                              class="img-size"></span>
+                          <el-text truncated :tooltip="{ effect: 'dark', placement: 'top' }" class="bg-text">{{ item.type }}</el-text>
+                        </div>
+                        <div class="right"><img src="@/assets/img/dataResources/databaseImgs/icon001.png"
+                            title="" class="img-size"><el-text truncated
+                            :tooltip="{ effect: 'dark', placement: 'top' }" class="hot-text">访问官网</el-text></div>
+                      </div>
+                    </div>
+                  </dd>
+                </dl>
+              </a>
+            </template>
+            <div v-else class="null-data-box">
+              <div class="null-data-text">暂无数据</div>
+            </div>
+          </div>
+        </div>
+      </div>
       <div v-else class="func-content">
         <div class="col-content ">
           <div class="col-content">
@@ -115,13 +171,14 @@
 </template>
 
 <script setup lang="ts">
-import { onMounted, ref, watch, watchEffect } from 'vue';
+import { onMounted, ref, watch, watchEffect, computed } from 'vue';
 import { useRouter, useRoute } from 'vue-router';
 import breadCrumb from '@/components/breadCrumb/index.vue'
 import dataProductUser from '@/assets/img/dataProduct/product-icon-user.png'
 import dataProductTime from '@/assets/img/dataProduct/product-icon-time.png'
 import productBlockImg from '@/assets/img/dataProduct/product-block-img.png'
 import ReaxFFLogo from '@/assets/img/dataProduct/detail/ReaXFF/logo.jpg'
+import { softwareList } from '@/views/dataResources/softwareList'
 import { jumpTo } from '@/utils';
 
 const router = useRouter();
@@ -145,6 +202,23 @@ const jumpToDetail = (productId) => {
 const activeNames = ref(['1', '2'])
 const onlineProduct = ref([])
 const offlineProduct = ref([])
+
+const currentSoftwareHeader = ref('全部')
+
+const softwareHeaderList = computed(() => {
+  return ['全部', 'A', 'B', 'C', 'D', 'E', 'F', 'G', 'H', 'I', 'J', 'K', 'L', 'M', 'N', 'O', 'P', 'Q', 'R', 'S', 'T', 'U', 'V', 'W', 'X', 'Y', 'Z'];
+});
+
+const filteredSoftwareList = computed(() => {
+  if (currentSoftwareHeader.value === '全部') {
+    return softwareList;
+  }
+  return softwareList.filter(item => item.header === currentSoftwareHeader.value || item.pinyinHeader === currentSoftwareHeader.value);
+});
+
+const selectSoftwareHeader = (header: string) => {
+  currentSoftwareHeader.value = header;
+};
 
 const getProductList = () => {
   onlineProduct.value = [
@@ -620,7 +694,7 @@ watchEffect(() => {
       {
         title: '全球材料计算软件库',
         key: 'materialSoftware',
-        num: 3,
+        num: 11,
       },
       {
         title: '定制服务',
@@ -806,5 +880,196 @@ watchEffect(() => {
 
 .el-collapse-item__content {
   border-bottom: none;
+}
+
+.software-list {
+  width: 100%;
+
+  .list-header-box {
+    height: 120px;
+    color: #1760c2;
+    background-image: url('@/assets/img/dataResources/qqclsjk-bg.jpg');
+    background-size: 1920px;
+    background-position: center center;
+    background-repeat: no-repeat;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 32px;
+    font-weight: 700;
+    border-radius: 12px;
+    margin-bottom: 24px;
+  }
+
+  .header-nav-box {
+    margin: 20px 0 24px 0;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    
+    .name {
+      font-size: 20px;
+      color: #333;
+      font-weight: 400;
+      margin-bottom: 16px;
+      
+      span {
+        color: #1760c2;
+        font-weight: 700;
+      }
+    }
+    
+    .header-nav {
+      display: flex;
+      align-items: center;
+      justify-content: space-around;
+      width: 100%;
+      gap: 20px 6px;
+      flex-wrap: wrap;
+      
+      .header-item {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        height: 28px;
+        padding: 0 8px;
+        cursor: pointer;
+        border: 1px solid rgb(229, 229, 229);
+        border-radius: 2px;
+        font-family: MicrosoftYaHei-Bold;
+        font-size: 13px;
+        color: #333;
+        letter-spacing: 0;
+        text-align: center;
+        transition: all 0.3s;
+        
+        &:hover {
+          border-color: #1760c2;
+          color: #1760c2;
+        }
+        
+        &.active {
+          background: #1760c2;
+          border-radius: 2px;
+          font-family: MicrosoftYaHei-Bold;
+          color: #fff;
+        }
+      }
+    }
+  }
+
+  .material-list-box {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 20px;
+
+    .null-data-box {
+      width: 100%;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      padding: 60px 0;
+
+      .null-data-text {
+        font-size: 16px;
+        color: #999;
+        text-align: center;
+      }
+    }
+
+    a {
+      display: block;
+      box-sizing: border-box;
+      width: calc(50% - 10px);
+      background-color: #f7f9fb;
+      border-radius: 12px;
+      padding: 24px;
+      text-decoration: none;
+      transition: all 0.3s;
+
+      &:hover {
+        box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+        transform: translateY(-2px);
+      }
+
+      dl {
+        margin: 0;
+        padding: 0;
+
+        dd {
+          margin: 0;
+          padding: 0;
+
+          .name {
+            font-size: 18px;
+            font-weight: 700;
+            color: #333333;
+            margin-bottom: 16px;
+
+            p {
+              margin: 0;
+            }
+          }
+
+          .summary {
+            .summary-subname {
+              margin-bottom: 12px;
+
+              p {
+                margin: 0;
+                font-size: 14px;
+                color: #666666;
+              }
+            }
+
+            .unit-time {
+              display: flex;
+              justify-content: space-between;
+              align-items: center;
+
+              .left {
+                display: flex;
+                align-items: center;
+
+                .img-size {
+                  width: 16px;
+                  height: 16px;
+                  margin-right: 6px;
+                }
+
+                .country-text,
+                .bg-text {
+                  font-size: 14px;
+                  color: #666666;
+                }
+
+                .ml12 {
+                  margin-left: 12px;
+                }
+              }
+
+              .right {
+                display: flex;
+                align-items: center;
+
+                .img-size {
+                  width: 16px;
+                  height: 16px;
+                  margin-right: 6px;
+                }
+
+                .hot-text {
+                  font-size: 14px;
+                  color: #1760c2;
+                  font-weight: 600;
+                }
+              }
+            }
+          }
+        }
+      }
+    }
+  }
 }
 </style>

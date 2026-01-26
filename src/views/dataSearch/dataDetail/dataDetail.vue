@@ -17,61 +17,45 @@
             <div class="data-catalog">
                 <h3 class="catalog-title">数据目录</h3>
                 <ul class="catalog-list">
-                    <li
-                        v-for="item in catalogItems"
-                        :key="item.id"
-                        class="catalog-item"
-                        :class="{ active: activeSection === item.id }"
-                        :data-id="item.id"
-                        @click="scrollToSection($event)"
-                    >
-                        <img :src="activeSection === item.id ? fileIconSel : fileIcon" alt=""/>
-                        <span>{{ item.label }}</span>
+                    <li v-for="item in Object.keys(apiResponse)" :key="item" class="catalog-item"
+                        :class="{ active: activeSection === item }" :data-id="item"
+                        @click="scrollToSection($event)">
+                        <img :src="activeSection === item ? fileIconSel : fileIcon" alt="" />
+                        <span>{{ item }}</span>
                     </li>
                 </ul>
             </div>
 
             <!-- 右侧数据详情 -->
             <div class="data-info" ref="dataInfoRef" @scroll="handleScroll">
-                <!-- 基础信息 -->
-                <div v-if="apiResponse.data" class="info-section" id="basic-info">
-                    <h3 class="sub-section-title">基础信息</h3>
-                    <div class="section-content">
-                        <div class="data-meta">
-                            <div v-for="(value, key) in apiResponse.data" :key="key" class="meta-item">
-                                <div class="meta-label">{{ formatFieldLabel(key) }}:</div>
-                                <div class="meta-value">{{ formatFieldValue(value) }}</div>
+                <template v-for="item in Object.keys(apiResponse)" :key="item">
+                    <div v-if="item === 'fileData'" class="info-section" id="fileData">
+                        <h3 class="sub-section-title">
+                            TDB文件
+                            <el-button type="text" class="download-btn" @click="handleDownload">
+                                <el-icon>
+                                    <Download />
+                                </el-icon>
+                                <span>下载文件</span>
+                            </el-button>
+                        </h3>
+                        <div class="tdb-content">
+                            <pre class="tdb-text">{{ apiResponse.fileData || '暂无TDB文件内容' }}</pre>
+                        </div>
+                    </div>
+                    <!-- 基础信息 -->
+                    <div v-else class="info-section" :id="item">
+                        <h3 class="sub-section-title">{{ catalogItems.find(cat => cat.id === item)?.label || item }}</h3>
+                        <div class="section-content">
+                            <div class="data-meta">
+                                <div v-for="(value, key) in apiResponse[item]" :key="key" class="meta-item">
+                                    <div class="meta-label">{{ formatFieldLabel(key) }}:</div>
+                                    <div class="meta-value">{{ formatFieldValue(value) }}</div>
+                                </div>
                             </div>
                         </div>
                     </div>
-                </div>
-
-                <!-- 数据来源 -->
-                <div v-if="apiResponse.source" class="info-section" id="data-source">
-                    <h3 class="sub-section-title">数据来源</h3>
-                    <div class="section-content">
-                        <div v-for="(value, key) in apiResponse.source" :key="key" class="source-item">
-                            <span class="meta-label">{{ formatFieldLabel(key) }}:</span>
-                            <span class="meta-value">{{ formatFieldValue(value) }}</span>
-                        </div>
-                    </div>
-                </div>
-
-                <!-- TDB数据文件 -->
-                <div v-if="apiResponse.fileData" class="info-section" id="tdb-file">
-                    <h3 class="sub-section-title">
-                        TDB文件
-                        <el-button type="text" class="download-btn" @click="handleDownload">
-                            <el-icon>
-                                <Download />
-                            </el-icon>
-                            <span>下载文件</span>
-                        </el-button>
-                    </h3>
-                    <div class="tdb-content">
-                        <pre class="tdb-text">{{ apiResponse.fileData || '暂无TDB文件内容' }}</pre>
-                    </div>
-                </div>
+                </template>
             </div>
         </div>
     </div>
@@ -105,22 +89,22 @@ interface ApiResponse {
 }
 
 const apiResponse = ref<ApiResponse>({
-    data: null,
-    source: null,
-    fileData: null
+   
 })
+
 
 // 动态生成目录项
 const catalogItems = computed(() => {
     const items = []
-    if (apiResponse.value.data) {
-        items.push({ id: 'basic-info', label: '基础信息' })
+    const labelMap: Record<string, string> = {
+        data: '基础信息',
+        source: '数据来源',
+        fileData: 'TDB文件'
     }
-    if (apiResponse.value.source) {
-        items.push({ id: 'data-source', label: '数据来源' })
-    }
-    if (apiResponse.value.fileData) {
-        items.push({ id: 'tdb-file', label: 'TDB文件' })
+    for(const key in Object.keys(apiResponse.value)) {
+        if(apiResponse.value[key]) {
+            items.push({ id: key, label: labelMap[key] || key })
+        }
     }
     return items
 })
@@ -228,8 +212,8 @@ onMounted(async () => {
     apiResponse.value = res.data
 
     // 设置默认激活的section
-    if (catalogItems.value.length > 0) {
-        activeSection.value = catalogItems.value[0].id
+    if (apiResponse.value) {
+        activeSection.value = Object.keys(apiResponse.value)[0]
     }
 })
 </script>
@@ -278,7 +262,8 @@ onMounted(async () => {
     border-radius: 8px;
     box-shadow: 0 2px 12px rgba(0, 0, 0, 0.05);
     overflow: hidden;
-    height: calc(100vh - 240px); /* 设置固定高度，减去header和padding的高度 */
+    height: calc(100vh - 240px);
+    /* 设置固定高度，减去header和padding的高度 */
     position: relative;
 }
 
@@ -287,11 +272,13 @@ onMounted(async () => {
     background-color: #f7f9fb;
     padding: 20px;
     border-right: 1px solid #ebeef5;
-    flex-shrink: 0; /* 防止目录被压缩 */
+    flex-shrink: 0;
+    /* 防止目录被压缩 */
     position: sticky;
     top: 0;
     height: 100%;
-    overflow-y: auto; /* 目录内容过长时可滚动 */
+    overflow-y: auto;
+    /* 目录内容过长时可滚动 */
 }
 
 .catalog-title {
@@ -340,7 +327,8 @@ onMounted(async () => {
 .data-info {
     flex: 1;
     padding: 30px;
-    overflow-y: auto; /* 右侧内容可独立滚动 */
+    overflow-y: auto;
+    /* 右侧内容可独立滚动 */
     height: 100%;
 }
 

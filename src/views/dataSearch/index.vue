@@ -96,6 +96,10 @@ import { searchPotData } from '@/api/dataSearch';
 // 调试：生命周期钩子
 onMounted(() => {
   console.log('数据搜索页：onMounted - 组件首次挂载');
+  // handleSelect({
+  //       name: "晶体结构",
+  //       key: "jtjg",
+  //     })
 });
 
 onActivated(() => {
@@ -147,6 +151,7 @@ const handleFilterApply = (filters: Record<string, any>) => {
 // 选择左侧标签事件
 const selectedCard = ref('')
 const handleSelect = (card, child = null) => {
+  console.log(card, child,'selectedCard.value')
   totalNum.value = ''
   resTable.value.refResTableData([])
 

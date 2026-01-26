@@ -16,15 +16,15 @@ export const menuData: Menus[] = [
         title: '数据产品',
         index: '/data-product',
     },
-    {
+     {
         id: '3',
-        title: '数据资源',
-        index: '/data-resources',
+        title: '数据共享',
+        index: '/data-sharing',
     },
      {
         id: '4',
-        title: '数据共享',
-        index: '/data-sharing',
+        title: '数据资源',
+        index: '/data-resources',
     },
     {
         id: '5',

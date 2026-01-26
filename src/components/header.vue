@@ -29,9 +29,9 @@
           <!--          </div>-->
           <!-- 用户头像 -->
           <img class="user-avator" style="width: 20px;margin-right: 6px;" :src="imgurl"/>
-          <span class="user-operation cur-p">登录</span>
+          <span class="user-operation cur-p" @click="handleCommand('login')">登录</span>
           <span class="user-operation">&nbsp;|&nbsp;</span>
-          <span class="user-operation cur-p">注册</span>
+          <span class="user-operation cur-p" @click="handleCommand('register')">注册</span>
         </div>
       </div>
     </div>
@@ -51,9 +51,10 @@ onMounted(() => {
 // 用户名下拉菜单选择事件
 const router = useRouter();
 const handleCommand = (command: string) => {
-  if (command == 'loginout') {
-    localStorage.removeItem('vuems_name');
+  if (command == 'login') {
     router.push('/login');
+  } else if (command == 'register') {
+    router.push('/register');
   }
 };
 

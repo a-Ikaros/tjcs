@@ -77,6 +77,61 @@ const multiphysicsPotential = [
     removeUnit: true,
   },
 ];
+
+// 动力学数据
+const dynamics = [
+  {
+    key: "id",
+    label: "ID",
+  },
+  {
+    key: "elements",
+    label: "元素",
+  },
+  {
+    key: "diffusionMode",
+    label: "Diffusion Mode",
+  },
+  {
+    key: "diffusingElement",
+    label: "Diffusing Element",
+  },
+  {
+    key: "d0",
+    label: "D0 (m2/s)",
+    removeUnit: true,
+  },
+  {
+    key: "q",
+    label: "Q (kJ/mol)",
+    removeUnit: true,
+  },
+  {
+    key: "d",
+    label: "D (m2/s)",
+    removeUnit: true,
+  },
+  {
+    key: "tmin",
+    label: "T min (K)",
+    removeUnit: true,
+  },
+  {
+    key: "tmax",
+    label: "T max (K)",
+    removeUnit: true,
+  },
+  {
+    key: "t",
+    label: "T (K)",
+    removeUnit: true,
+  },
+  {
+    key: "year",
+    label: "Year",
+  },
+];
+
 export const tableCol = {
   //基组
   basisSetPotential: basisSetPotential,
@@ -157,4 +212,5 @@ export const tableCol = {
 
   //金属材料
   metalMaterial: multiphysicsPotential,
+  dynamics: dynamics,
 };

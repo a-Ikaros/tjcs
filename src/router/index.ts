@@ -123,6 +123,18 @@ const routes: RouteRecordRaw[] = [
           ),
       },
       {
+        path: "/updates-detail",
+        name: "updates-detail",
+        meta: {
+          title: "动态详情",
+          noAuth: true,
+        },
+        component: () =>
+          import(
+            /* webpackChunkName: "field-updates" */ "@/views/updatesDetail/index.vue"
+          ),
+      },
+      {
         path: "/about",
         name: "about",
         meta: {

@@ -136,7 +136,7 @@ const mesoDataTypes: Array<cardInfo> = [
     name: "热力学数据",
   },
   {
-    key: "dlxsj",
+    key: "dynamics",
     name: "动力学数据",
   },
   {

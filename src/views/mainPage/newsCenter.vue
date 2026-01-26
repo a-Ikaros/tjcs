@@ -22,22 +22,22 @@ onMounted(() => {
     {
       title: '新材料大数据中心关于统一服务门户（测试版）上线公开征求意见的通知',
       date: '2025-04-10',
-      link:''
+      link:'http://localhost:9999/#/updates-detail'
     },
     {
       title: '国家数据局综合司关于组织开展2025年可信数据空间创新发展试点工作的通知',
       date: '2025-04-10',
-      link:''
+      link:'http://localhost:9999/#/updates-detail'
     },
     {
       title: '国家发展改革委国家数据局工业和信息化部关于印发《埃斯基等会啊哇打网球的那瞬间年代》的卡是京东i去我家',
       date: '2025-04-10',
-      link:''
+      link:'http://localhost:9999/#/updates-detail'
     },
     {
       title: '三部门关于印发《新材料大数据中心总体建设方案》的通知',
       date: '2025-04-10',
-      link:''
+      link:'http://localhost:9999/#/updates-detail'
     },
   ]
 })

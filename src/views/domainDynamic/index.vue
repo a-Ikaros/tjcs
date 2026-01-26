@@ -204,7 +204,7 @@ onMounted(() => {
     {
       title: '京津冀初步形成”北京建能力、区域造生态“ 协同爱的激情我的几按地区你在西祠街区你擦十多年年前蛋a壳',
       date: '2025-04-10',
-      link: ''
+      link: 'http://localhost:9999/#/updates-detail'
     },
     {
       title: 'MGE Advances期刊主编血剑心院士|材料基因工程时的情景哦i大家无穷二九五七',

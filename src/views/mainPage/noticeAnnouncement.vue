@@ -33,22 +33,22 @@ onMounted(() => {
     {
       title: '京津冀初步形成”北京建能力、区域造生态“ 协同爱的激情我的几按地区你在西祠街区你擦十多年年前蛋a壳',
       date: '2025-04-10',
-      link:''
+      link:'http://localhost:9999/#/updates-detail'
     },
     {
       title: 'MGE Advances期刊主编血剑心院士|材料基因工程时的情景哦i大家无穷二九五七',
       date: '2025-04-10',
-      link:''
+      link:'http://localhost:9999/#/updates-detail'
     },
     {
       title: '第八届材料基因工程高层论坛成功举办',
       date: '2025-04-10',
-      link:''
+      link:'http://localhost:9999/#/updates-detail'
     },
     {
       title: 'CSTM/FC93 材料数据标准化领域委员会亨利大会今天大家我却觉得去我家其',
       date: '2025-04-10',
-      link:''
+      link:'http://localhost:9999/#/updates-detail'
     },
   ]
 })

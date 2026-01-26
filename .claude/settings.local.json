@@ -1,0 +1,11 @@
+{
+  "permissions": {
+    "allow": [
+      "Bash(npm install vue3-pdfjs)",
+      "Bash(node -e \"console.log\\(require\\(''vue3-pdfjs''\\)\\)\")",
+      "Bash(npm install pdfjs-dist@3.11.174)",
+      "Bash(find:*)",
+      "Bash(npm install pdfjs-dist)"
+    ]
+  }
+}
