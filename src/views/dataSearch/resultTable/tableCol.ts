@@ -131,7 +131,24 @@ const dynamics = [
     label: "Year",
   },
 ];
-
+const mtd=[
+  {
+    key: "seq",
+    label: "ID",
+  },
+  {
+    key: "elements",
+    label: "元素",
+  },
+  {
+    key: "authors",
+    label: "生产作者",
+  },
+   {
+    key: "date",
+    label: "生产日期",
+  },
+]
 export const tableCol = {
   //基组
   basisSetPotential: basisSetPotential,
@@ -209,6 +226,9 @@ export const tableCol = {
 
   // 多物理场耦合参数
   multiphysicsPotential: multiphysicsPotential,
+
+  // 热力学数据
+  mtd: mtd,
 
   //金属材料
   metalMaterial: multiphysicsPotential,

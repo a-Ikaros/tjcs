@@ -5,7 +5,7 @@
       <div class="header-content">
         <div class="logo-section">
           <img src="@/assets/img/new-material-logo.png" alt="新材料大数据中心" class="logo-img" />
-          <span class="system-name">新材料大数据中心（门户测试版）</span>
+          <span class="system-name">材料计算设计专用数据资源节点</span>
         </div>
         <div class="title-section">
           <h1 class="main-title">统一身份认证平台</h1>
@@ -203,6 +203,7 @@ const handleLogin = async () => {
       font-size: 18px;
       color: #222;
       font-weight: 500;
+      margin-right: 10px;
     }
   }
 
