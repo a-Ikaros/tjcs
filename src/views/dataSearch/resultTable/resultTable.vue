@@ -87,6 +87,7 @@ import DataFilter from '../DataFilter.vue';
 import { getFilterConfig, hasFilterConfig } from '../filterConfig';
 import type { FilterConfig } from '../filterConfig';
 import { computed, onMounted, ref, watch } from 'vue';
+import {  ElMessageBox } from 'element-plus'
 
 const router = useRouter()
 
@@ -180,6 +181,19 @@ defineExpose({
 })
 
 const handleWatch = async (row) => {
+  // 检查是否已登录
+  const token = localStorage.getItem('token')
+  if (!token) {
+    ElMessageBox.confirm('用户登录后可查看详情,是否跳转到登录页？', '提示', {
+      confirmButtonText: '确定',
+      cancelButtonText: '取消',
+      type: 'warning'
+    }).then(() => {
+      router.push('/login')
+    })
+    return
+  }
+
   // 跳转到详情页，传递数据的唯一标识
   const id = row.id || '1' // 这里假设row有id属性，如果没有可以根据实际情况调整
   const dataType = currentDataType.value || 'pairPotential'

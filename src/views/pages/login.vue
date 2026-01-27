@@ -35,6 +35,16 @@
               show-password />
           </el-form-item>
 
+          <el-form-item prop="captcha" v-if="loginType === 'account'">
+            <div class="captcha-input-wrapper">
+              <el-input v-model="loginForm.captcha" placeholder="请输入验证码" prefix-icon="Key" />
+              <div class="captcha-img" @click="refreshCaptcha">
+                <img v-if="captchaImg" :src="captchaImg" alt="验证码" />
+                <span v-else>点击获取</span>
+              </div>
+            </div>
+          </el-form-item>
+
           <el-form-item prop="phone" v-if="loginType === 'sms'">
             <el-input v-model="loginForm.phone" placeholder="请输入手机号码" prefix-icon="Iphone" />
           </el-form-item>
@@ -79,9 +89,10 @@
 </template>
 
 <script setup lang="ts">
-import { ref, reactive } from 'vue'
+import { ref, reactive, onMounted } from 'vue'
 import { useRouter } from 'vue-router'
 import { ElMessage, type FormInstance, type FormRules } from 'element-plus'
+import { login, captcha } from '@/api/index'
 
 const router = useRouter()
 const loginFormRef = ref<FormInstance>()
@@ -91,12 +102,14 @@ const rememberAccount = ref(false)
 const codeDisabled = ref(false)
 const codeText = ref('获取验证码')
 const countdown = ref(0)
+const captchaImg = ref('')
 
 const loginForm = reactive({
   username: '',
   password: '',
   phone: '',
-  code: ''
+  code: '',
+  captcha: ''
 })
 
 const loginRules: FormRules = {
@@ -106,6 +119,9 @@ const loginRules: FormRules = {
   password: [
     { required: true, message: '请输入密码', trigger: 'blur' }
   ],
+  captcha: [
+    { required: true, message: '请输入验证码', trigger: 'blur' }
+  ],
   phone: [
     { required: true, message: '请输入手机号码', trigger: 'blur' },
     { pattern: /^1[3-9]\d{9}$/, message: '请输入正确的手机号码', trigger: 'blur' }
@@ -113,6 +129,24 @@ const loginRules: FormRules = {
   code: [
     { required: true, message: '请输入验证码', trigger: 'blur' }
   ]
+}
+
+// 获取图形验证码
+const getCaptcha = async () => {
+  try {
+    const res = await captcha()
+    if (res.data) {
+       const myBlob = new window.Blob([res.data], { type: 'image/png' })
+      captchaImg.value =  window.URL.createObjectURL(myBlob)
+    }
+  } catch (error) {
+    ElMessage.error('获取验证码失败')
+  }
+}
+
+// 刷新验证码
+const refreshCaptcha = () => {
+  getCaptcha()
 }
 
 const sendCode = () => {
@@ -146,18 +180,60 @@ const sendCode = () => {
 const handleLogin = async () => {
   if (!loginFormRef.value) return
 
-  await loginFormRef.value.validate((valid) => {
+  await loginFormRef.value.validate(async (valid) => {
     if (valid) {
       loading.value = true
+      try {
+        const res = await login({
+          account: loginForm.username,
+          password: loginForm.password,
+          code: loginForm.captcha
+        })
 
-      setTimeout(() => {
+        if (res.data?.code === 200 || res.data?.success) {
+          // 保存 token 到 localStorage
+          if (res.data?.data) {
+            localStorage.setItem('token', res.data.data)
+          }
+          // 保存用户信息
+          if (loginForm.username) {
+            localStorage.setItem('userInfo', JSON.stringify(loginForm.username))
+          }
+
+          // 如果勾选了记住账号，保存账号
+          if (rememberAccount.value) {
+            localStorage.setItem('rememberedAccount', loginForm.username)
+          } else {
+            localStorage.removeItem('rememberedAccount')
+          }
+
+          ElMessage.success('登录成功')
+          router.push('/dashboard')
+        } else {
+          ElMessage.error(res.data?.message || '登录失败')
+          // 登录失败后刷新验证码
+          refreshCaptcha()
+        }
+      } catch (error: any) {
+        ElMessage.error(error.message || '登录失败，请稍后重试')
+        // 登录失败后刷新验证码
+        refreshCaptcha()
+      } finally {
         loading.value = false
-        ElMessage.success('登录成功')
-        router.push('/dashboard')
-      }, 1000)
+      }
     }
   })
 }
+
+// 页面加载时获取验证码和记住的账号
+onMounted(() => {
+  getCaptcha()
+  const rememberedAccount = localStorage.getItem('rememberedAccount')
+  if (rememberedAccount) {
+    loginForm.username = rememberedAccount
+    rememberAccount.value = true
+  }
+})
 </script>
 
 <style scoped lang="scss">
@@ -291,6 +367,46 @@ const handleLogin = async () => {
     width: 120px;
     height: 52px;
     flex-shrink: 0;
+  }
+}
+
+.captcha-input-wrapper {
+  display: flex;
+  gap: 10px;
+  width: 100%;
+
+  .el-input {
+    flex: 1;
+  }
+
+  .captcha-img {
+    width: 120px;
+    height: 52px;
+    flex-shrink: 0;
+    border: 1px solid #dcdfe6;
+    border-radius: 4px;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background-color: #f5f7fa;
+    transition: all 0.3s;
+
+    &:hover {
+      border-color: #1760c2;
+    }
+
+    img {
+      width: 100%;
+      height: 100%;
+      object-fit: fill;
+      border-radius: 4px;
+    }
+
+    span {
+      font-size: 14px;
+      color: #909399;
+    }
   }
 }
 

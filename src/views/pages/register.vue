@@ -159,6 +159,7 @@
 import { ref, reactive } from 'vue'
 import { useRouter } from 'vue-router'
 import { ElMessage, type FormInstance, type FormRules } from 'element-plus'
+import { register } from '@/api/index'
 
 const router = useRouter()
 const registerFormRef = ref<FormInstance>()
@@ -225,11 +226,11 @@ const sendCode = () => {
     ElMessage.warning('请输入正确的手机号码')
     return
   }
-  
+
   codeDisabled.value = true
   countdown.value = 60
   codeText.value = `${countdown.value}秒后重试`
-  
+
   const timer = setInterval(() => {
     countdown.value--
     if (countdown.value <= 0) {
@@ -240,7 +241,7 @@ const sendCode = () => {
       codeText.value = `${countdown.value}秒后重试`
     }
   }, 1000)
-  
+
   ElMessage.success('验证码已发送')
 }
 
@@ -250,16 +251,29 @@ const showAgreement = () => {
 
 const handleRegister = async () => {
   if (!registerFormRef.value) return
-  
-  await registerFormRef.value.validate((valid) => {
+
+  await registerFormRef.value.validate(async (valid) => {
     if (valid) {
       loading.value = true
-      
-      setTimeout(() => {
+      try {
+        const res = await register({
+          phone: registerForm.phone,
+          email: registerForm.email,
+          password: registerForm.password,
+          code: registerForm.code
+        })
+        console.log(res,'res')
+        if (res.data.code === 200 || res.data.success) {
+          ElMessage.success('注册成功，请登录')
+          router.push('/login')
+        } else {
+          ElMessage.error(res.data.message || '注册失败')
+        }
+      } catch (error: any) {
+        ElMessage.error(error.message || '注册失败，请稍后重试')
+      } finally {
         loading.value = false
-        ElMessage.success('注册成功，请登录')
-        router.push('/login')
-      }, 1000)
+      }
     }
   })
 }

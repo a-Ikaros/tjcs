@@ -182,6 +182,18 @@ const routes: RouteRecordRaw[] = [
     ],
   },
   {
+    path: "/data-stand-detail/:id",
+    name: "data-stand-detail",
+    meta: {
+      title: "数据标准详情",
+      noAuth: true,
+    },
+    component: () =>
+      import(
+        /* webpackChunkName: "data-stand-detail" */ "@/views/dataResources/dataStandDetail.vue"
+      ),
+  },
+  {
     path: "/login",
     meta: {
       title: "登录",

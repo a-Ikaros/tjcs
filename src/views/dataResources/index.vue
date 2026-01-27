@@ -39,7 +39,7 @@ import {ArrowDown} from "@element-plus/icons-vue";
 import overview from './overview.vue'
 import dataset from './dataset.vue'
 import globalMaterial from './globalMaterial.vue';
-
+import dataStand from './dataStand.vue'
 const primaryBread = ['首页', '数据资源']
 const breadCrumbList = ref([...primaryBread])
 const cardList = list
@@ -76,9 +76,9 @@ const componentMap = {
   'perovskite': dataset,
   'template/catalytic': dataset,
   'template/metallic': dataset,
-  'standard': dataset,
-  'standard/manufacture': dataset,
-  'standard/sim': dataset,
+  'standard': dataStand,
+  'standard/manufacture': dataStand,
+  'standard/sim': dataStand,
   'materialData': globalMaterial,
   'materialSoftware': dataset
 }

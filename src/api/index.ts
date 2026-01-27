@@ -1,23 +1,37 @@
-import request from '../utils/request';
+import request from "../utils/request";
 
-export const fetchData = () => {
-    return request({
-        url: './mock/table.json',
-        method: 'get'
-    });
+export const login = (data: { account: string; password: string; code: string; }) => {
+  return request({
+    url: "/potdata/auth/login",
+    method: "post",
+    data: {
+      ...data,
+      type: 0,
+    },
+  });
 };
 
-export const fetchUserData = () => {
-    return request({
-        url: './mock/user.json',
-        method: 'get'
-    });
+export const register = (data: { phone: string;email: string; password: string; code: string; }) => {
+  return request({
+    url: "/potdata/auth/register",
+    method: "post",
+    data: {
+      ...data,
+    },
+  });
 };
 
-export const fetchRoleData = () => {
-    return request({
-        url: './mock/role.json',
-        method: 'get'
-    });
+export const logout = () => {
+  return request({
+    url: "/potdata/auth/logout",
+    method: "post",
+  });
 };
 
+export const captcha = () => {
+  return request({
+    url: "/potdata/auth/captcha",
+    method: "get",
+    responseType: 'blob',
+  });
+};
