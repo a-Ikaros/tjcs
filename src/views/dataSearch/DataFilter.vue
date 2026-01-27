@@ -1,91 +1,46 @@
 <template>
   <div class="data-filter">
     <div class="filter-content">
-      <div
-        v-for="config in filterConfigs"
-        :key="config.key"
-        class="filter-item"
-      >
+      <div v-for="config in filterConfigs" :key="config.key" class="filter-item">
         <div class="filter-label">{{ config.label }}</div>
 
         <!-- 单选下拉框 -->
-        <el-select
-          v-if="config.type === 'select'"
-          v-model="filterValues[config.key]"
-          :placeholder="config.placeholder"
-          :clearable="config.clearable"
-          @change="handleFilterChange"
-          class="filter-select"
-        >
-          <el-option
-            v-for="option in filterOptions[config.key] || []"
-            :key="option.value"
-            :label="option.label"
-            :value="option.value"
-          />
+        <el-select v-if="config.type === 'select'" v-model="filterValues[config.key]" :placeholder="config.placeholder"
+          :clearable="config.clearable" @change="handleFilterChange" class="filter-select">
+          <el-option v-for="option in filterOptions[config.key] || []" :key="option.value" :label="option.label"
+            :value="option.value" />
         </el-select>
 
         <!-- 多选下拉框 -->
-        <el-select
-          v-else-if="config.type === 'multiSelect'"
-          v-model="filterValues[config.key]"
-          :placeholder="config.placeholder"
-          :clearable="config.clearable"
-          multiple
-          collapse-tags
-          collapse-tags-tooltip
-          @change="handleFilterChange"
-          class="filter-select"
-        >
-          <el-option
-            v-for="option in filterOptions[config.key] || []"
-            :key="option.value"
-            :label="option.label"
-            :value="option.value"
-          />
+        <el-select v-else-if="config.type === 'multiSelect'" v-model="filterValues[config.key]"
+          :placeholder="config.placeholder" :clearable="config.clearable" multiple collapse-tags collapse-tags-tooltip
+          @change="handleFilterChange" class="filter-select">
+          <el-option v-for="option in filterOptions[config.key] || []" :key="option.value" :label="option.label"
+            :value="option.value" />
         </el-select>
 
         <!-- 年份范围选择器 -->
         <div v-else-if="config.type === 'yearRange'" class="year-range-picker">
-          <el-date-picker
-            v-model="filterValues[config.key + 'From']"
-            type="year"
-            placeholder="开始年份"
-            :clearable="config.clearable"
-            @change="handleFilterChange"
-            class="year-input"
-            format="YYYY"
-            value-format="YYYY"
-          />
+          <el-date-picker v-model="filterValues[config.key + 'From']" type="year" placeholder="开始年份"
+            :clearable="config.clearable" @change="handleFilterChange" class="year-input" format="YYYY"
+            value-format="YYYY" />
           <span class="year-separator">至</span>
-          <el-date-picker
-            v-model="filterValues[config.key + 'To']"
-            type="year"
-            placeholder="结束年份"
-            :clearable="config.clearable"
-            @change="handleFilterChange"
-            class="year-input"
-            format="YYYY"
-            value-format="YYYY"
-          />
+          <el-date-picker v-model="filterValues[config.key + 'To']" type="year" placeholder="结束年份"
+            :clearable="config.clearable" @change="handleFilterChange" class="year-input" format="YYYY"
+            value-format="YYYY" />
         </div>
 
         <!-- 输入框 -->
-        <el-input
-          v-else-if="config.type === 'input'"
-          v-model="filterValues[config.key]"
-          :placeholder="config.placeholder"
-          :clearable="config.clearable"
-          @change="handleFilterChange"
-          class="filter-input"
-        />
+        <el-input v-else-if="config.type === 'input'" v-model="filterValues[config.key]"
+          :placeholder="config.placeholder" :clearable="config.clearable" @change="handleFilterChange"
+          class="filter-input" />
       </div>
     </div>
   </div>
 </template>
 
 <script setup lang="ts">
-import { ref, watch, onMounted, reactive } from 'vue';
+import { ref, watch, reactive } from 'vue';
 import type { FilterConfig, FilterOption } from './filterConfig';
 import request from '@/utils/request';
 
@@ -128,6 +83,8 @@ const initFilterValues = () => {
 
 // 加载筛选选项
 const loadFilterOptions = async () => {
+  console.log('开始加载筛选选项，配置:', props.filterConfigs);
+  
   for (const config of props.filterConfigs) {
     if (config.type === 'select' || config.type === 'multiSelect') {
       if (config.options) {
@@ -136,21 +93,31 @@ const loadFilterOptions = async () => {
       } else if (config.api) {
         // 从API获取选项
         try {
-          const { data } = await request({
+          const response = await request({
             url: config.api,
             method: 'get',
           });
-          // 假设API返回的数据格式为 { data: string[] } 或 { data: {label: string, value: string}[] }
-          if (Array.isArray(data)) {
-            filterOptions[config.key] = data.map((item: any) => {
+          // axios返回的response.data可能是后端的响应体
+          // 后端通常返回 {code, data, message} 格式
+          let apiData = response.data;
+
+          // 如果response.data是对象且包含data字段，则取内层data
+          if (apiData && typeof apiData === 'object' && 'data' in apiData && !Array.isArray(apiData)) {
+            apiData = apiData.data;
+          }
+
+          // 转换为下拉框选项格式
+          if (Array.isArray(apiData)) {
+            filterOptions[config.key] = apiData.map((item: any) => {
               if (typeof item === 'string') {
                 return { label: item, value: item };
               }
               return item;
             });
+          } else {
+            filterOptions[config.key] = [];
           }
         } catch (error) {
-          console.error(`加载筛选选项失败 (${config.key}):`, error);
           filterOptions[config.key] = [];
         }
       }
@@ -182,7 +149,6 @@ const handleFilterChange = () => {
       }
     }
   });
-  console.log(filters,'filters')
   emit('filter-change', filters);
 };
 
@@ -193,19 +159,16 @@ const handleReset = () => {
 };
 
 // 监听dataType变化，重新加载配置
+// immediate: true 会在组件挂载时立即执行一次，所以不需要onMounted
 watch(
   () => props.dataType,
   () => {
+    console.log('dataType变化:', props.dataType);
     initFilterValues();
     loadFilterOptions();
   },
   { immediate: true }
 );
-
-// 组件挂载时加载选项
-onMounted(() => {
-  loadFilterOptions();
-});
 
 // 暴露方法供父组件调用
 defineExpose({

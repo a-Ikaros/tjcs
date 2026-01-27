@@ -35,3 +35,35 @@ export const captcha = () => {
     responseType: 'blob',
   });
 };
+
+// 获取对势的Potential Types
+export const getPairPotentialTypes = () => {
+  return request({
+    url: "/potdata/pairPotential/getPotentialTypes",
+    method: "get",
+  });
+};
+
+// 获取反应力场的Potential Types
+export const getReaxffPotentialTypes = () => {
+  return request({
+    url: "/potdata/reaxffPotential/getPotentialTypes",
+    method: "get",
+  });
+};
+
+// 获取神经网络势的Potential Types
+export const getMachineLearningPotentialTypes = () => {
+  return request({
+    url: "/potdata/machineLearningPotential/getPotentialTypes",
+    method: "get",
+  });
+};
+
+// 获取默认的Potential Types
+export const getDefaultPotentialTypes = () => {
+  return request({
+    url: "/potdata/default/getPotentialTypes",
+    method: "get",
+  });
+};
