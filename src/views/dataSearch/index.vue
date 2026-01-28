@@ -16,7 +16,11 @@
       </div>
       <div class="card-item" v-for="(card, index) in cardList" :key="card.key">
         <div class="card-first-level"
-          :class="{ 'first-selected': selectedCard === card.key, 'is-last-expanded': (index === cardList.length - 1) && expandedCard.indexOf(card.key) !== -1 }"
+          :class="{
+            'first-selected': selectedCard === card.key,
+            'is-last-expanded': (index === cardList.length - 1) && expandedCard.indexOf(card.key) !== -1,
+            'card-disabled': card.disabled
+          }"
           @click="handleSelect(card)">
           <span class="child-li"></span>
           <span class="title">{{ card.name }}</span>
@@ -32,7 +36,8 @@
         <div class="card-second-level" v-if="card?.children?.length && expandedCard.indexOf(card.key) !== -1"
           :class="{ 'last-expanded-second': (index === cardList.length - 1) && expandedCard.indexOf(card.key) !== -1 }">
           <span v-for="child in card?.children" :key="child.key" class="child-tag"
-            :class="{ 'second-selected': selectedCard === child.key }" @click.stop="handleSelect(card, child)">{{
+            :class="{ 'second-selected': selectedCard === child.key, 'child-disabled': child.disabled }"
+            @click.stop="handleSelect(card, child)">{{
               child.name
             }}</span>
         </div>
@@ -194,6 +199,12 @@ const handleFilterApply = (filters: Record<string, any>) => {
 // 选择左侧标签事件
 const selectedCard = ref('')
 const handleSelect = (card, child = null) => {
+  // 检查是否禁用
+  const targetItem = child || card
+  if (targetItem.disabled) {
+    return // 禁用的卡片不可选择
+  }
+
   console.log(card, child,'selectedCard.value')
   totalNum.value = ''
   resTable.value.refResTableData([])
@@ -422,6 +433,21 @@ const handlePageChange = (pagination) => {
       background-color: #f3f9ff;
     }
 
+    .card-disabled {
+      opacity: 0.5;
+      cursor: not-allowed !important;
+      color: #999999 !important;
+
+      .child-li {
+        background-color: #cccccc !important;
+      }
+
+      &:hover {
+        background-color: #f7f9fb !important;
+        color: #999999 !important;
+      }
+    }
+
     .is-last-expanded {
       border-bottom-left-radius: 0 !important;
       border-bottom-right-radius: 0 !important;
@@ -449,6 +475,18 @@ const handlePageChange = (pagination) => {
       .second-selected {
         color: #3498db !important;
         background-color: #a6ddf5 !important;
+      }
+
+      .child-disabled {
+        opacity: 0.5;
+        cursor: not-allowed !important;
+        color: #999999 !important;
+        background-color: #f0f0f0 !important;
+
+        &:hover {
+          background-color: #f0f0f0 !important;
+          color: #999999 !important;
+        }
       }
     }
 

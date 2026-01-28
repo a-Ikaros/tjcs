@@ -54,7 +54,8 @@
                         <div class="section-content">
                             <div class="data-meta">
                                 <div v-for="(value, key) in apiResponse[item]" :key="key" class="meta-item">
-                                    <div class="meta-label">{{ formatFieldLabel(key) }}:</div>
+                                    <div class="meta-label">{{ Array.isArray(apiResponse[item]) ? 'source' + key
+                                        :formatFieldLabel(key) }}:</div>
                                     <div class="meta-value">{{ formatFieldValue(value) }}</div>
                                 </div>
                             </div>

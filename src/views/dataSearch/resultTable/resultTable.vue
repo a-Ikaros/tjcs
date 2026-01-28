@@ -1,7 +1,7 @@
 <template>
   <div class="result-table">
     <div class="badge-line">
-      <el-badge v-for="item in badgeList" :key="item.key" :value="total" class="badge-item" type="warning"
+      <el-badge v-for="item in badgeList" :key="item.key" :value="total" :max="Infinity" class="badge-item" type="warning"
         @click="handleSel(item.key)">
         <div :class="['result-type-btn', selectedType === item.key ? 'type-is-sel' : 'type-not-sel']">
           <div style="max-width: 80px;">
