@@ -81,7 +81,7 @@ export default defineComponent({
 </script>
 
 <script setup lang="ts">
-import { computed, onActivated, onMounted, onDeactivated, ref } from 'vue';
+import { computed, onActivated, onMounted, onDeactivated, ref, nextTick } from 'vue';
 import periodicTable from './periodicTable/PeriodicTable.vue'
 import breadCrumb from '@/components/breadCrumb/index.vue'
 import { ArrowDown, Search } from "@element-plus/icons-vue";
@@ -96,10 +96,17 @@ import { searchPotData } from '@/api/dataSearch';
 // 调试：生命周期钩子
 onMounted(() => {
   console.log('数据搜索页：onMounted - 组件首次挂载');
-  // handleSelect({
-  //       name: "晶体结构",
-  //       key: "jtjg",
-  //     })
+  // 默认选中"晶体结构"
+  const structureCard = cardList.value.find(card => card.key === 'jg');
+  if (structureCard && structureCard.children) {
+    const crystalChild = structureCard.children.find(child => child.key === 'jtjg');
+    if (crystalChild) {
+      // 展开父级卡片
+      expandedCard.value = ['jg'];
+      // 选中"晶体结构"
+      handleSelect(structureCard, crystalChild);
+    }
+  }
 });
 
 onActivated(() => {
@@ -124,6 +131,42 @@ const rulesOptions = [
 const onRulesChange = (e) => {
   searchPath.value = [rulesOptions.find(item => item.value === e)]
   searchValue.value = ''
+
+  // 清空选中的卡片
+  selectedCard.value = ''
+
+  // 清空展开的卡片
+  expandedCard.value = []
+
+  // 清空表格数据和总数
+  totalNum.value = ''
+  if (resTable.value) {
+    resTable.value.refResTableData([])
+  }
+
+  // 重置筛选条件
+  currentFilters.value = {}
+
+  // 自动选择该尺度下的第一个结构
+  // 由于 cardList 是 computed 属性，它会根据 computeRules.value 自动更新
+  // 需要在下一个 tick 中访问更新后的 cardList
+  nextTick(() => {
+    if (cardList.value && cardList.value.length > 0) {
+      const firstCard = cardList.value[0]
+
+      // 如果第一个结构有子类，选择第一个子类
+      if (firstCard.children && firstCard.children.length > 0) {
+        const firstChild = firstCard.children[0]
+        // 展开父级卡片
+        expandedCard.value = [firstCard.key]
+        // 选中第一个子类
+        handleSelect(firstCard, firstChild)
+      } else {
+        // 如果没有子类，直接选择该结构
+        handleSelect(firstCard)
+      }
+    }
+  }, 0)
 }
 // 标签列表
 const cardList = computed(() => {
@@ -169,14 +212,18 @@ const handleSelect = (card, child = null) => {
     searchPath.value.push({ label: child.name, value: child.key })
   }
   console.log(searchPath.value, 'searchPath.value')
-  // 临时造数据
+
+  // 设置选中的卡片
+  selectedCard.value = child?.key || card.key
+
+  // 临时造数据用于显示badge
   let arr = [searchPath.value[searchPath.value.length - 1]]
   const childArr = cardList.value.find(item => item.key === searchPath.value[searchPath.value.length - 1].value)?.children
   childArr?.length && (arr = [...childArr])
   resTable.value.refResTableData(arr, child?.key || card.key)
-  // 临时造数据
 
-  selectedCard.value = child?.key || card.key
+  // 调用API更新列表数据
+  searchTableData()
 }
 
 // 展开左侧标签
