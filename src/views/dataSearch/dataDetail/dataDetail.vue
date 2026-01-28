@@ -18,8 +18,7 @@
                 <h3 class="catalog-title">数据目录</h3>
                 <ul class="catalog-list">
                     <li v-for="item in Object.keys(apiResponse)" :key="item" class="catalog-item"
-                        :class="{ active: activeSection === item }" :data-id="item"
-                        @click="scrollToSection($event)">
+                        :class="{ active: activeSection === item }" :data-id="item" @click="scrollToSection($event)">
                         <img :src="activeSection === item ? fileIconSel : fileIcon" alt="" />
                         <span>{{ item }}</span>
                     </li>
@@ -29,9 +28,9 @@
             <!-- 右侧数据详情 -->
             <div class="data-info" ref="dataInfoRef" @scroll="handleScroll">
                 <template v-for="item in Object.keys(apiResponse)" :key="item">
-                    <div v-if="item === 'fileData'" class="info-section" id="fileData">
+                    <div v-if="apiResponse[item]?.isFile" class="info-section" :id="item">
                         <h3 class="sub-section-title">
-                            TDB文件
+                            {{ item }}
                             <el-button type="text" class="download-btn" @click="handleDownload">
                                 <el-icon>
                                     <Download />
@@ -39,13 +38,19 @@
                                 <span>下载文件</span>
                             </el-button>
                         </h3>
-                        <div class="tdb-content">
-                            <pre class="tdb-text">{{ apiResponse.fileData || '暂无TDB文件内容' }}</pre>
+                        <div style="margin-bottom: 12px;">
+                            <div class="meta-label">fileName:</div>
+                            <div class="meta-value">{{ apiResponse[item]?.fileName }}</div>
                         </div>
+                        <div v-if="apiResponse[item]?.needShow !== 'false'" class="tdb-content">
+                            <pre class="tdb-text">{{ apiResponse[item].content || '暂无TDB文件内容' }}</pre>
+                        </div>
+
                     </div>
                     <!-- 基础信息 -->
                     <div v-else class="info-section" :id="item">
-                        <h3 class="sub-section-title">{{ catalogItems.find(cat => cat.id === item)?.label || item }}</h3>
+                        <h3 class="sub-section-title">{{catalogItems.find(cat => cat.id === item)?.label || item}}
+                        </h3>
                         <div class="section-content">
                             <div class="data-meta">
                                 <div v-for="(value, key) in apiResponse[item]" :key="key" class="meta-item">
@@ -67,7 +72,7 @@ import { useRouter, useRoute } from 'vue-router'
 import { ArrowLeft, Document, DataAnalysis, Download } from '@element-plus/icons-vue'
 import fileIcon from '@/assets/img/dataSearch/icon_文件.png'
 import fileIconSel from '@/assets/img/dataSearch/icon_文件1.png'
-import { getDataDetail } from '@/api/dataSearch'
+import { downloadFileById, getDataDetail } from '@/api/dataSearch'
 
 const router = useRouter()
 const route = useRoute()
@@ -89,7 +94,7 @@ interface ApiResponse {
 }
 
 const apiResponse = ref<ApiResponse>({
-   
+
 })
 
 
@@ -101,8 +106,8 @@ const catalogItems = computed(() => {
         source: '数据来源',
         fileData: 'TDB文件'
     }
-    for(const key in Object.keys(apiResponse.value)) {
-        if(apiResponse.value[key]) {
+    for (const key in Object.keys(apiResponse.value)) {
+        if (apiResponse.value[key]) {
             items.push({ id: key, label: labelMap[key] || key })
         }
     }
@@ -201,9 +206,10 @@ const handleBack = () => {
 }
 
 // 下载文件
-const handleDownload = () => {
+const handleDownload = async () => {
     // 这里可以实现文件下载逻辑
     console.log('下载文件')
+    window.open(`${import.meta.env.VITE_BASE_URL}potdata/${route.params.dataType}/download?id=${route.params.id}`, '_blank', 'noopener,noreferrer')
 }
 
 onMounted(async () => {
