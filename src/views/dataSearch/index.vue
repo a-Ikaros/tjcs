@@ -86,7 +86,7 @@ export default defineComponent({
 </script>
 
 <script setup lang="ts">
-import { computed, onActivated, onMounted, onDeactivated, ref, nextTick } from 'vue';
+import { computed, onActivated, onMounted, onDeactivated, ref, nextTick, watch } from 'vue';
 import periodicTable from './periodicTable/PeriodicTable.vue'
 import breadCrumb from '@/components/breadCrumb/index.vue'
 import { ArrowDown, Search } from "@element-plus/icons-vue";
@@ -97,19 +97,45 @@ import {
 } from "./dataRules";
 import resultTable from "@/views/dataSearch/resultTable/resultTable.vue";
 import { searchPotData } from '@/api/dataSearch';
+import { useRoute, useRouter } from 'vue-router';
+
+const route = useRoute()
+const router = useRouter()
 
 // 调试：生命周期钩子
 onMounted(() => {
   console.log('数据搜索页：onMounted - 组件首次挂载');
-  // 默认选中"晶体结构"
-  const structureCard = cardList.value.find(card => card.key === 'jg');
-  if (structureCard && structureCard.children) {
-    const crystalChild = structureCard.children.find(child => child.key === 'jtjg');
-    if (crystalChild) {
-      // 展开父级卡片
-      expandedCard.value = ['jg'];
-      // 选中"晶体结构"
-      handleSelect(structureCard, crystalChild);
+  
+  // 处理来自dashboard的搜索参数
+  const query = route.query.q as string
+  if (query) {
+    searchValue.value = query
+    // 默认选中"晶体结构"
+    const structureCard = cardList.value.find(card => card.key === 'jg')
+    if (structureCard && structureCard.children) {
+      const crystalChild = structureCard.children.find(child => child.key === 'jtjg')
+      if (crystalChild) {
+        // 展开父级卡片
+        expandedCard.value = ['jg']
+        // 选中"晶体结构"
+        handleSelect(structureCard, crystalChild)
+        // 自动执行搜索
+        setTimeout(() => {
+          searchTableData()
+        }, 100)
+      }
+    }
+  } else {
+    // 默认选中"晶体结构"
+    const structureCard = cardList.value.find(card => card.key === 'jg')
+    if (structureCard && structureCard.children) {
+      const crystalChild = structureCard.children.find(child => child.key === 'jtjg')
+      if (crystalChild) {
+        // 展开父级卡片
+        expandedCard.value = ['jg']
+        // 选中"晶体结构"
+        handleSelect(structureCard, crystalChild)
+      }
     }
   }
 });
@@ -119,6 +145,16 @@ onActivated(() => {
   // 当从详情页返回时，保持搜索状态不变
   // 只滚动到顶部
   window.scroll(0, 0);
+  
+  // 检查是否有新的查询参数（从dashboard跳转过来）
+  const query = route.query.q as string
+  if (query && query !== searchValue.value) {
+    searchValue.value = query
+    // 自动执行搜索
+    setTimeout(() => {
+      searchTableData()
+    }, 100)
+  }
 });
 
 onDeactivated(() => {

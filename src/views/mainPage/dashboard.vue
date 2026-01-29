@@ -140,7 +140,14 @@ import { useRouter } from "vue-router";
 const router = useRouter()
 const searchValue = ref('')
 const handleSearch = () => {
-  router.push('data-search')
+  if (searchValue.value.trim()) {
+    router.push({
+      path: '/data-search',
+      query: { q: searchValue.value.trim() }
+    })
+  } else {
+    router.push('/data-search')
+  }
 }
 const newsDynamic = ref([])
 const friendList = ref([])
