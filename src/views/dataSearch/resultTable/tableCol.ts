@@ -223,7 +223,28 @@ export const tableCol = {
       label: "Compute Device",
     },
   ],
-
+  nep:[
+    {
+      key: "id",
+      label: "ID",
+    },
+    {
+      key: "elements",
+      label: "Elements",
+    },
+    {
+      key: "potentialType",
+      label: "Potential Type",
+    },
+    {
+      key: "year",
+      label: "Year",
+    },
+    {
+      key: "computeDevice",
+      label: "Compute Device",
+    },
+  ],
   // 多物理场耦合参数
   multiphysicsPotential: multiphysicsPotential,
 

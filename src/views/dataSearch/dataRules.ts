@@ -112,6 +112,10 @@ const microDataTypes: Array<cardInfo> = [
         name: "神经网络势",
         key: "machineLearningPotential",
       },
+       {
+        name: "NEP",
+        key: "nep",
+      },
       {
         name: "核方法与高斯过程势",
         key: "hffygsgcs",
