@@ -76,12 +76,12 @@ const initGraph = () => {
 
   // 监听节点点击事件
   graph.value.on('node:click', ({ node }) => {
-    console.log('节点被点击:', node)
+    // 处理节点点击事件
   })
 
   // 监听边点击事件
   graph.value.on('edge:click', ({ edge }) => {
-    console.log('边被点击:', edge)
+    // 处理边点击事件
   })
 
   // 绑定键盘快捷键

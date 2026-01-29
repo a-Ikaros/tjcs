@@ -209,7 +209,6 @@ const handleBack = () => {
 // 下载文件
 const handleDownload = async () => {
     // 这里可以实现文件下载逻辑
-    console.log('下载文件')
     window.open(`${import.meta.env.VITE_BASE_URL}potdata/${route.params.dataType}/download?id=${route.params.id}`, '_blank', 'noopener,noreferrer')
 }
 

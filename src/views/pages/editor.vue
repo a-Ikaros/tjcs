@@ -48,7 +48,7 @@ const handleCreated = (editor: any) => {
     editorRef.value = editor; // 记录 editor 实例，重要！
 };
 const syncHTML = () => {
-    console.log(valueHtml.value);
+    // 处理内容变化
 };
 </script>
 

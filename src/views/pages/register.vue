@@ -262,7 +262,7 @@ const handleRegister = async () => {
           password: registerForm.password,
           code: registerForm.code
         })
-        console.log(res,'res')
+        // 处理注册响应
         if (res.data.code === 200 || res.data.success) {
           ElMessage.success('注册成功，请登录')
           router.push('/login')

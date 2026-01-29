@@ -40,7 +40,7 @@
 </template>
 
 <script setup lang="ts">
-import { ref, watch, reactive } from 'vue';
+import { ref, watch, reactive, onMounted } from 'vue';
 import type { FilterConfig, FilterOption } from './filterConfig';
 import request from '@/utils/request';
 
@@ -159,15 +159,18 @@ const handleReset = () => {
 };
 
 // 监听dataType变化，重新加载配置
-// immediate: true 会在组件挂载时立即执行一次，所以不需要onMounted
+onMounted(async () => {
+  // 开始加载筛选选项
+  await loadFilterOptions();
+});
+
+// 监听dataType变化，重新加载配置
 watch(
   () => props.dataType,
-  () => {
-    console.log('dataType变化:', props.dataType);
+  async (newVal) => {
     initFilterValues();
     loadFilterOptions();
-  },
-  { immediate: true }
+  }
 );
 
 // 暴露方法供父组件调用

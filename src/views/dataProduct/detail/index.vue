@@ -80,7 +80,7 @@ const data = ref<any>([])
 const route = useRoute();
 onMounted(() => {
     data.value = productData[route.params.id as any]
-    console.log(data.value, 'vvvval')
+    // 处理数据加载
 });
 </script>
 

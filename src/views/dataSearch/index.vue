@@ -77,14 +77,6 @@
   </div>
 </template>
 
-<script lang="ts">
-import { defineComponent } from 'vue';
-
-export default defineComponent({
-  name: 'data-search'
-});
-</script>
-
 <script setup lang="ts">
 import { computed, onActivated, onMounted, onDeactivated, ref, nextTick, watch } from 'vue';
 import periodicTable from './periodicTable/PeriodicTable.vue'
@@ -102,46 +94,40 @@ import { useRoute, useRouter } from 'vue-router';
 const route = useRoute()
 const router = useRouter()
 
+// 选择默认的晶体结构
+const selectDefaultCrystalStructure = () => {
+  const structureCard = cardList.value.find(card => card.key === 'jg')
+  if (structureCard && structureCard.children) {
+    const crystalChild = structureCard.children.find(child => child.key === 'jtjg')
+    if (crystalChild) {
+      // 展开父级卡片
+      expandedCard.value = ['jg']
+      // 选中"晶体结构"
+      handleSelect(structureCard, crystalChild)
+      return true
+    }
+  }
+  return false
+}
+
 // 调试：生命周期钩子
 onMounted(() => {
-  console.log('数据搜索页：onMounted - 组件首次挂载');
-  
   // 处理来自dashboard的搜索参数
   const query = route.query.q as string
   if (query) {
     searchValue.value = query
-    // 默认选中"晶体结构"
-    const structureCard = cardList.value.find(card => card.key === 'jg')
-    if (structureCard && structureCard.children) {
-      const crystalChild = structureCard.children.find(child => child.key === 'jtjg')
-      if (crystalChild) {
-        // 展开父级卡片
-        expandedCard.value = ['jg']
-        // 选中"晶体结构"
-        handleSelect(structureCard, crystalChild)
-        // 自动执行搜索
-        setTimeout(() => {
-          searchTableData()
-        }, 100)
-      }
+    if (selectDefaultCrystalStructure()) {
+      // 自动执行搜索
+      setTimeout(() => {
+        searchTableData()
+      }, 100)
     }
   } else {
-    // 默认选中"晶体结构"
-    const structureCard = cardList.value.find(card => card.key === 'jg')
-    if (structureCard && structureCard.children) {
-      const crystalChild = structureCard.children.find(child => child.key === 'jtjg')
-      if (crystalChild) {
-        // 展开父级卡片
-        expandedCard.value = ['jg']
-        // 选中"晶体结构"
-        handleSelect(structureCard, crystalChild)
-      }
-    }
+    selectDefaultCrystalStructure()
   }
 });
 
 onActivated(() => {
-  console.log('数据搜索页：onActivated - 组件被激活（从缓存中恢复）');
   // 当从详情页返回时，保持搜索状态不变
   // 只滚动到顶部
   window.scroll(0, 0);
@@ -158,7 +144,6 @@ onActivated(() => {
 });
 
 onDeactivated(() => {
-  console.log('数据搜索页：onDeactivated - 组件被缓存');
 });
 
 
@@ -226,7 +211,6 @@ const currentFilters = ref<Record<string, any>>({})
 
 // 处理来自 resultTable 的筛选应用事件
 const handleFilterApply = (filters: Record<string, any>) => {
-  console.log('应用筛选条件:', filters)
   currentFilters.value = filters
   // 触发搜索
   searchTableData()
@@ -241,7 +225,6 @@ const handleSelect = (card, child = null) => {
     return // 禁用的卡片不可选择
   }
 
-  console.log(card, child,'selectedCard.value')
   totalNum.value = ''
   resTable.value.refResTableData([])
 
@@ -258,7 +241,6 @@ const handleSelect = (card, child = null) => {
   if (child) {
     searchPath.value.push({ label: child.name, value: child.key })
   }
-  console.log(searchPath.value, 'searchPath.value')
 
   // 设置选中的卡片
   selectedCard.value = child?.key || card.key
@@ -319,8 +301,6 @@ const searchTableData = async () => {
       filters: currentFilters.value // 传递筛选参数
     })
 
-    console.log('搜索结果:', response)
-
     // 正确处理响应数据结构
     const dataList = response?.data || []
     const total = response?.total || 0
@@ -338,7 +318,6 @@ const searchTableData = async () => {
 
 // 处理分页变化
 const handlePageChange = (pagination) => {
-  console.log('分页变化:', pagination)
   searchTableData()
 }
 </script>

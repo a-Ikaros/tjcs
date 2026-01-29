@@ -32,7 +32,7 @@ const tabs = useTabsStore();
 
 // 调试：监听 tabs.nameList 的变化
 watch(() => tabs.nameList, (newList) => {
-  console.log('Keep-alive include list:', newList);
+  // 更新缓存列表
 }, { immediate: true });
 </script>
 

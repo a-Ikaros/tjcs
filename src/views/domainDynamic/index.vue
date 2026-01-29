@@ -126,7 +126,7 @@ const breadCrumbList = ['首页', '领域动态']
 const noticeList = ref([])
 const activeName = ref('main')
 const handleClick = (tab: TabsPaneContext, event: Event) => {
-  console.log(tab, event)
+  // 处理标签页点击
 }
 
 const dateRange = ref('')

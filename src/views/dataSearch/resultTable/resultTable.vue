@@ -78,7 +78,6 @@ const removeUnit = (value: any): string | number => {
   return value;
 };
 import watchIcon from '@/assets/img/dataSearch/icon_查看.png'
-import { crystalData, moleculeData } from "./data";
 import { jumpTo } from '@/utils';
 import { tableCol } from './tableCol'
 import { useRouter } from 'vue-router'
@@ -107,7 +106,6 @@ const selectedType = ref(badgeList.value[0].key)
 const currentDataType = ref('pairPotential')
 
 const currentTableColumns = computed(() => {
-  console.log(selectedType.value,'selectedType.value')
   return tableCol[selectedType.value] || tableCol.pairPotential
 })
 
@@ -120,7 +118,6 @@ const refResTableData = (arr, dataType = 'pairPotential') => {
     value: Math.floor(Math.random() * 10000) + 100
   }))
   selectedType.value = badgeList.value[0]?.key
-  console.log(selectedType, 'selectedType')
   currentDataType.value = dataType
 
   // 切换数据类型时重置筛选条件
@@ -200,13 +197,11 @@ const handleWatch = async (row) => {
   router.push({ name: 'data-detail', params: { dataType,id } })
 }
 const handleDownload = async (row) => {
-  console.log(row.reference, 'row')
   try {
     const res = await downloadFileById({ rule: currentDataType.value, id: row.id })
     window.open(`${import.meta.env.VITE_BASE_URL}potdata/${currentDataType.value}/download?id=${row.id}`, '_blank', 'noopener,noreferrer')
-    console.log(res,'res')
   } catch (err) {
-    console.log(err, 'err')
+    // 错误处理
   }
 }
 const handleRowClick = (row) => {
@@ -214,7 +209,8 @@ const handleRowClick = (row) => {
 }
 
 const handleSel = (key) => {
-  selectedType.value === key ? selectedType.value = '' : selectedType.value = key
+  // 触发筛选条件变化事件
+  emit('filter-apply', { ...currentFilters.value, type: key })
 }
 
 const filterVisible = ref(false)
@@ -230,7 +226,6 @@ const currentFilterConfigs = computed<FilterConfig[]>(() => {
 
 // 处理筛选变化（只临时存储，不立即应用）
 const handleFilterChange = (filters: Record<string, any>) => {
-  console.log('筛选条件临时变化:', filters)
   tempFilters.value = filters
 }
 
