@@ -3,7 +3,7 @@
     <breadCrumb :breadCrumbList="breadCrumbList"></breadCrumb>
     <div class="product-content">
       <div class="func-list" :style="{ height: menuList.length * 60 + 'px' }">
-        <div class="list-line" :class="{ 'is-select': item.key === selectedLi, 'is-disabled': item.num === 0 }"
+        <div class="list-line" :class="{ 'is-select': item.key === selectedLi, 'is-disabled': item.num === 0 || item.disabled }"
           v-for="item in menuList" :key="item.key" @click="onSelProduct(item)">
           <svg class="data-icon" width="24" height="24" viewBox="0 0 24 24" fill="none"
             xmlns="http://www.w3.org/2000/svg" v-if="item.icon">
@@ -86,7 +86,7 @@
       </div>
       <div v-else-if="selectedLi === 'materialSoftware'" class="func-content">
         <div class="software-list">
-          <div class="list-header-box">全球材料计算软件库（11个）</div>
+          <div class="list-header-box">全球材料计算软件库（87个）</div>
           <div class="header-nav-box">
             <div class="name">按中英文<span>首字母</span>快速检索</div>
             <div class="header-nav">
@@ -179,6 +179,7 @@ import dataProductTime from '@/assets/img/dataProduct/product-icon-time.png'
 import productBlockImg from '@/assets/img/dataProduct/product-block-img.png'
 import ReaxFFLogo from '@/assets/img/dataProduct/detail/ReaXFF/logo.jpg'
 import { softwareList } from '@/views/dataResources/softwareList'
+import DatabaseQueryToolLogo from '@/assets/img/dataProduct/detail/DatabaseQueryTool/head.png'
 import { jumpTo } from '@/utils';
 
 const router = useRouter();
@@ -189,7 +190,7 @@ const menuList = ref([])
 
 const selectedLi = ref('all')
 const onSelProduct = (item) => {
-  if (item.num === 0) {
+  if (item.num === 0 || item.disabled) {
     return
   }
   selectedLi.value = item.key
@@ -227,7 +228,7 @@ const getProductList = () => {
       title: '反应力场数据采集软件ReaxFFCollector',
       desc: '反应力场数据采集软件ReaxFFCollector面向文献中ReaXFF参数主要以PDF形式发布、难以直接复用的问题，提供从PDF自动提取、清洗与格式修复的一体化解决方案。该软件可将分散目易出错的反应力场文本标准化为可被LAMMPS等主流分子动力学软件直接读取的力场文件，并通过自动化验证快速评估参数可用性，显著降低人工整理成本，提高反应力场参数复用的可靠性与分子动力学研究效率。',
       img: ReaxFFLogo,
-      user: '新材料大数据中心',
+      user: '材料计算设计专用数据资源节点',
       time: '2025.10.17',
       link: ''
     },
@@ -236,7 +237,7 @@ const getProductList = () => {
       title: '材料文献数据挖掘系统',
       desc: '支撑新材料计算设计数据资源节点--文献数据挖掘工具。面向PDF、markdown等材料文献文件类型，自动识别并挖掘材料成分、工艺、性能等要素，抽取结构化性质数据，同时构建材料结构化知识图谱，具有图谱可视化功能，同时支持根据抽取的性质数据知识库开展智能知识问答。',
       img: productBlockImg,
-      user: '新材料大数据中心',
+      user: '材料计算设计专用数据资源节点',
       time: '2025.10.17',
     },
     {
@@ -254,6 +255,15 @@ const getProductList = () => {
       img: productBlockImg,
       user: '材料计算设计专用数据资源节点',
       time: '2025.12.25'
+    },
+    {
+      id: 'DatabaseQueryToolData',
+      title: '数据库统一查询工具',
+      desc: '标准的材料数据库查询软件，专为材料科学研究人员设计。通过本工具可以统一查询全球多个材料数据库，提供可视化元素选择、智能结果管理和数据导出功能，无需逐个访问不同数据库，大幅提升材料数据检索效率。',
+      img: ReaxFFLogo,
+      user: '材料计算设计专用数据资源节点',
+      time: '2025.10.17',
+      link: ''
     },
   ]
   offlineProduct.value = [
@@ -385,7 +395,7 @@ const getCurProductList = () => {
       title: '反应力场数据采集软件ReaxFFCollector',
       desc: '反应力场数据采集软件ReaxFFCollector面向文献中ReaXFF参数主要以PDF形式发布、难以直接复用的问题，提供从PDF自动提取、清洗与格式修复的一体化解决方案。该软件可将分散目易出错的反应力场文本标准化为可被LAMMPS等主流分子动力学软件直接读取的力场文件，并通过自动化验证快速评估参数可用性，显著降低人工整理成本，提高反应力场参数复用的可靠性与分子动力学研究效率。',
       img: ReaxFFLogo,
-      user: '新材料大数据中心',
+      user: '材料计算设计专用数据资源节点',
       time: '2025.10.17',
       link: ''
     },
@@ -394,7 +404,7 @@ const getCurProductList = () => {
       title: '材料文献数据挖掘系统',
       desc: '支撑新材料计算设计数据资源节点--文献数据挖掘工具。面向PDF、markdown等材料文献文件类型，自动识别并挖掘材料成分、工艺、性能等要素，抽取结构化性质数据，同时构建材料结构化知识图谱，具有图谱可视化功能，同时支持根据抽取的性质数据知识库开展智能知识问答。',
       img: productBlockImg,
-      user: '新材料大数据中心',
+      user: '材料计算设计专用数据资源节点',
       time: '2025.10.17',
     },
     {
@@ -664,6 +674,7 @@ watchEffect(() => {
         title: '数据融通器',
         key: 'dataConnector',
         num: 2,
+        disabled: true,
       }
     ]
   } else {
@@ -694,7 +705,7 @@ watchEffect(() => {
       {
         title: '全球材料计算软件库',
         key: 'materialSoftware',
-        num: 11,
+        num: 87,
       },
       {
         title: '定制服务',
@@ -750,6 +761,7 @@ watchEffect(() => {
 
     .is-disabled {
       color: #d0d1d3;
+      cursor: not-allowed;
     }
 
     .data-icon {

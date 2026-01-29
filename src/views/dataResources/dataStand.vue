@@ -22,7 +22,7 @@ const curProductList = ref([
         id: 'dataCommon',
         title: 'TCSTM 00120-2019 材料基因工程数据通则',
         pdfPath: pdf1,
-        user: '新材料大数据中心',
+        user: '材料计算设计专用数据资源节点',
         time: '2025.10.17',
         link: ''
     },
@@ -30,7 +30,7 @@ const curProductList = ref([
         id: 'dataMetadata',
         title: 'TCSTM 00837-2022 材料基因工程数据 元数据标准化原则与方法',
         pdfPath: pdf2,
-        user: '新材料大数据中心',
+        user: '材料计算设计专用数据资源节点',
         time: '2025.10.17',
     },
     {
