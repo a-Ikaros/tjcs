@@ -9,8 +9,8 @@ import { getStatistics } from "@/api";
 const router = useRouter()
 
 const dataList = ref([])
-onMounted( async () => {
-    const {data} = await getStatistics()
+onMounted(async () => {
+  const { data } = await getStatistics()
   const getNumber = (key: string) => {
     return data?.find(item => item.key === key)?.val || 0
   }
@@ -19,7 +19,7 @@ onMounted( async () => {
       imgSrc: dataType,
       alt: '数据种类',
       title: '数据种类',
-      number:getNumber("dateTypeCount"),
+      number: getNumber("dateTypeCount"),
       click: () => {
         router.push('/data-search')
       }
@@ -83,10 +83,12 @@ onMounted( async () => {
     width: 25%;
     cursor: pointer;
   }
-  .data-item:hover{
+
+  .data-item:hover {
     transform: translateY(-5px);
     transition: all 0.3s ease;
   }
+
   .data-img {
     display: inline-block;
     width: 60px;

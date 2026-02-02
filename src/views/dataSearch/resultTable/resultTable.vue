@@ -1,8 +1,8 @@
 <template>
   <div class="result-table">
     <div class="badge-line">
-      <el-badge v-for="item in badgeList" :key="item.key" :value="total" :max="Infinity" class="badge-item" type="warning"
-        @click="handleSel(item.key)">
+      <el-badge v-for="item in badgeList" :key="item.key" :value="total" :max="Infinity" class="badge-item"
+        type="warning" @click="handleSel(item.key)">
         <div :class="['result-type-btn', selectedType === item.key ? 'type-is-sel' : 'type-not-sel']">
           <div style="max-width: 80px;">
             {{ item.label }}
@@ -25,7 +25,7 @@
         <template #default="scope" v-if="col.key === 'elements'">
           <span>{{ scope.row.elements?.join(', ') || '-' }}</span>
         </template>
-         <template #default="scope" v-if="col.removeUnit">
+        <template #default="scope" v-if="col.removeUnit">
           <span>{{ removeUnit(scope.row[col.key]) || '-' }}</span>
         </template>
       </el-table-column>
@@ -44,13 +44,8 @@
       @current-change="handleCurrentChange" class="table-pager" />
     <el-dialog v-model="filterVisible" title="数据筛选" width="600px" :close-on-click-modal="false">
       <!-- 数据筛选组件 -->
-      <DataFilter
-        v-if="currentDataType"
-        :filterConfigs="currentFilterConfigs"
-        :dataType="currentDataType"
-        @filter-change="handleFilterChange"
-        ref="dataFilterRef"
-      />
+      <DataFilter v-if="currentDataType" :filterConfigs="currentFilterConfigs" :dataType="currentDataType"
+        @filter-change="handleFilterChange" ref="dataFilterRef" />
       <template #footer>
         <div class="dialog-footer">
           <el-button @click="handleResetFilter">重置</el-button>
@@ -86,7 +81,8 @@ import DataFilter from '../DataFilter.vue';
 import { getFilterConfig, hasFilterConfig } from '../filterConfig';
 import type { FilterConfig } from '../filterConfig';
 import { computed, onMounted, ref, watch } from 'vue';
-import {  ElMessageBox } from 'element-plus'
+import { ElMessageBox } from 'element-plus'
+import axios from 'axios'
 
 const router = useRouter()
 
@@ -194,14 +190,39 @@ const handleWatch = async (row) => {
   // 跳转到详情页，传递数据的唯一标识
   const id = row.id || '1' // 这里假设row有id属性，如果没有可以根据实际情况调整
   const dataType = currentDataType.value || 'pairPotential'
-  router.push({ name: 'data-detail', params: { dataType,id } })
+  router.push({ name: 'data-detail', params: { dataType, id } })
 }
 const handleDownload = async (row) => {
   try {
-    const res = await downloadFileById({ rule: currentDataType.value, id: row.id })
-    window.open(`${import.meta.env.VITE_BASE_URL}potdata/${currentDataType.value}/download?id=${row.id}`, '_blank', 'noopener,noreferrer')
+    const token = localStorage.getItem('token')
+    if (!token) {
+      ElMessageBox.confirm('用户登录后可下载数据,是否跳转到登录页？', '提示', {
+        confirmButtonText: '确定',
+        cancelButtonText: '取消',
+        type: 'warning'
+      }).then(() => {
+        router.push('/login')
+      })
+      return
+    }
+    const url = `${import.meta.env.VITE_BASE_URL}potdata/${currentDataType.value}/download?id=${row.id}`
+    const response = await axios.get(url, {
+      headers: {
+        'satoken': token
+      },
+      responseType: 'blob'
+    })
+    const blob = new Blob([response.data])
+    const downloadUrl = window.URL.createObjectURL(blob)
+    const link = document.createElement('a')
+    link.href = downloadUrl
+    link.download = row.id || 'download'
+    document.body.appendChild(link)
+    link.click()
+    document.body.removeChild(link)
+    window.URL.revokeObjectURL(downloadUrl)
   } catch (err) {
-    // 错误处理
+    console.error('下载失败:', err)
   }
 }
 const handleRowClick = (row) => {

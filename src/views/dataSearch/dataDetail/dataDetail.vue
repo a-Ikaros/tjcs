@@ -55,7 +55,7 @@
                             <div class="data-meta">
                                 <div v-for="(value, key) in apiResponse[item]" :key="key" class="meta-item">
                                     <div class="meta-label">{{ Array.isArray(apiResponse[item]) ? 'source' + key
-                                        :formatFieldLabel(key) }}:</div>
+                                        : formatFieldLabel(key) }}:</div>
                                     <div class="meta-value">{{ formatFieldValue(value) }}</div>
                                 </div>
                             </div>
@@ -68,12 +68,13 @@
 </template>
 
 <script setup lang="ts">
-import { ref, reactive, onMounted, onUnmounted, computed } from 'vue'
+import { ref, onMounted, computed } from 'vue'
 import { useRouter, useRoute } from 'vue-router'
-import { ArrowLeft, Document, DataAnalysis, Download } from '@element-plus/icons-vue'
+import { ArrowLeft, Download } from '@element-plus/icons-vue'
 import fileIcon from '@/assets/img/dataSearch/icon_文件.png'
 import fileIconSel from '@/assets/img/dataSearch/icon_文件1.png'
-import { downloadFileById, getDataDetail } from '@/api/dataSearch'
+import { getDataDetail } from '@/api/dataSearch'
+import axios from 'axios'
 
 const router = useRouter()
 const route = useRoute()
@@ -208,8 +209,27 @@ const handleBack = () => {
 
 // 下载文件
 const handleDownload = async () => {
-    // 这里可以实现文件下载逻辑
-    window.open(`${import.meta.env.VITE_BASE_URL}potdata/${route.params.dataType}/download?id=${route.params.id}`, '_blank', 'noopener,noreferrer')
+    try {
+        const token = localStorage.getItem('token')
+        const url = `${import.meta.env.VITE_BASE_URL}potdata/${route.params.dataType}/download?id=${route.params.id}`
+        const response = await axios.get(url, {
+            headers: {
+                'satoken': token
+            },
+            responseType: 'blob'
+        })
+        const blob = new Blob([response.data])
+        const downloadUrl = window.URL.createObjectURL(blob)
+        const link = document.createElement('a')
+        link.href = downloadUrl
+        link.download = route.params.id as string || 'download'
+        document.body.appendChild(link)
+        link.click()
+        document.body.removeChild(link)
+        window.URL.revokeObjectURL(downloadUrl)
+    } catch (err) {
+        console.error('下载失败:', err)
+    }
 }
 
 onMounted(async () => {
