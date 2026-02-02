@@ -15,13 +15,11 @@
         <span>{{`${rulesOptions.find(item => item.value === computeRules).label}`}}</span>
       </div>
       <div class="card-item" v-for="(card, index) in cardList" :key="card.key">
-        <div class="card-first-level"
-          :class="{
-            'first-selected': selectedCard === card.key,
-            'is-last-expanded': (index === cardList.length - 1) && expandedCard.indexOf(card.key) !== -1,
-            'card-disabled': card.disabled
-          }"
-          @click="handleSelect(card)">
+        <div class="card-first-level" :class="{
+          'first-selected': selectedCard === card.key,
+          'is-last-expanded': (index === cardList.length - 1) && expandedCard.indexOf(card.key) !== -1,
+          'card-disabled': card.disabled
+        }" @click="handleSelect(card)">
           <span class="child-li"></span>
           <span class="title">{{ card.name }}</span>
           <span v-if="card?.children?.length" class="card-collapse" @click.stop="handleExpand(card)">
@@ -71,7 +69,8 @@
         <span class="total-num">{{ totalNum }}</span>
       </div>
       <div class="search-result">
-        <resultTable ref="resTable" @page-change="handlePageChange" @filter-apply="handleFilterApply" :selectedCard="selectedCard"></resultTable>
+        <resultTable ref="resTable" @page-change="handlePageChange" @filter-apply="handleFilterApply"
+          :selectedCard="selectedCard"></resultTable>
       </div>
     </div>
   </div>
@@ -131,7 +130,7 @@ onActivated(() => {
   // 当从详情页返回时，保持搜索状态不变
   // 只滚动到顶部
   window.scroll(0, 0);
-  
+
   // 检查是否有新的查询参数（从dashboard跳转过来）
   const query = route.query.q as string
   if (query && query !== searchValue.value) {
@@ -192,7 +191,7 @@ const onRulesChange = (e) => {
         handleSelect(firstCard)
       }
     }
-  }, 0)
+  })
 }
 // 标签列表
 const cardList = computed(() => {
@@ -201,6 +200,19 @@ const cardList = computed(() => {
     meso: mesoDataTypes,
     macro: macroDataTypes
   }
+  listMap[computeRules.value].forEach(item => {
+    if (item.children) {
+      item.children?.sort((a, b) => {
+        if (a.disabled && !b.disabled) {
+          return 1
+        } else if (!a.disabled && b.disabled) {
+          return -1
+        } else {
+          return 0
+        }
+      })
+    }
+  })
   return listMap[computeRules.value]
 })
 

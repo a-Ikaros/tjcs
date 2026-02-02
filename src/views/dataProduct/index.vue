@@ -23,7 +23,7 @@
           <el-collapse-item name="1">
             <template #title>
               <div class="col-online-title">
-                <div><span class="col-online-icon"></span>{{ `已上线产品数据（${4}）` }}</div>
+                <div><span class="col-online-icon"></span>{{ `已上线产品数据（${5}）` }}</div>
                 <div class="col-tip">{{ activeNames.includes('1') ? '查看全部' : '收起隐藏' }}</div>
               </div>
             </template>
@@ -666,7 +666,7 @@ watchEffect(() => {
     // data-sharing 只展示私域数据交易系统和数据融通器
     menuList.value = [
       {
-        title: '私域数据交易系统',
+        title: '私域数据有偿交换',
         key: 'privateData',
         num: 3,
       },
@@ -711,6 +711,7 @@ watchEffect(() => {
         title: '定制服务',
         key: 'service',
         num: 5,
+        disabled: true,
       },
     ]
   }

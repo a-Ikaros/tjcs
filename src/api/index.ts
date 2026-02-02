@@ -67,3 +67,10 @@ export const getDefaultPotentialTypes = () => {
     method: "get",
   });
 };
+
+export const getStatistics = () => {
+  return request({
+    url: "/potdata/statistics/statisticsCount",
+    method: "get",
+  });
+};

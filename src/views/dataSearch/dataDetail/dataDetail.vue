@@ -123,11 +123,11 @@ const formatFieldLabel = (key: string): string => {
         createBy: '创建人',
         modifyTime: '修改时间',
         modifyBy: '修改人',
-        potentialType: '势函数类型',
+        // potentialType: '势函数类型',
         elements: '元素',
         epsilon: 'Epsilon',
         sigma: 'Sigma',
-        reference: '参考文献'
+        reference: '来源'
     }
     return labelMap[key] || key
 }

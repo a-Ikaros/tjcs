@@ -11,12 +11,12 @@ interface cardInfo {
 // 微观尺度数据类型
 const microDataTypes: Array<cardInfo> = [
   {
-    key: "jg",
+    key: "crystals",
     name: "结构",
     children: [
       {
         name: "晶体结构",
-        key: "jtjg",
+        key: "crystals",
       },
       {
         name: "分子结构",
@@ -30,7 +30,7 @@ const microDataTypes: Array<cardInfo> = [
     name: "基组",
     children: [
       {
-        name: "平面波基组",
+        name: "赝势基组",
         key: "pmbjz",
       },
       {
@@ -43,16 +43,16 @@ const microDataTypes: Array<cardInfo> = [
         key: "gsxjz",
         disabled: true,
       },
-      {
-        name: "混合基组",
-        key: "hhjz",
-        disabled: true,
-      },
-      {
-        name: "赝势基组",
-        key: "ysjz",
-        disabled: true,
-      },
+      // {
+      //   name: "混合基组",
+      //   key: "hhjz",
+      //   disabled: true,
+      // },
+      // {
+      //   name: "赝势基组",
+      //   key: "ysjz",
+      //   disabled: true,
+      // },
     ],
   },
   {
@@ -85,8 +85,7 @@ const microDataTypes: Array<cardInfo> = [
       },
       {
         name: "多体势",
-        key: "dts",
-        disabled: true,
+        key: "nist",
       },
       {
         name: "分子力场",
@@ -112,10 +111,6 @@ const microDataTypes: Array<cardInfo> = [
         name: "神经网络势",
         key: "machineLearningPotential",
       },
-       {
-        name: "NEP",
-        key: "nep",
-      },
       {
         name: "核方法与高斯过程势",
         key: "hffygsgcs",
@@ -138,6 +133,10 @@ const microDataTypes: Array<cardInfo> = [
       },
     ],
   },
+  {
+    key: "dyxyl",
+    name: "机器学习用数据",
+  }
 ];
 
 // 介观尺度数据类型

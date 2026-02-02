@@ -5,16 +5,21 @@ import dataCol from '@/assets/img/dataStatics/data-col.png'
 import dataEngine from "@/assets/img/dataStatics/data-engine.png";
 import dataRecord from "@/assets/img/dataStatics/data-record.png";
 import { useRouter } from "vue-router";
+import { getStatistics } from "@/api";
 const router = useRouter()
 
 const dataList = ref([])
-onMounted(() => {
+onMounted( async () => {
+    const {data} = await getStatistics()
+  const getNumber = (key: string) => {
+    return data?.find(item => item.key === key)?.val || 0
+  }
   dataList.value = [
     {
       imgSrc: dataType,
       alt: '数据种类',
       title: '数据种类',
-      number: 13,
+      number:getNumber("dateTypeCount"),
       click: () => {
         router.push('/data-search')
       }
@@ -23,7 +28,7 @@ onMounted(() => {
       imgSrc: dataCol,
       alt: '数据采集工具',
       title: '数据采集工具',
-      number: 3,
+      number: getNumber('toolsCount'),
       click: () => {
         router.push('/data-product')
       }
@@ -32,7 +37,7 @@ onMounted(() => {
       imgSrc: dataEngine,
       alt: '数据生产引擎',
       title: '数据生产引擎',
-      number: 6,
+      number: getNumber('engine'),
       click: () => {
         router.push('/data-product')
       }
@@ -41,7 +46,7 @@ onMounted(() => {
       imgSrc: dataRecord,
       alt: '数据记录量',
       title: '数据记录量',
-      number: 4175644,
+      number: getNumber('dataCount'),
       click: () => {
         router.push('/data-resources')
       }

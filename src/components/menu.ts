@@ -31,11 +31,11 @@ export const menuData: Menus[] = [
         title: '需求服务',
         index: '/demand-service',
     },
-    {
-        id: '6',
-        title: '领域动态',
-        index: '/field-updates',
-    },
+    // {
+    //     id: '6',
+    //     title: '领域动态',
+    //     index: '/field-updates',
+    // },
     {
         id: '7',
         title: '关于我们',

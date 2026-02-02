@@ -19,10 +19,10 @@ export const DatabaseQueryToolData = {
     {
       descName: "软件介绍",
       content: [
-        {
-          type: "strong",
-          text: "数据库统一查询工具是什么？",
-        },
+        // {
+        //   type: "strong",
+        //   text: "数据库统一查询工具是什么？",
+        // },
         {
           type: "p",
           text: "数据库统一查询工具是一款基于 OPTIMADE 标准的材料数据库查询软件，专为材料科学研究人员设计。通过本工具可以实现以下功能：",
