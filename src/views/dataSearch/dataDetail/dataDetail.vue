@@ -47,6 +47,10 @@
                         </div>
 
                     </div>
+                    <div v-else-if="(typeof apiResponse[item] !== 'object')" :id="item">
+                        <div class="meta-label">{{ item }}:</div>
+                        <div class="meta-value">{{ apiResponse[item] }}</div>
+                    </div>
                     <!-- 基础信息 -->
                     <div v-else class="info-section" :id="item">
                         <h3 class="sub-section-title">{{catalogItems.find(cat => cat.id === item)?.label || item}}
@@ -187,7 +191,7 @@ const handleScroll = () => {
     const scrollTop = container.scrollTop
 
     // 遍历所有section，找到当前在视口中的section
-    for (let i = catalogItems.value.length - 1; i >= 0; i--) {
+    for (let i = catalogItems?.value.length - 1; i >= 0; i--) {
         const sectionId = catalogItems.value[i].id
         const section = document.getElementById(sectionId)
 
@@ -355,7 +359,7 @@ onMounted(async () => {
     padding: 30px;
     overflow-y: auto;
     /* 右侧内容可独立滚动 */
-    height: 100%;
+    //height: 100%;
 }
 
 .info-section {
