@@ -217,7 +217,7 @@ const handleDownload = async (row) => {
     const { data } = await downloadFileById({ rule: currentDataType.value, id: row.id })
     // const url = `${import.meta.env.VITE_BASE_URL}potdata/${currentDataType.value}/download?id=${row.id}&satoken=${token}`
 
-    window.open(data?.url, '_blank', 'noopener,noreferrer')
+    window.open(data?.data, '_blank', 'noopener,noreferrer')
 
   } catch (err) {
     console.error('下载失败:', err)
