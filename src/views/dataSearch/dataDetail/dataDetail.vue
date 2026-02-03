@@ -28,7 +28,7 @@
             <!-- 右侧数据详情 -->
             <div class="data-info" ref="dataInfoRef" @scroll="handleScroll">
                 <template v-for="item in Object.keys(apiResponse)" :key="item">
-                    <div v-if="apiResponse[item]?.isFile" class="info-section" :id="item">
+                    <div v-if="apiResponse[item]?.isFile || item === 'Formula'" class="info-section" :id="item">
                         <h3 class="sub-section-title">
                             {{ item }}
                             <el-button type="text" class="download-btn" @click="handleDownload">
@@ -38,6 +38,9 @@
                                 <span>下载文件</span>
                             </el-button>
                         </h3>
+                        <div v-if="item === 'Formula'" class="tdb-content">
+                            <pre class="tdb-text">{{ apiResponse[item] || '暂无内容' }}</pre>
+                        </div>
                         <div style="margin-bottom: 12px;">
                             <div class="meta-label">fileName:</div>
                             <div class="meta-value">{{ apiResponse[item]?.fileName }}</div>
@@ -77,8 +80,7 @@ import { useRouter, useRoute } from 'vue-router'
 import { ArrowLeft, Download } from '@element-plus/icons-vue'
 import fileIcon from '@/assets/img/dataSearch/icon_文件.png'
 import fileIconSel from '@/assets/img/dataSearch/icon_文件1.png'
-import { getDataDetail } from '@/api/dataSearch'
-import axios from 'axios'
+import { downloadFileById, getDataDetail } from '@/api/dataSearch'
 
 const router = useRouter()
 const route = useRoute()
@@ -214,23 +216,9 @@ const handleBack = () => {
 // 下载文件
 const handleDownload = async () => {
     try {
-        const token = localStorage.getItem('token')
-        const url = `${import.meta.env.VITE_BASE_URL}potdata/${route.params.dataType}/download?id=${route.params.id}`
-        const response = await axios.get(url, {
-            headers: {
-                'satoken': token
-            },
-            responseType: 'blob'
-        })
-        const blob = new Blob([response.data])
-        const downloadUrl = window.URL.createObjectURL(blob)
-        const link = document.createElement('a')
-        link.href = downloadUrl
-        link.download = route.params.id as string || 'download'
-        document.body.appendChild(link)
-        link.click()
-        document.body.removeChild(link)
-        window.URL.revokeObjectURL(downloadUrl)
+        const { data } = await downloadFileById({ rule: route.params.dataType as string, id: route.params.id as string })
+        // const url = `${import.meta.env.VITE_BASE_URL}potdata/${currentDataType.value}/download?id=${row.id}&satoken=${token}`
+        window.open(data?.url, '_blank', 'noopener,noreferrer')
     } catch (err) {
         console.error('下载失败:', err)
     }

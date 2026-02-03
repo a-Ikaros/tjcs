@@ -79,6 +79,32 @@ export const filterConfigMap: Record<string, FilterConfig[]> = {
     },
   ],
 
+  // 多体势 - 筛选 Elements、Potential Type 和 Year
+  nist: [
+    {
+      key: 'elements',
+      label: 'Elements',
+      type: 'input',
+      placeholder: '请输入元素，如 Fe, Fe-Cr, Fe-*',
+      clearable: true,
+    },
+    {
+      key: 'potentialType',
+      label: 'Potential Type',
+      type: 'select',
+      api: '/potdata/nist/getPotentialTypes',
+      placeholder: '请选择 Potential Type',
+      clearable: true,
+    },
+    {
+      key: 'yearRange',
+      label: 'Year',
+      type: 'yearRange',
+      placeholder: '选择年份范围',
+      clearable: true,
+    },
+  ],
+
   // 介观尺度 - 动力学数据
   dynamics: [
     {

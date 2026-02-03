@@ -31,12 +31,11 @@ const microDataTypes: Array<cardInfo> = [
     children: [
       {
         name: "赝势基组",
-        key: "pmbjz",
+        key: "basisSetPotential",
       },
       {
         name: "数值原子轨道基组",
-        key: "szyzgdjz",
-        disabled: true,
+        key: "trackBasisSet",
       },
       {
         name: "高斯型基组",
@@ -61,17 +60,15 @@ const microDataTypes: Array<cardInfo> = [
     children: [
       {
         name: "投影缀加波",
-        key: "tyzjb",
+        key: "pawPseudopotential",
       },
       {
         name: "模守恒赝势",
-        key: "mshys",
-        disabled: true,
+        key: "ncppPseudopotential",
       },
       {
         name: "超软赝势",
-        key: "crys",
-        disabled: true,
+        key: "usppPseudopotential",
       },
     ],
   },
@@ -104,18 +101,18 @@ const microDataTypes: Array<cardInfo> = [
     ],
   },
   {
-    key: "jqxxshs",
+    key: "machineLearningPotential",
     name: "机器学习势函数",
     children: [
       {
         name: "神经网络势",
         key: "machineLearningPotential",
       },
-      {
-        name: "核方法与高斯过程势",
-        key: "hffygsgcs",
-        disabled: true,
-      },
+      // {
+      //   name: "核方法与高斯过程势",
+      //   key: "hffygsgcs",
+      //   disabled: true,
+      // },
       {
         name: "基函数展开与线性方法",
         key: "jhszkyxxff",

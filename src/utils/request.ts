@@ -33,38 +33,33 @@ service.interceptors.request.use(
 
 service.interceptors.response.use(
   (response: AxiosResponse) => {
-    if (response.data?.code === 401) {
-      ElMessageBox.confirm("登录已过期，是否要重新登录？", "登录过期", {
-        confirmButtonText: "确定",
-        cancelButtonText: "取消",
-        type: "warning",
-      }).then(() => {
-        localStorage.removeItem("token");
-        localStorage.removeItem("userInfo");
-        window.location.href = "/#/login";
-      });
-    } else if (response.status === 200) {
-      return response;
-    } else {
+    if (response?.data?.code === 401) {
       Promise.reject(response);
+    } else {
+      return response;
     }
   },
   (error: AxiosError) => {
-    // 处理 401 未授权错误
-    if (error.response?.status === 401) {
+    const status = error.response?.status;
+
+    if (status === 401 || error.response?.data?.code === 401) {
       ElMessageBox.confirm("登录已过期，是否要重新登录？", "登录过期", {
         confirmButtonText: "确定",
         cancelButtonText: "取消",
         type: "warning",
-      }).then(() => {
-        localStorage.removeItem("token");
-        localStorage.removeItem("userInfo");
-        window.location.href = "/#/login";
-      });
+      })
+        .then(() => {
+          localStorage.removeItem("token");
+          localStorage.removeItem("userInfo");
+          window.location.href = "/#/login";
+        })
+        .catch(() => {
+          localStorage.removeItem("token");
+          localStorage.removeItem("userInfo");
+        });
     } else if (error.message) {
       ElMessage.error(error.message);
     }
-    console.log(error);
     return Promise.reject(error);
   },
 );

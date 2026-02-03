@@ -13,6 +13,10 @@ export const mix = (color1: string, color2: string, weight: number = 0.5): strin
     return color;
 };
 
-export const jumpTo = (url:string) => {
-    window.open(url, '_blank', 'noreferrer')
+export const jumpTo = (url:string, target: string = '_blank') => {
+    if (target === '_self') {
+        window.location.href = url
+    } else {
+        window.open(url, target, 'noreferrer')
+    }
 }

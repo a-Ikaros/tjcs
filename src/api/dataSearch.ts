@@ -56,3 +56,25 @@ export const getPotentialTypes = (rule: string) => {
     });
 };
 
+/**
+ * 获取指定数据类型的 Potential Type 列表
+ * @param rule 数据类型规则
+ */
+export const getDownloadBf = (rule: string,id: string) => {
+    return request({
+        url: `/potdata/${rule}/downloadBf?id=${id}`,
+        method: 'get',
+    });
+};
+
+/**
+ * 获取指定数据类型的 Potential Type 列表
+ * @param rule 数据类型规则
+ */
+export const getDownloadR = (rule: string,id: string) => {
+    return request({
+        url: `/potdata/${rule}/downloadBf?id=${id}`,
+        method: 'get',
+    });
+};
+

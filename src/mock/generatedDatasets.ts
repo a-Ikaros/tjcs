@@ -285,21 +285,21 @@ export const privateDatasets: DatasetMock[] = [
     desc: '收录有机正极材料的合成信息、电化学性能（容量、循环寿命）、结构与表征数据，支持电池材料设计与筛选。',
     num: '1,320',
     example: '6',
-    link: ''
+    link: '/data-search?type=oc'
   },
   {
     title: '有机光电材料数据',
     desc: '包含有机小分子与聚合物光电材料的光谱、能级、器件性能及结构表征数据，便于光电器件建模与优化。',
     num: '1,050',
     example: '4',
-    link: ''
+    link: '/data-search?type=op'
   },
   {
     title: '三维编织复合材料数据',
     desc: '三维编织复合材料的设计参数、力学性能、微观结构与制造工艺数据，支持复合材料性能预测与工艺改进。',
     num: '1,750',
     example: '5',
-    link: ''
+    link: '/data-search?type=3dWeaving'
   }
 ]
 

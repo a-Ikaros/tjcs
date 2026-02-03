@@ -1,6 +1,6 @@
 <template>
   <div class="overview">
-    <div v-for="item in datasetList" :key="item.title" class="overview-item" @click="jumpTo(item.link)">
+    <div v-for="item in datasetList" :key="item.title" class="overview-item" @click="handleClick(item)">
       <div class="item-num">{{ `-共${item.num}条 样例${item.example}条` }}</div>
       <div class="item-title">{{ item.title }}</div>
       <div class="item-desc">
@@ -19,7 +19,9 @@
 import { generatedDatasets, privateDatasets, standardDatasets, templateDatasets, computationalDatasets } from "@/mock/generatedDatasets";
 import { jumpTo } from "@/utils";
 import { ref, watchEffect } from "vue";
+import { useRouter } from "vue-router";
 
+const router = useRouter()
 const datasetList = ref([])
 const props = defineProps<{ selectedCard: string }>()
 const dataMap = {
@@ -34,6 +36,15 @@ watchEffect(() => {
   datasetList.value = dataMap[props.selectedCard.includes('/') ? props.selectedCard.split('/')[0] : props.selectedCard] || []
 })
 
+const handleClick = (item: any) => {
+  if (item.link) {
+    if (item.link.startsWith('/data-search')) {
+      router.push(item.link)
+    } else {
+      jumpTo(item.link)
+    }
+  }
+}
 </script>
 
 <style lang="scss" scoped>

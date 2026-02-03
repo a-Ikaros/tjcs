@@ -73,16 +73,14 @@ const removeUnit = (value: any): string | number => {
   return value;
 };
 import watchIcon from '@/assets/img/dataSearch/icon_查看.png'
-import { jumpTo } from '@/utils';
 import { tableCol } from './tableCol'
 import { useRouter } from 'vue-router'
-import { downloadFileById, getDataDetail } from '@/api/dataSearch';
+import { downloadFileById } from '@/api/dataSearch';
 import DataFilter from '../DataFilter.vue';
-import { getFilterConfig, hasFilterConfig } from '../filterConfig';
+import { getFilterConfig } from '../filterConfig';
 import type { FilterConfig } from '../filterConfig';
-import { computed, onMounted, ref, watch } from 'vue';
+import { computed, ref, watch } from 'vue';
 import { ElMessageBox } from 'element-plus'
-import axios from 'axios'
 
 const router = useRouter()
 
@@ -108,15 +106,26 @@ const currentTableColumns = computed(() => {
 // 根据选中的类型切换表格数据
 const tableData = ref([])
 const refResTableData = (arr, dataType = 'pairPotential') => {
-  badgeList.value = arr.map(item => ({
-    label: item.name || item.label,
-    key: item.key || item.value,
-    value: Math.floor(Math.random() * 10000) + 100
-  }))
-  selectedType.value = badgeList.value[0]?.key
-  currentDataType.value = dataType
+  const privateDatasetTypes = ['oc', 'op', '3dWeaving']
 
-  // 切换数据类型时重置筛选条件
+  if (privateDatasetTypes.includes(dataType)) {
+    badgeList.value = [{
+      label: arr.label || arr.name || dataType,
+      key: dataType,
+      value: Math.floor(Math.random() * 10000) + 100
+    }]
+    selectedType.value = dataType
+    currentDataType.value = dataType
+  } else {
+    badgeList.value = arr.map(item => ({
+      label: item.name || item.label,
+      key: item.key || item.value,
+      value: Math.floor(Math.random() * 10000) + 100
+    }))
+    selectedType.value = badgeList.value[0]?.key
+    currentDataType.value = dataType
+  }
+
   currentFilters.value = {}
   tempFilters.value = {}
   if (dataFilterRef.value) {
@@ -205,22 +214,11 @@ const handleDownload = async (row) => {
       })
       return
     }
-    const url = `${import.meta.env.VITE_BASE_URL}potdata/${currentDataType.value}/download?id=${row.id}`
-    const response = await axios.get(url, {
-      headers: {
-        'satoken': token
-      },
-      responseType: 'blob'
-    })
-    const blob = new Blob([response.data])
-    const downloadUrl = window.URL.createObjectURL(blob)
-    const link = document.createElement('a')
-    link.href = downloadUrl
-    link.download = row.id || 'download'
-    document.body.appendChild(link)
-    link.click()
-    document.body.removeChild(link)
-    window.URL.revokeObjectURL(downloadUrl)
+    const { data } = await downloadFileById({ rule: currentDataType.value, id: row.id })
+    // const url = `${import.meta.env.VITE_BASE_URL}potdata/${currentDataType.value}/download?id=${row.id}&satoken=${token}`
+
+    window.open(data?.url, '_blank', 'noopener,noreferrer')
+
   } catch (err) {
     console.error('下载失败:', err)
   }
@@ -270,55 +268,6 @@ const handleFilter = () => {
   filterVisible.value = true
 }
 
-const nodeData = ref([])
-onMounted(() => {
-  nodeData.value = [
-    {
-      label: '数据名称',
-      children: [
-        {
-          label: '铜',
-        },
-        {
-          label: 'tie',
-        },
-      ],
-    },
-    {
-      label: '数据类型',
-      children: [
-        {
-          label: '晶体结构',
-        },
-        {
-          label: '分子结构',
-        },
-      ],
-    },
-    {
-      label: '数据来源',
-      children: [
-        {
-          label: '国家材料库',
-        },
-        {
-          label: '材料研究所',
-        },
-      ],
-    },
-    {
-      label: '更新日期',
-      children: [
-        {
-          label: '2025',
-        },
-        {
-          label: '2024',
-        },
-      ],
-    },
-  ]
-})
 </script>
 
 
@@ -331,12 +280,17 @@ onMounted(() => {
 
 .badge-line {
   border-bottom: 1px dotted #999999;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0;
 }
 
 .badge-item {
   height: 50px;
   margin-right: 24px;
-  width: 120px;
+  width: auto;
+  min-width: 120px;
+  max-width: 200px;
 }
 
 .result-type-btn {
@@ -348,8 +302,16 @@ onMounted(() => {
   display: flex;
   align-items: center;
   padding-left: 16px;
+  padding-right: 16px;
   box-sizing: border-box;
   cursor: pointer;
+
+  >div {
+    max-width: 100%;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+  }
 }
 
 .type-is-sel {

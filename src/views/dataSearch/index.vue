@@ -1,6 +1,6 @@
 <template>
   <breadCrumb :breadCrumbList="breadCrumbList" class="search-p"></breadCrumb>
-  <div class="search-type">
+  <div class="search-type" v-if="!isPrivateDataset">
     <span class="head-tag">
       <span class="tag-content">
         <img src="../../assets/img/dataSearch/icon_计算尺度.png" alt="计算尺度" class="tag-img" />计算尺度
@@ -9,7 +9,7 @@
     <el-segmented style="flex: 1;" v-model="computeRules" :options="rulesOptions" @change="onRulesChange" />
   </div>
   <div class="search-content search-p">
-    <div class="content-left">
+    <div class="content-left" v-if="!isPrivateDataset">
       <div class="card-title">
         <img src="../../assets/img/dataSearch/icon_数据类型.png" alt="数据类型." class="card-title-img" />
         <span>{{`${rulesOptions.find(item => item.value === computeRules).label}`}}</span>
@@ -58,7 +58,7 @@
           </div>
         </template>
       </el-input>
-      <div class="elem-table" v-if="computeRules !== 'macro' && elemTableVisible">
+      <div class="elem-table" v-if="computeRules !== 'macro' && elemTableVisible && !isPrivateDataset">
         <periodicTable @handleSelElem="handleSelElem"></periodicTable>
       </div>
       <div class="search-path">
@@ -93,15 +93,38 @@ import { useRoute, useRouter } from 'vue-router';
 const route = useRoute()
 const router = useRouter()
 
-// 选择默认的晶体结构
+const isPrivateDataset = ref(false)
+
+const privateDatasetTypes = {
+  'oc': { name: '电池有机正极材料数据', key: 'oc' },
+  'op': { name: '有机光电材料数据', key: 'op' },
+  '3dWeaving': { name: '三维编织复合材料数据', key: '3dWeaving' }
+}
+
+const handlePrivateDatasetJump = () => {
+  const type = route.query.type as string
+  if (type && privateDatasetTypes[type]) {
+    isPrivateDataset.value = true
+    const dataset = privateDatasetTypes[type]
+    selectedCard.value = dataset.key
+    searchPath.value = [{ label: dataset.name, value: dataset.key }]
+    
+    if (resTable.value) {
+      resTable.value.refResTableData(dataset, dataset.key)
+    }
+    
+    searchTableData()
+  }
+}
+
 const selectDefaultCrystalStructure = () => {
+  if (isPrivateDataset.value) return false
+  
   const structureCard = cardList.value.find(card => card.key === 'jg')
   if (structureCard && structureCard.children) {
     const crystalChild = structureCard.children.find(child => child.key === 'jtjg')
     if (crystalChild) {
-      // 展开父级卡片
       expandedCard.value = ['jg']
-      // 选中"晶体结构"
       handleSelect(structureCard, crystalChild)
       return true
     }
@@ -109,33 +132,36 @@ const selectDefaultCrystalStructure = () => {
   return false
 }
 
-// 调试：生命周期钩子
 onMounted(() => {
-  // 处理来自dashboard的搜索参数
-  const query = route.query.q as string
-  if (query) {
-    searchValue.value = query
-    if (selectDefaultCrystalStructure()) {
-      // 自动执行搜索
-      setTimeout(() => {
-        searchTableData()
-      }, 100)
+  handlePrivateDatasetJump()
+  
+  if (!isPrivateDataset.value) {
+    const query = route.query.q as string
+    if (query) {
+      searchValue.value = query
+      if (selectDefaultCrystalStructure()) {
+        setTimeout(() => {
+          searchTableData()
+        }, 100)
+      }
+    } else {
+      selectDefaultCrystalStructure()
     }
-  } else {
-    selectDefaultCrystalStructure()
   }
 });
 
 onActivated(() => {
-  // 当从详情页返回时，保持搜索状态不变
-  // 只滚动到顶部
   window.scroll(0, 0);
 
-  // 检查是否有新的查询参数（从dashboard跳转过来）
+  const type = route.query.type as string
+  if (type && privateDatasetTypes[type]) {
+    handlePrivateDatasetJump()
+    return
+  }
+
   const query = route.query.q as string
   if (query && query !== searchValue.value) {
     searchValue.value = query
-    // 自动执行搜索
     setTimeout(() => {
       searchTableData()
     }, 100)
