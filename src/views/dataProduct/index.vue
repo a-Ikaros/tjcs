@@ -23,7 +23,7 @@
           <el-collapse-item name="1">
             <template #title>
               <div class="col-online-title">
-                <div><span class="col-online-icon"></span>{{ `已上线产品数据（${5}）` }}</div>
+                <div><span class="col-online-icon"></span>{{ `已上线产品数据（${6}）` }}</div>
                 <div class="col-tip">{{ activeNames.includes('1') ? '查看全部' : '收起隐藏' }}</div>
               </div>
             </template>
@@ -265,6 +265,15 @@ const getProductList = () => {
       time: '2025.10.17',
       link: ''
     },
+    {
+      id: 'MesoMtdData',
+      title: '介观热力学数据采集整合工具',
+      desc: 'TDB（热力学数据库，Thermodynamic DataBase）文件包含热力学参数的完整描述，内部包括元素、相、组成、参数等多个部分，结构复杂多样，是介观尺度相图计算用的共性基础数据。TDB元数据抽取与校验平台集成了从数据获取到结果验证的全流程功能，帮助高效管理和利用.TDB文件。',
+      img: productBlockImg,
+      user: '材料计算设计专用数据资源节点',
+      time: '2026.01.28',
+      link: ''
+    },
   ]
   offlineProduct.value = [
     {
@@ -424,12 +433,13 @@ const getCurProductList = () => {
       time: '2025.12.25'
     },
     {
-      title: '批量数据清洗工具',
-      desc: '针对表格和实验数据提供缺失值填充、单位统一和字段映射功能，输出清洗过的可入库数据包。',
+      id: 'MesoMtdData',
+      title: '介观热力学数据采集整合工具',
+      desc: 'TDB（热力学数据库，Thermodynamic DataBase）文件包含热力学参数的完整描述，内部包括元素、相、组成、参数等多个部分，结构复杂多样，是介观尺度相图计算用的共性基础数据。TDB元数据抽取与校验平台集成了从数据获取到结果验证的全流程功能，帮助高效管理和利用.TDB文件。',
       img: productBlockImg,
-      user: '数据工程部',
-      time: '2025.07.15'
-    }
+      user: '材料计算设计专用数据资源节点',
+      time: '2026.01.28'
+    },
   ]
 
   const engineProducts = [
