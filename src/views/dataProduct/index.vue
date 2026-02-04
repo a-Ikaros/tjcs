@@ -660,7 +660,7 @@ const getCurProductList = () => {
 }
 
 watchEffect(() => {
-  const currentPath = route.path
+  const currentPath = route?.path
 
   if (currentPath === '/data-sharing') {
     selectedLi.value = 'privateData'

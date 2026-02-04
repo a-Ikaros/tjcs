@@ -75,6 +75,18 @@ const routes: RouteRecordRaw[] = [
           ),
       },
       {
+        path: "/data-product/application/:id",
+        name: "data-product-application",
+        meta: {
+          title: "产品申请",
+          noAuth: true,
+        },
+        component: () =>
+          import(
+            /* webpackChunkName: "data-product-application" */ "@/views/dataProduct/application.vue"
+          ),
+      },
+      {
         path: "/data-resources",
         name: "data-resources",
         meta: {

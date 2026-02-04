@@ -49,8 +49,10 @@
           </div>
         </div>
       </div>
-      <div class="introduce-content">
-        <div class="container-block">
+    
+      <div class="introduce-content" >
+          <!-- 暂时不展示动态和新闻 -->
+        <div class="container-block" v-if="false">
           <div class="block-left">
             <titleLine :nameZh="'通知公告'" :nameEn="'/ NOTICE BOARD'" :showMore="true" :moreLink="'/field-updates'"
               class="block-title"></titleLine>

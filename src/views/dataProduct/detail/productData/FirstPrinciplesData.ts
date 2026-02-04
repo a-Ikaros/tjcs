@@ -17,7 +17,7 @@ export const FirstPrinciplesData = {
     "第一性原理计算数据采集软件是一款专为科研人员开发的自动化Web端采集工具，实现Quantum-ESPRESSO网站UPF赝势数据和Turbomole网站基组数据的自动化高效采集，结合实时监控、自定义采集范围及输出目录和全局重置实用功能，为量子化学与材料科学研究提供稳定可靠的数据获取解决方案。",
   headImg: image1, // head,
   btnName: "申请使用",
-  btnLink: "https://www.baidu.com",
+  btnLink: "/#/data-product/application/FirstPrinciplesData",
   content: [
     {
       descName: "软件介绍",

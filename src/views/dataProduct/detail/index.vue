@@ -144,7 +144,7 @@ onMounted(() => {
                 display: flex;
                 flex-wrap: wrap;
 
-                a {
+                a, .router-link-active, .router-link-exact-active {
                     background: #1760C2;
                     border-radius: 8px;
                     color: #fff;
@@ -153,6 +153,8 @@ onMounted(() => {
                     outline: none;
                     border: none;
                     font-size: 16px;
+                    text-decoration: none;
+                    display: inline-block;
                 }
             }
         }

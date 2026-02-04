@@ -25,7 +25,7 @@ export const PrivateDomainDataSharingSystemData = {
     "私域材料数据安全共享专区是以高价值数据价值流通与协同利用为核心的数据协作平台。实现跨主体材料数据的可控流动及复杂协同计算，支撑私域高价值数据的有偿交换。平台提供与中心目录及计算层的双向对接接口，同时支持节点级数据的注册、授权、审计及收益结算，创新高价值数据的共享与有偿使用机制。",
   headImg: img1,
   btnName: "申请使用",
-  btnLink: "https://www.baidu.com",
+  btnLink: "/#/data-product/application/PrivateDomainDataSharingSystemData",
   content: [
     {
       descName: "软件介绍",
