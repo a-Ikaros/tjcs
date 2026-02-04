@@ -538,11 +538,12 @@ const getCurProductList = () => {
 
   const privateDataProducts = [
     {
+      id:'PrivateDomainDataSharingSystemData',
       title: '企业私域数据管理平台',
       desc: '为企业提供私域数据存储、管理与交易服务，支持数据确权、定价与安全共享，保障数据资产价值。',
       img: productBlockImg,
       user: '数据交易部',
-      time: '2025.11.01'
+      time: '2025.11.01',
     },
     {
       title: '科研数据交易市场',

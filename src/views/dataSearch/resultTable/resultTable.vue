@@ -107,7 +107,7 @@ const currentTableColumns = computed(() => {
 const tableData = ref([])
 const refResTableData = (arr, dataType = 'pairPotential') => {
   const privateDatasetTypes = ['oc', 'op', '3dWeaving']
-
+  
   if (privateDatasetTypes.includes(dataType)) {
     badgeList.value = [{
       label: arr.label || arr.name || dataType,
@@ -115,6 +115,14 @@ const refResTableData = (arr, dataType = 'pairPotential') => {
       value: Math.floor(Math.random() * 10000) + 100
     }]
     selectedType.value = dataType
+    currentDataType.value = dataType
+  } else if (arr && arr.children && arr.children.length > 0) {
+    badgeList.value = arr.children.map(item => ({
+      label: item.name || item.label,
+      key: item.key || item.value,
+      value: Math.floor(Math.random() * 10000) + 100
+    }))
+    selectedType.value = badgeList.value[0]?.key
     currentDataType.value = dataType
   } else {
     badgeList.value = arr.map(item => ({
@@ -214,11 +222,18 @@ const handleDownload = async (row) => {
       })
       return
     }
-    const { data } = await downloadFileById({ rule: currentDataType.value, id: row.id })
-    // const url = `${import.meta.env.VITE_BASE_URL}potdata/${currentDataType.value}/download?id=${row.id}&satoken=${token}`
 
-    window.open(data?.data, '_blank', 'noopener,noreferrer')
-
+    if (currentDataType.value === 'machineLearningPotential') {
+      try {
+        await getDownloadBf(currentDataType.value, row.id as string)
+      } catch (err) {
+        console.error('下载失败:', err)
+      }
+    }
+    else {
+      const url = `${import.meta.env.VITE_BASE_URL}potdata/${currentDataType.value}/download?id=${row.id}&satoken=${token}`
+      window.open(url, '_blank', 'noopener,noreferrer')
+    }
   } catch (err) {
     console.error('下载失败:', err)
   }

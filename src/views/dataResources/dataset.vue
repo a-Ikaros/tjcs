@@ -39,7 +39,15 @@ watchEffect(() => {
 const handleClick = (item: any) => {
   if (item.link) {
     if (item.link.startsWith('/data-search')) {
-      router.push(item.link)
+      const urlParams = new URLSearchParams(item.link.split('?')[1])
+      const scale = urlParams.get('scale')
+      const type = urlParams.get('type')
+      
+      if (scale && type) {
+        router.push({ path: '/data-search', query: { scale, type } })
+      } else {
+        router.push(item.link)
+      }
     } else {
       jumpTo(item.link)
     }

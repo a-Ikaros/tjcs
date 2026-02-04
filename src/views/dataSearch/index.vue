@@ -1,6 +1,6 @@
 <template>
   <breadCrumb :breadCrumbList="breadCrumbList" class="search-p"></breadCrumb>
-  <div class="search-type" v-if="!isPrivateDataset">
+  <div class="search-type" v-if="!isPrivateDataset && !isDirectJump">
     <span class="head-tag">
       <span class="tag-content">
         <img src="../../assets/img/dataSearch/icon_计算尺度.png" alt="计算尺度" class="tag-img" />计算尺度
@@ -9,7 +9,7 @@
     <el-segmented style="flex: 1;" v-model="computeRules" :options="rulesOptions" @change="onRulesChange" />
   </div>
   <div class="search-content search-p">
-    <div class="content-left" v-if="!isPrivateDataset">
+    <div class="content-left" v-if="!isPrivateDataset && !isDirectJump">
       <div class="card-title">
         <img src="../../assets/img/dataSearch/icon_数据类型.png" alt="数据类型." class="card-title-img" />
         <span>{{`${rulesOptions.find(item => item.value === computeRules).label}`}}</span>
@@ -58,7 +58,7 @@
           </div>
         </template>
       </el-input>
-      <div class="elem-table" v-if="computeRules !== 'macro' && elemTableVisible && !isPrivateDataset">
+      <div class="elem-table" v-if="computeRules !== 'macro' && elemTableVisible && !isDirectJump">
         <periodicTable @handleSelElem="handleSelElem"></periodicTable>
       </div>
       <div class="search-path">
@@ -94,6 +94,7 @@ const route = useRoute()
 const router = useRouter()
 
 const isPrivateDataset = ref(false)
+const isDirectJump = ref(false)
 
 const privateDatasetTypes = {
   'oc': { name: '电池有机正极材料数据', key: 'oc' },
@@ -101,9 +102,44 @@ const privateDatasetTypes = {
   '3dWeaving': { name: '三维编织复合材料数据', key: '3dWeaving' }
 }
 
+const handlePublicDatasetJump = () => {
+  const scale = route.query.scale as string
+  const type = route.query.type as string
+  
+  if (scale && type) {
+    isDirectJump.value = true
+    isPrivateDataset.value = false
+    
+    const scaleMap = {
+      'micro': 'micro',
+      'meso': 'meso',
+      'macro': 'macro'
+    }
+    
+    if (scaleMap[scale]) {
+      computeRules.value = scaleMap[scale]
+      
+      nextTick(() => {
+        const card = cardList.value.find(item => item.key === type)
+        if (card) {
+          selectedCard.value = type
+          searchPath.value = [rulesOptions.find(item => item.value === computeRules.value), { label: card.name, value: card.key }]
+          
+          if (resTable.value) {
+            resTable.value.refResTableData(card, type)
+          }
+          
+          searchTableData()
+        }
+      })
+    }
+  }
+}
+
 const handlePrivateDatasetJump = () => {
   const type = route.query.type as string
   if (type && privateDatasetTypes[type]) {
+    isDirectJump.value = true
     isPrivateDataset.value = true
     const dataset = privateDatasetTypes[type]
     selectedCard.value = dataset.key
@@ -133,6 +169,7 @@ const selectDefaultCrystalStructure = () => {
 }
 
 onMounted(() => {
+  handlePublicDatasetJump()
   handlePrivateDatasetJump()
   
   if (!isPrivateDataset.value) {
@@ -153,7 +190,14 @@ onMounted(() => {
 onActivated(() => {
   window.scroll(0, 0);
 
+  const scale = route.query.scale as string
   const type = route.query.type as string
+  
+  if (scale && type) {
+    handlePublicDatasetJump()
+    return
+  }
+
   if (type && privateDatasetTypes[type]) {
     handlePrivateDatasetJump()
     return
