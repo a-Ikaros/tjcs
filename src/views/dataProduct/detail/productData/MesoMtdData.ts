@@ -15,7 +15,7 @@ export const MesoMtdData = {
     "TDB（热力学数据库，Thermodynamic DataBase）文件包含热力学参数的完整描述，内部包括元素、相、组成、参数等多个部分，结构复杂多样，是介观尺度相图计算用的共性基础数据。TDB元数据抽取与校验平台集成了从数据获取到结果验证的全流程功能，帮助高效管理和利用.TDB文件。",
   headImg: image1,
   btnName: "申请使用",
-  btnLink: "/data-product/application/MesoMtdData",
+  btnLink: "/#/data-product/application/MesoMtdData",
   content: [
     {
       descName: "软件介绍",

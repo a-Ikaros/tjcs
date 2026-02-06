@@ -49,9 +49,9 @@
           </div>
         </div>
       </div>
-    
-      <div class="introduce-content" >
-          <!-- 暂时不展示动态和新闻 -->
+
+      <div class="introduce-content">
+        <!-- 暂时不展示动态和新闻 -->
         <div class="container-block" v-if="false">
           <div class="block-left">
             <titleLine :nameZh="'通知公告'" :nameEn="'/ NOTICE BOARD'" :showMore="true" :moreLink="'/field-updates'"
@@ -104,14 +104,22 @@
         <div class="mtb30">
           <titleLine :nameZh="'建设单位'" :nameEn="'/ CONSTRUCTION ENTITY'"></titleLine>
           <div class="mtb30 wp100 construction-box">
-            <img class="" src="../../assets/img/construction/国家超级计算天津中心.png" alt="" @click="jumpTo('https://www.nscc-tj.cn/zxjj/index')" />
-            <img class="" src="../../assets/img/construction/四川大学.png" alt="" @click="jumpTo('https://www.scu.edu.cn/')" />
-            <img class="" src="../../assets/img/construction/中国工程物理研究院计算机应用研究所.png" alt="" @click="jumpTo('https://www.caep.ac.cn/')" />
-            <img class="" src="../../assets/img/construction/中国一重.png" alt="" @click="jumpTo('https://www.cfhi.com/')" />
-            <img class="" src="../../assets/img/construction/北京航空航天大学.png" alt="" @click="jumpTo('https://www.buaa.edu.cn/')" />
-            <img class="" src="../../assets/img/construction/福州大学.png" alt="" @click="jumpTo('https://www.fzu.edu.cn/')" />
-            <img class="" src="../../assets/img/construction/中山大学.png" alt="" @click="jumpTo('https://www.sysu.edu.cn/')" />
-            <img class="" src="../../assets/img/construction/信创海河实验室.png" alt="" @click="jumpTo('https://www.hl-it.cn/')" />
+            <img class="" src="../../assets/img/construction/国家超级计算天津中心.png" alt=""
+              @click="jumpTo('https://www.nscc-tj.cn/zxjj/index')" />
+            <img class="" src="../../assets/img/construction/四川大学.png" alt=""
+              @click="jumpTo('https://www.scu.edu.cn/')" />
+            <img class="" src="../../assets/img/construction/中国工程物理研究院计算机应用研究所.png" alt=""
+              @click="jumpTo('https://www.caep.ac.cn/')" />
+            <img class="" src="../../assets/img/construction/中国一重.png" alt=""
+              @click="jumpTo('https://www.cfhi.com/')" />
+            <img class="" src="../../assets/img/construction/北京航空航天大学.png" alt=""
+              @click="jumpTo('https://www.buaa.edu.cn/')" />
+            <img class="" src="../../assets/img/construction/福州大学.png" alt=""
+              @click="jumpTo('https://www.fzu.edu.cn/')" />
+            <img class="" src="../../assets/img/construction/中山大学.png" alt=""
+              @click="jumpTo('https://www.sysu.edu.cn/')" />
+            <img class="" src="../../assets/img/construction/信创海河实验室.png" alt=""
+              @click="jumpTo('https://www.hl-it.cn/')" />
           </div>
         </div>
         <div class="mtb30">
@@ -188,6 +196,18 @@ onMounted(() => {
     {
       title: '中华人民共和国财政部',
       link: 'https://www.mof.gov.cn/index.htm'
+    },
+    {
+      title: '北京科技大学',
+      link: 'https://www.ustb.edu.cn/'
+    },
+    {
+      title: '苏州实验室',
+      link: 'https://www.szlab.ac.cn/'
+    },
+    {
+      title: '中国钢研',
+      link: 'https://www.cisri.com.cn/index.htm'
     },
   ]
 
@@ -473,11 +493,13 @@ onMounted(() => {
   background-color: #ffffff;
   height: 48px;
   display: flex;
-  justify-content: center;
+  justify-content: start;
   align-items: center;
   position: relative;
   padding: 24px;
   margin-top: 24px;
+  flex-wrap: wrap;
+  row-gap: 8px;
 
   .link-block {
     font-size: 18px;
@@ -520,6 +542,7 @@ onMounted(() => {
     display: flex;
     flex-wrap: wrap;
     justify-content: space-around;
+
     img {
       width: 24%;
       height: 100%;

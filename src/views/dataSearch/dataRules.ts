@@ -39,8 +39,7 @@ const microDataTypes: Array<cardInfo> = [
       },
       {
         name: "高斯型基组",
-        key: "gsxjz",
-        disabled: true,
+        key: "gsBasisSet",
       },
       // {
       //   name: "混合基组",
@@ -157,8 +156,7 @@ const mesoDataTypes: Array<cardInfo> = [
     children: [
       {
         name: "碳材料",
-        key: "tcl",
-        disabled: true,
+        key: "carbon",
       },
       {
         name: "金属材料",

@@ -161,7 +161,7 @@ const dynamics = [
 // 热力学数据
 const mtd=[
   {
-    key: "seq",
+    key: "id",
     label: "ID",
   },
   {

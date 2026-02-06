@@ -682,10 +682,14 @@ watchEffect(() => {
         num: 3,
       },
       {
-        title: '数据融通器',
+        title: '节点融通器',
         key: 'dataConnector',
         num: 2,
-        disabled: true,
+      },
+       {
+        title: '数据上传',
+        key: 'dataUpdate',
+        num: 2,
       }
     ]
   } else {
@@ -708,22 +712,22 @@ watchEffect(() => {
         key: 'engine',
         num: 11,
       },
-      {
-        title: '材料数据库系统',
-        key: 'materialData',
-        num: 3,
-      },
+      // {
+      //   title: '材料数据库系统',
+      //   key: 'materialData',
+      //   num: 3,
+      // },
       {
         title: '全球材料计算软件库',
         key: 'materialSoftware',
         num: 87,
       },
-      {
-        title: '定制服务',
-        key: 'service',
-        num: 5,
-        disabled: true,
-      },
+      // {
+      //   title: '定制服务',
+      //   key: 'service',
+      //   num: 5,
+      //   disabled: true,
+      // },
     ]
   }
   getProductList()

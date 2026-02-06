@@ -117,20 +117,32 @@ const refResTableData = (arr, dataType = 'pairPotential') => {
     selectedType.value = dataType
     currentDataType.value = dataType
   } else if (arr && arr.children && arr.children.length > 0) {
-    badgeList.value = arr.children.map(item => ({
-      label: item.name || item.label,
-      key: item.key || item.value,
-      value: Math.floor(Math.random() * 10000) + 100
-    }))
-    selectedType.value = badgeList.value[0]?.key
+    const enabledChildren = arr.children.filter(item => !item.disabled)
+    if (enabledChildren.length > 0) {
+      badgeList.value = enabledChildren.map(item => ({
+        label: item.name || item.label,
+        key: item.key || item.value,
+        value: Math.floor(Math.random() * 10000) + 100
+      }))
+      selectedType.value = badgeList.value[0]?.key
+    } else {
+      badgeList.value = []
+      selectedType.value = ''
+    }
     currentDataType.value = dataType
-  } else {
-    badgeList.value = arr.map(item => ({
-      label: item.name || item.label,
-      key: item.key || item.value,
-      value: Math.floor(Math.random() * 10000) + 100
-    }))
-    selectedType.value = badgeList.value[0]?.key
+  } else if (Array.isArray(arr)) {
+    const enabledItems = arr.filter(item => !item.disabled)
+    if (enabledItems.length > 0) {
+      badgeList.value = enabledItems.map(item => ({
+        label: item.name || item.label,
+        key: item.key || item.value,
+        value: Math.floor(Math.random() * 10000) + 100
+      }))
+      selectedType.value = badgeList.value[0]?.key
+    } else {
+      badgeList.value = []
+      selectedType.value = ''
+    }
     currentDataType.value = dataType
   }
 
@@ -243,7 +255,23 @@ const handleRowClick = (row) => {
 }
 
 const handleSel = (key) => {
-  // 触发筛选条件变化事件
+  // 更新选中的类型
+  selectedType.value = key
+  
+  // 重置分页到第一页
+  currentPage3.value = 1
+  
+  // 清空当前筛选条件
+  currentFilters.value = {}
+  tempFilters.value = {}
+  if (dataFilterRef.value) {
+    dataFilterRef.value.reset()
+  }
+  
+  // 更新当前数据类型
+  currentDataType.value = key
+  
+  // 触发筛选条件变化事件，通知父组件更新接口数据
   emit('filter-apply', { ...currentFilters.value, type: key })
 }
 

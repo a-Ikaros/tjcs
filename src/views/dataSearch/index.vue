@@ -192,18 +192,61 @@ onActivated(() => {
 
   const scale = route.query.scale as string
   const type = route.query.type as string
+  const query = route.query.q as string
+  
+  // Only process if we have new query parameters (not just returning from navigation)
+  const hasNewParams = (scale && type) || (type && privateDatasetTypes[type]) || (query && query !== searchValue.value)
+  
+  if (!hasNewParams) {
+    // No new parameters, preserve current state when returning from keep-alive
+    return
+  }
   
   if (scale && type) {
-    handlePublicDatasetJump()
+    isDirectJump.value = true
+    isPrivateDataset.value = false
+    
+    const scaleMap = {
+      'micro': 'micro',
+      'meso': 'meso',
+      'macro': 'macro'
+    }
+    
+    if (scaleMap[scale]) {
+      computeRules.value = scaleMap[scale]
+      
+      nextTick(() => {
+        const card = cardList.value.find(item => item.key === type)
+        if (card) {
+          selectedCard.value = type
+          searchPath.value = [rulesOptions.find(item => item.value === computeRules.value), { label: card.name, value: card.key }]
+          
+          if (resTable.value) {
+            resTable.value.refResTableData(card, type)
+          }
+          
+          searchTableData()
+        }
+      })
+    }
     return
   }
 
   if (type && privateDatasetTypes[type]) {
-    handlePrivateDatasetJump()
+    isDirectJump.value = true
+    isPrivateDataset.value = true
+    const dataset = privateDatasetTypes[type]
+    selectedCard.value = dataset.key
+    searchPath.value = [{ label: dataset.name, value: dataset.key }]
+    
+    if (resTable.value) {
+      resTable.value.refResTableData(dataset, dataset.key)
+    }
+    
+    searchTableData()
     return
   }
 
-  const query = route.query.q as string
   if (query && query !== searchValue.value) {
     searchValue.value = query
     setTimeout(() => {
@@ -294,6 +337,32 @@ const currentFilters = ref<Record<string, any>>({})
 // 处理来自 resultTable 的筛选应用事件
 const handleFilterApply = (filters: Record<string, any>) => {
   currentFilters.value = filters
+  
+  // 如果有类型切换，更新选中的卡片
+  if (filters.type && filters.type !== selectedCard.value) {
+    selectedCard.value = filters.type
+    
+    // 更新搜索路径显示
+    const card = cardList.value.find(item => item.key === filters.type)
+    if (card) {
+      // 检查是否是子类型
+      const parentCard = cardList.value.find(item => item.children?.some(child => child.key === filters.type))
+      if (parentCard) {
+        const child = parentCard.children.find(c => c.key === filters.type)
+        searchPath.value = [
+          rulesOptions.find(item => item.value === computeRules.value),
+          { label: parentCard.name, value: parentCard.key },
+          { label: child.name, value: child.key }
+        ]
+      } else {
+        searchPath.value = [
+          rulesOptions.find(item => item.value === computeRules.value),
+          { label: card.name, value: card.key }
+        ]
+      }
+    }
+  }
+  
   // 触发搜索
   searchTableData()
 }

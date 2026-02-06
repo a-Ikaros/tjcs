@@ -75,6 +75,7 @@ onBeforeMount(() => {
 
 .f16 {
   font-size: 16px;
+  font-weight: 600;
 }
 
 .el-menu--horizontal>.el-menu-item.is-active {
