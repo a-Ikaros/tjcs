@@ -135,13 +135,25 @@ const refResTableData = (arr, dataType = 'pairPotential') => {
     currentDataType.value = dataType
   } else if (arr && arr.children && arr.children.length > 0) {
     const enabledChildren = arr.children.filter(item => !item.disabled)
+    
     if (enabledChildren.length > 0) {
-      badgeList.value = enabledChildren.map(item => ({
-        label: item.name || item.label,
-        key: item.key || item.value,
-        value: Math.floor(Math.random() * 10000) + 100
-      }))
-      selectedType.value = badgeList.value[0]?.key
+      const matchingChild = enabledChildren.find(item => item.key === dataType)
+      
+      if (matchingChild) {
+        badgeList.value = [{
+          label: matchingChild.name || matchingChild.label,
+          key: matchingChild.key || matchingChild.value,
+          value: Math.floor(Math.random() * 10000) + 100
+        }]
+        selectedType.value = matchingChild.key
+      } else {
+        badgeList.value = enabledChildren.map(item => ({
+          label: item.name || item.label,
+          key: item.key || item.value,
+          value: Math.floor(Math.random() * 10000) + 100
+        }))
+        selectedType.value = badgeList.value[0]?.key
+      }
     } else {
       badgeList.value = []
       selectedType.value = ''

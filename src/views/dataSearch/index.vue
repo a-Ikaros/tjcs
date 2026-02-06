@@ -120,10 +120,29 @@ const handlePublicDatasetJump = () => {
       computeRules.value = scaleMap[scale]
       
       nextTick(() => {
-        const card = cardList.value.find(item => item.key === type)
+        let card = cardList.value.find(item => item.key === type)
+        let child = null
+        
+        if (!card) {
+          for (const parentCard of cardList.value) {
+            if (parentCard.children) {
+              const foundChild = parentCard.children.find(childItem => childItem.key === type)
+              if (foundChild) {
+                card = parentCard
+                child = foundChild
+                break
+              }
+            }
+          }
+        }
+        
         if (card) {
           selectedCard.value = type
           searchPath.value = [rulesOptions.find(item => item.value === computeRules.value), { label: card.name, value: card.key }]
+          
+          if (child) {
+            searchPath.value.push({ label: child.name, value: child.key })
+          }
           
           if (resTable.value) {
             resTable.value.refResTableData(card, type)
@@ -216,10 +235,29 @@ onActivated(() => {
       computeRules.value = scaleMap[scale]
       
       nextTick(() => {
-        const card = cardList.value.find(item => item.key === type)
+        let card = cardList.value.find(item => item.key === type)
+        let child = null
+        
+        if (!card) {
+          for (const parentCard of cardList.value) {
+            if (parentCard.children) {
+              const foundChild = parentCard.children.find(childItem => childItem.key === type)
+              if (foundChild) {
+                card = parentCard
+                child = foundChild
+                break
+              }
+            }
+          }
+        }
+        
         if (card) {
           selectedCard.value = type
           searchPath.value = [rulesOptions.find(item => item.value === computeRules.value), { label: card.name, value: card.key }]
+          
+          if (child) {
+            searchPath.value.push({ label: child.name, value: child.key })
+          }
           
           if (resTable.value) {
             resTable.value.refResTableData(card, type)
@@ -398,10 +436,14 @@ const handleSelect = (card, child = null) => {
   selectedCard.value = child?.key || card.key
 
   // 临时造数据用于显示badge
-  let arr = [searchPath.value[searchPath.value.length - 1]]
-  const childArr = cardList.value.find(item => item.key === searchPath.value[searchPath.value.length - 1].value)?.children
-  childArr?.length && (arr = [...childArr])
-  resTable.value.refResTableData(arr, child?.key || card.key)
+  if (child) {
+    resTable.value.refResTableData(card, child.key)
+  } else {
+    let arr = [searchPath.value[searchPath.value.length - 1]]
+    const childArr = cardList.value.find(item => item.key === searchPath.value[searchPath.value.length - 1].value)?.children
+    childArr?.length && (arr = [...childArr])
+    resTable.value.refResTableData(arr, card.key)
+  }
 
   // 调用API更新列表数据
   searchTableData()
@@ -462,8 +504,8 @@ const searchTableData = async () => {
     resTable.value.setTableData && resTable.value.setTableData(dataList)
     resTable.value.setTotal && resTable.value.setTotal(total)
     resTable.value.setCurrentPage && resTable.value.setCurrentPage(currentPage)
-    // 同步 totalNum 为 totalNumRes 的值
-    totalNum.value = `共计${resTable.value.totalNumRes || 0}条`
+    // 使用 API 返回的 total 值更新 totalNum
+    totalNum.value = `共计${total}条`
   } catch (error) {
     console.error('搜索失败:', error)
   }
