@@ -12,34 +12,39 @@
 </template>
 
 <script setup lang="ts">
-import {onMounted, ref} from "vue";
+import { onMounted, ref } from "vue";
 import dataIcon from '@/assets/img/dataResources/数据图标.png'
+import { getStatistics } from "@/api";
 
 const overviewList = ref([])
 
 const formatNumber = (num, separator = ',') => {
   return num.toString().replace(/\B(?=(\d{3})+(?!\d))/g, separator);
 }
-onMounted(() => {
+onMounted(async () => {
+  const { data } = await getStatistics()
+  const getNumber = (key: string) => {
+    return data?.find(item => item.key === key)?.val || 0
+  }
   overviewList.value = [
     {
       title: '数据种类',
-      num: '13',
+      num: getNumber("dateTypeCount"),
       icon: dataIcon
     },
     {
       title: '数据采集工具',
-      num: '3',
+      num: getNumber('toolsCount'),
       icon: dataIcon
     },
     {
       title: '数据生产引擎',
-      num: '6',
+      num: getNumber('engine'),
       icon: dataIcon
     },
     {
       title: '数据记录量',
-      num: '4175644',
+      num: getNumber('dataCount'),
       icon: dataIcon
     },
   ]
@@ -47,11 +52,12 @@ onMounted(() => {
 </script>
 
 <style lang="scss" scoped>
-.overview{
+.overview {
   display: flex;
   flex-wrap: wrap;
 }
-.overview-item{
+
+.overview-item {
   width: calc(50% - 24px);
   display: flex;
   align-items: center;
@@ -63,22 +69,25 @@ onMounted(() => {
   margin-bottom: 24px;
   margin-left: 24px;
   border-radius: 12px;
-  .item-left{
+
+  .item-left {
     display: inline-block;
     font-size: 16px;
     font-weight: 600;
-    .item-title{
+
+    .item-title {
       color: #333333;
       margin-bottom: 12px;
     }
-    .item-num{
+
+    .item-num {
       color: #1760c2;
     }
   }
-  .item-img{
+
+  .item-img {
     display: inline-block;
   }
 
 }
-
 </style>

@@ -72,7 +72,7 @@ const microDataTypes: Array<cardInfo> = [
     ],
   },
   {
-    key: "jyshs",
+    key: "pairPotential",
     name: "经验势函数",
     children: [
       {

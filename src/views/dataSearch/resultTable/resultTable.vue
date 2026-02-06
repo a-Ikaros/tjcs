@@ -1,18 +1,17 @@
 <template>
   <div class="result-table">
-    <div class="badge-line">
-      <el-badge v-for="item in badgeList" :key="item.key" :value="total" :max="Infinity" class="badge-item"
-        type="warning" @click="handleSel(item.key)">
+    <div class="badge-line" v-if="selectedType">
+      <el-badge v-for="item in badgeList" :key="item.key" :value="dataMap[item.key] || 0" :max="Infinity"
+        class="badge-item" type="warning" @click="handleSel(item.key)">
         <div :class="['result-type-btn', selectedType === item.key ? 'type-is-sel' : 'type-not-sel']">
           <div style="max-width: 80px;">
             {{ item.label }}
           </div>
-
         </div>
       </el-badge>
     </div>
     <div class="res-total-line">
-      共找到 <span class="res-num">{{ total }}</span> 个结果
+      共找到 <span class="res-num">{{ totalNumRes }}</span> 个结果
       <span class="res-filter" @click="handleFilter">
         <img src="@/assets/img/dataSearch/icon_筛选.png" alt="筛选" class="filter-icon" />
         <span>筛选</span>
@@ -79,11 +78,13 @@ import { downloadFileById } from '@/api/dataSearch';
 import DataFilter from '../DataFilter.vue';
 import { getFilterConfig } from '../filterConfig';
 import type { FilterConfig } from '../filterConfig';
-import { computed, ref, watch } from 'vue';
+import { computed, onMounted, ref, watch } from 'vue';
 import { ElMessageBox } from 'element-plus'
+import { capitalizeFirstLetter } from '@/utils/common';
+import { getStatisticsSetCount } from '@/api';
 
 const router = useRouter()
-
+const dataMap = ref({})
 const badgeList = ref([
   {
     label: '晶体结构',
@@ -103,11 +104,27 @@ const currentTableColumns = computed(() => {
   return tableCol[selectedType.value] || tableCol.pairPotential
 })
 
+const getDataMap = async () => {
+  try {
+    const { data: res } = await getStatisticsSetCount()
+    res.forEach(item => {
+      dataMap.value[capitalizeFirstLetter(item.clazz)] = item.count
+    })
+  } catch (err) {
+    dataMap.value = {}
+  }
+}
+const totalNumRes = computed(() => {
+  return badgeList.value.map(item => dataMap.value[item.key] || 0)?.reduce((a, b) => a + b) || 0
+})
+onMounted(() => {
+  getDataMap()
+})
 // 根据选中的类型切换表格数据
 const tableData = ref([])
 const refResTableData = (arr, dataType = 'pairPotential') => {
   const privateDatasetTypes = ['oc', 'op', '3dWeaving']
-  
+
   if (privateDatasetTypes.includes(dataType)) {
     badgeList.value = [{
       label: arr.label || arr.name || dataType,
@@ -199,7 +216,8 @@ defineExpose({
   setTotal,
   setCurrentPage,
   getPagination,
-  setDataType
+  setDataType,
+  totalNumRes
 })
 
 const handleWatch = async (row) => {
@@ -257,20 +275,20 @@ const handleRowClick = (row) => {
 const handleSel = (key) => {
   // 更新选中的类型
   selectedType.value = key
-  
+
   // 重置分页到第一页
   currentPage3.value = 1
-  
+
   // 清空当前筛选条件
   currentFilters.value = {}
   tempFilters.value = {}
   if (dataFilterRef.value) {
     dataFilterRef.value.reset()
   }
-  
+
   // 更新当前数据类型
   currentDataType.value = key
-  
+
   // 触发筛选条件变化事件，通知父组件更新接口数据
   emit('filter-apply', { ...currentFilters.value, type: key })
 }

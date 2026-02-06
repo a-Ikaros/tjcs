@@ -370,6 +370,7 @@ const handleFilterApply = (filters: Record<string, any>) => {
 // 选择左侧标签事件
 const selectedCard = ref('')
 const handleSelect = (card, child = null) => {
+   if (selectedCard.value === (child?.key || card.key))  return
   // 检查是否禁用
   const targetItem = child || card
   if (targetItem.disabled) {
@@ -382,12 +383,12 @@ const handleSelect = (card, child = null) => {
   // 重置筛选条件
   currentFilters.value = {}
 
-  if (selectedCard.value === (child?.key || card.key)) {
-    selectedCard.value = ''
-    searchPath.value = [rulesOptions.find(item => item.value === computeRules.value)]
-    resTable.value.refResTableData([])
-    return
-  }
+  // if (selectedCard.value === (child?.key || card.key)) {
+  //   selectedCard.value = ''
+  //   searchPath.value = [rulesOptions.find(item => item.value === computeRules.value)]
+  //   resTable.value.refResTableData([])
+  //   return
+  // }
   searchPath.value = [rulesOptions.find(item => item.value === computeRules.value), { label: card.name, value: card.key }]
   if (child) {
     searchPath.value.push({ label: child.name, value: child.key })
@@ -460,8 +461,9 @@ const searchTableData = async () => {
     // 同步表格数据与分页信息到 resultTable
     resTable.value.setTableData && resTable.value.setTableData(dataList)
     resTable.value.setTotal && resTable.value.setTotal(total)
-    totalNum.value = `共计${total}条`
     resTable.value.setCurrentPage && resTable.value.setCurrentPage(currentPage)
+    // 同步 totalNum 为 totalNumRes 的值
+    totalNum.value = `共计${resTable.value.totalNumRes || 0}条`
   } catch (error) {
     console.error('搜索失败:', error)
   }

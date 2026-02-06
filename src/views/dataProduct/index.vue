@@ -3,7 +3,8 @@
     <breadCrumb :breadCrumbList="breadCrumbList"></breadCrumb>
     <div class="product-content">
       <div class="func-list" :style="{ height: menuList.length * 60 + 'px' }">
-        <div class="list-line" :class="{ 'is-select': item.key === selectedLi, 'is-disabled': item.num === 0 || item.disabled }"
+        <div class="list-line"
+          :class="{ 'is-select': item.key === selectedLi, 'is-disabled': item.num === 0 || item.disabled }"
           v-for="item in menuList" :key="item.key" @click="onSelProduct(item)">
           <svg class="data-icon" width="24" height="24" viewBox="0 0 24 24" fill="none"
             xmlns="http://www.w3.org/2000/svg" v-if="item.icon">
@@ -28,12 +29,8 @@
               </div>
             </template>
             <div class="col-content mt12">
-              <ProductionBlock 
-                v-for="(item, index) in onlineProduct" 
-                :key="index"
-                :item="item"
-                @click="jumpToDetail(item)"
-              />
+              <ProductionBlock v-for="(item, index) in onlineProduct" :key="index" :item="item"
+                @click="jumpToDetail(item)" />
             </div>
 
           </el-collapse-item>
@@ -45,12 +42,8 @@
               </div>
             </template>
             <div class="col-content mt12">
-              <ProductionBlock 
-                v-for="(item, index) in offlineProduct" 
-                :key="index"
-                :item="item"
-                @click="jumpToDetail(item)"
-              />
+              <ProductionBlock v-for="(item, index) in offlineProduct" :key="index" :item="item"
+                @click="jumpToDetail(item)" />
             </div>
           </el-collapse-item>
 
@@ -62,7 +55,7 @@
           <div class="header-nav-box">
             <div class="name">按中英文<span>首字母</span>快速检索</div>
             <div class="header-nav">
-              <span v-for="header in softwareHeaderList" :key="header" 
+              <span v-for="header in softwareHeaderList" :key="header"
                 :class="['header-item', { active: currentSoftwareHeader === header }]"
                 @click="selectSoftwareHeader(header)">
                 {{ header }}
@@ -78,28 +71,31 @@
                     <div class="name">
                       <div>
                         <p><el-text truncated :tooltip="{ effect: 'dark', placement: 'top' }">{{ item.name
-                          }}</el-text></p>
+                            }}</el-text></p>
                       </div>
                     </div>
                     <div class="summary">
                       <div class="summary-subname">
                         <div>
-                          <p><el-text truncated :tooltip="{ effect: 'dark', placement: 'top' }">计算尺度: {{ item.calculationScale
-                            }}</el-text></p>
+                          <p><el-text truncated :tooltip="{ effect: 'dark', placement: 'top' }">计算尺度: {{
+                            item.calculationScale
+                              }}</el-text></p>
                         </div>
                       </div>
                       <div class="unit-time">
                         <div class="left">
-                          <span class=""><img src="@/assets/img/dataResources/databaseImgs/icon002.png"
-                              title="" class="img-size"></span>
-                          <el-text truncated :tooltip="{ effect: 'dark', placement: 'top' }" class="country-text">{{ item.country }}</el-text>
+                          <span class=""><img src="@/assets/img/dataResources/databaseImgs/icon002.png" title=""
+                              class="img-size"></span>
+                          <el-text truncated :tooltip="{ effect: 'dark', placement: 'top' }" class="country-text">{{
+                            item.country }}</el-text>
                           <span class="ml12"><img src="@/assets/img/dataResources/databaseImgs/icon003.png" title=""
                               class="img-size"></span>
-                          <el-text truncated :tooltip="{ effect: 'dark', placement: 'top' }" class="bg-text">{{ item.type }}</el-text>
+                          <el-text truncated :tooltip="{ effect: 'dark', placement: 'top' }" class="bg-text">{{
+                            item.type }}</el-text>
                         </div>
-                        <div class="right"><img src="@/assets/img/dataResources/databaseImgs/icon001.png"
-                            title="" class="img-size"><el-text truncated
-                            :tooltip="{ effect: 'dark', placement: 'top' }" class="hot-text">访问官网</el-text></div>
+                        <div class="right"><img src="@/assets/img/dataResources/databaseImgs/icon001.png" title=""
+                            class="img-size"><el-text truncated :tooltip="{ effect: 'dark', placement: 'top' }"
+                            class="hot-text">访问官网</el-text></div>
                       </div>
                     </div>
                   </dd>
@@ -114,15 +110,13 @@
       </div>
       <div v-else class="func-content">
         <div class="col-content">
-          <ProductionBlock 
-            v-for="(item, index) in curProductList" 
-            :key="index"
-            :item="item"
-            @click="jumpToDetail(item)"
-          />
+          <ProductionBlock v-for="(item, index) in curProductList" :key="index" :item="item"
+            @click="item.isUploadCard ? (showUploadDialog = true) : jumpToDetail(item)" />
         </div>
       </div>
     </div>
+
+    <DataUploadDialog v-model="showUploadDialog" />
   </div>
 </template>
 
@@ -138,6 +132,7 @@ import { softwareList } from '@/views/dataResources/softwareList'
 import DatabaseQueryToolLogo from '@/assets/img/dataProduct/detail/DatabaseQueryTool/head.png'
 import { jumpTo } from '@/utils';
 import ProductionBlock from '@/components/ProductionBlock.vue'
+import DataUploadDialog from '@/components/DataUploadDialog.vue'
 
 const router = useRouter();
 const route = useRoute()
@@ -161,6 +156,9 @@ const jumpToDetail = (item) => {
     window.open(url, '_blank', 'noreferrer');
   }
 }
+
+const showUploadDialog = ref(false)
+
 const activeNames = ref(['1', '2'])
 const onlineProduct = ref([])
 const offlineProduct = ref([])
@@ -242,7 +240,7 @@ const getProductList = () => {
       img: productBlockImg,
       user: '材料计算设计专用数据资源节点',
       time: '2026.02.09',
-      link: 'http://mathtc.nscc-tj.cn/workflow_v3/work?project=133&category=5&name=%E6%9C%89%E6%9C%BA%E6%AD%A3%E6%9E%81%E6%9D%90%E6%96%99%E8%BF%98%E5%8E%9F%E7%94%B5%E4%BD%8D%E7%94%9F%E4%BA%A7%E5%BC%95%E6%93%8E&desc=%E6%9C%89%E6%9C%BA%E6%AD%A3%E6%9E%81%E6%9D%90%E6%96%99%E8%BF%98%E5%8E%9F%E7%94%B5%E4%BD%8D%E7%94%9F%E4%BA%A7%E5%BC%95%E6%93%8E'
+      link: '/#/data-product/application/OrganicCathodePotentialEngine'
     },
     {
       id: 'BatteryElectrodeSolubilityEngine',
@@ -251,7 +249,7 @@ const getProductList = () => {
       img: productBlockImg,
       user: '材料计算设计专用数据资源节点',
       time: '2026.02.09',
-      link: 'http://mathtc.nscc-tj.cn/workflow_v3/work?project=134&category=5&name=%E7%94%B5%E6%B1%A0%E7%94%B5%E6%9E%81%E6%9D%90%E6%96%99%E6%BA%B6%E8%A7%A3%E5%BA%A6%E7%94%9F%E4%BA%A7%E5%BC%95%E6%93%8E&desc=%E7%94%B5%E6%B1%A0%E7%94%B5%E6%9E%81%E6%9D%90%E6%96%99%E6%BA%B6%E8%A7%A3%E5%BA%A6%E7%94%9F%E4%BA%A7%E5%BC%95%E6%93%8E'
+      link: '/#/data-product/application/BatteryElectrodeSolubilityEngine'
     },
   ]
   offlineProduct.value = [
@@ -317,7 +315,7 @@ watch(() => selectedLi.value, () => {
 const curProductList = ref([])
 const getCurProductList = () => {
   const toolProducts = [
-     {
+    {
       id: 'ReaxFFData',
       title: '反应力场数据采集软件ReaxFFCollector',
       desc: '反应力场数据采集软件ReaxFFCollector面向文献中ReaXFF参数主要以PDF形式发布、难以直接复用的问题，提供从PDF自动提取、清洗与格式修复的一体化解决方案。该软件可将分散目易出错的反应力场文本标准化为可被LAMMPS等主流分子动力学软件直接读取的力场文件，并通过自动化验证快速评估参数可用性，显著降低人工整理成本，提高反应力场参数复用的可靠性与分子动力学研究效率。',
@@ -457,27 +455,13 @@ const getCurProductList = () => {
 
   const privateDataProducts = [
     {
-      id:'PrivateDomainDataSharingSystemData',
+      id: 'PrivateDomainDataSharingSystemData',
       title: '企业私域数据管理平台',
       desc: '为企业提供私域数据存储、管理与交易服务，支持数据确权、定价与安全共享，保障数据资产价值。',
       img: productBlockImg,
       user: '数据交易部',
       time: '2025.11.01',
     },
-    {
-      title: '科研数据交易市场',
-      desc: '连接科研机构与企业的数据交易平台，支持材料数据、实验结果等科研资产的合规交易与溯源。',
-      img: productBlockImg,
-      user: '数据交易部',
-      time: '2025.10.10'
-    },
-    {
-      title: '数据价值评估系统',
-      desc: '基于多维度指标对材料数据进行价值评估，提供智能定价建议与市场行情分析。',
-      img: productBlockImg,
-      user: '数据交易部',
-      time: '2025.09.20'
-    }
   ]
 
   const materialSoftwareProducts = [
@@ -550,12 +534,16 @@ const getCurProductList = () => {
       user: '数据融通部',
       time: '2025.10.28'
     },
+  ]
+
+  const dataUpdateProducts = [
     {
-      title: '数据标准连接器',
-      desc: '基于国家标准的数据格式转换工具，确保不同系统间数据交换的一致性与准确性。',
+      title: '数据上传',
+      desc: '上传您的材料数据，支持 Excel 和 JSON 格式，请选择数据尺度和类型后上传文件。',
       img: productBlockImg,
-      user: '数据融通部',
-      time: '2025.09.18'
+      user: '数据上传',
+      time: '2026.02.09',
+      isUploadCard: true
     }
   ]
 
@@ -573,6 +561,8 @@ const getCurProductList = () => {
     curProductList.value = serviceProducts
   } else if (selectedLi.value === 'dataConnector') {
     curProductList.value = dataConnectorProducts
+  } else if (selectedLi.value === 'dataUpdate') {
+    curProductList.value = dataUpdateProducts
   } else {
     curProductList.value = []
   }
@@ -595,7 +585,7 @@ watchEffect(() => {
         key: 'dataConnector',
         num: 2,
       },
-       {
+      {
         title: '数据上传',
         key: 'dataUpdate',
         num: 2,
@@ -803,19 +793,19 @@ watchEffect(() => {
     display: flex;
     flex-direction: column;
     align-items: center;
-    
+
     .name {
       font-size: 20px;
       color: #333;
       font-weight: 400;
       margin-bottom: 16px;
-      
+
       span {
         color: #1760c2;
         font-weight: 700;
       }
     }
-    
+
     .header-nav {
       display: flex;
       align-items: center;
@@ -823,7 +813,7 @@ watchEffect(() => {
       width: 100%;
       gap: 20px 6px;
       flex-wrap: wrap;
-      
+
       .header-item {
         display: flex;
         align-items: center;
@@ -839,12 +829,12 @@ watchEffect(() => {
         letter-spacing: 0;
         text-align: center;
         transition: all 0.3s;
-        
+
         &:hover {
           border-color: #1760c2;
           color: #1760c2;
         }
-        
+
         &.active {
           background: #1760c2;
           border-radius: 2px;
