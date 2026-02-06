@@ -40,6 +40,7 @@ import overview from './overview.vue'
 import dataset from './dataset.vue'
 import globalMaterial from './globalMaterial.vue';
 import dataStand from './dataStand.vue'
+import dataTemplate from './dataTemplate.vue'
 const primaryBread = ['首页', '数据资源']
 const breadCrumbList = ref([...primaryBread])
 const cardList = list
@@ -70,12 +71,15 @@ const componentMap = {
   'special/battery': dataset,
   'special/optoelectronics': dataset,
   'special/composite': dataset,
-  'template': dataset,
-  'template/two-dimensional': dataset,
-  'template/optoelectronic': dataset,
-  'perovskite': dataset,
-  'template/catalytic': dataset,
-  'template/metallic': dataset,
+  'template': dataTemplate,
+  'template/two-dimensional': dataTemplate,
+  'template/optoelectronic': dataTemplate,
+  'template/perovskite': dataTemplate,
+  'template/catalytic': dataTemplate,
+  'template/metallic': dataTemplate,
+  'template/battery': dataTemplate,
+  'template/optoelectronics': dataTemplate,
+  'template/composite': dataTemplate,
   'standard': dataStand,
   'standard/manufacture': dataStand,
   'standard/sim': dataStand,

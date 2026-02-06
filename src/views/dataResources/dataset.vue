@@ -1,7 +1,7 @@
 <template>
   <div class="overview">
     <div v-for="item in datasetList" :key="item.title" class="overview-item" @click="handleClick(item)">
-      <div class="item-num">{{ `-共${item.num}条 样例${item.example}条` }}</div>
+      <div class="item-num">{{ `-共${item.num}条` }}</div>
       <div class="item-title">{{ item.title }}</div>
       <div class="item-desc">
         <el-tooltip :content="item.desc" placement="top" effect="light" width="300">

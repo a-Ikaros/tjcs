@@ -206,6 +206,18 @@ const routes: RouteRecordRaw[] = [
       ),
   },
   {
+    path: "/data-template-detail/:id",
+    name: "data-template-detail",
+    meta: {
+      title: "数据模板详情",
+      noAuth: true,
+    },
+    component: () =>
+      import(
+        /* webpackChunkName: "data-template-detail" */ "@/views/dataResources/dataTemplateDetail.vue"
+      ),
+  },
+  {
     path: "/login",
     meta: {
       title: "登录",

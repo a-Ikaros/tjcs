@@ -130,7 +130,7 @@ const microDataTypes: Array<cardInfo> = [
     ],
   },
   {
-    key: "dyxyl",
+    key: "cdMachineLearn",
     name: "机器学习用数据",
   }
 ];

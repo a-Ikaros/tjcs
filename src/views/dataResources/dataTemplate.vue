@@ -1,0 +1,183 @@
+<script lang="ts" setup>
+import dataProductUser from '@/assets/img/dataProduct/product-icon-user.png'
+import dataProductTime from '@/assets/img/dataProduct/product-icon-time.png'
+import { useRouter } from 'vue-router'
+import { ref, computed } from 'vue'
+import PdfPreview from '@/components/PdfPreview.vue'
+import ProductionBlock from '@/components/ProductionBlock.vue'
+import { Search } from '@element-plus/icons-vue'
+
+import twoDimensional from '@/assets/pdf/dataTemplate/二维材料计算数据模板.pdf'
+import optoelectronic from '@/assets/pdf/dataTemplate/光电材料计算数据模板.pdf'
+import perovskite from '@/assets/pdf/dataTemplate/钙钛矿材料计算数据模板.pdf'
+import catalytic from '@/assets/pdf/dataTemplate/催化材料数据模板.pdf'
+import metallic from '@/assets/pdf/dataTemplate/合金钢综合材料数据模版.pdf'
+import battery from '@/assets/pdf/dataTemplate/电池有机正极材料电压计算数据模板.pdf'
+import optoelectronics from '@/assets/pdf/dataTemplate/有机光电材料电荷传输计算数据模板.pdf'
+import composite from '@/assets/pdf/dataTemplate/三维编织复合材料性能数据模板.pdf'
+import stainlessSteel from '@/assets/pdf/dataTemplate/不锈钢综合材料数据模版.pdf'
+
+const router = useRouter()
+
+const searchValue = ref('')
+
+const curProductList = ref([
+    {
+        id: 'two-dimensional',
+        title: '二维材料计算数据模板',
+        pdfPath: twoDimensional,
+        user: '材料计算设计专用数据资源节点',
+        time: '2025.10.17',
+        link: ''
+    },
+    {
+        id: 'optoelectronic',
+        title: '光电材料计算数据模板',
+        pdfPath: optoelectronic,
+        user: '材料计算设计专用数据资源节点',
+        time: '2025.10.17',
+    },
+    {
+        id: 'perovskite',
+        title: '钙钛矿材料计算数据模板',
+        pdfPath: perovskite,
+        user: '材料计算设计专用数据资源节点',
+        time: '2025.12.25'
+    },
+    {
+        id: 'catalytic',
+        title: '催化材料数据模板',
+        pdfPath: catalytic,
+        user: '材料计算设计专用数据资源节点',
+        time: '2025.12.25'
+    },
+    {
+        id: 'metallic',
+        title: '合金钢综合材料数据模版',
+        pdfPath: metallic,
+        user: '材料计算设计专用数据资源节点',
+        time: '2025.12.25'
+    },
+    {
+        id: 'battery',
+        title: '电池有机正极材料电压计算数据模板',
+        pdfPath: battery,
+        user: '材料计算设计专用数据资源节点',
+        time: '2025.12.25'
+    },
+    {
+        id: 'optoelectronics',
+        title: '有机光电材料电荷传输计算数据模板',
+        pdfPath: optoelectronics,
+        user: '材料计算设计专用数据资源节点',
+        time: '2025.12.25'
+    },
+    {
+        id: 'composite',
+        title: '三维编织复合材料性能数据模板',
+        pdfPath: composite,
+        user: '材料计算设计专用数据资源节点',
+        time: '2025.12.25'
+    },
+    {
+        id: 'stainless-steel',
+        title: '不锈钢综合材料数据模版',
+        pdfPath: stainlessSteel,
+        user: '材料计算设计专用数据资源节点',
+        time: '2025.12.25'
+    }
+])
+
+const filteredProductList = computed(() => {
+    if (!searchValue.value.trim()) {
+        return curProductList.value
+    }
+    const keyword = searchValue.value.toLowerCase()
+    return curProductList.value.filter(item =>
+        item.title.toLowerCase().includes(keyword)
+    )
+})
+
+const jumpToDetail = (productId) => {
+    const url = router.resolve({ name: 'data-template-detail', params: { id: productId } }).href;
+    window.open(url, '_blank', 'noreferrer');
+}
+</script>
+<template>
+    <div class="data-template-container">
+        <div class="search-container">
+            <el-input
+                v-model="searchValue"
+                placeholder="请输入模板名称进行搜索"
+                clearable
+                :prefix-icon="Search"
+                class="search-input"
+            />
+        </div>
+
+        <div class="col-content">
+            <ProductionBlock 
+                v-for="(item, index) in filteredProductList" 
+                :key="index"
+                :item="item"
+                @click="jumpToDetail(item.id || (index + 1).toString())"
+            >
+                <template #icon>
+                    <div class="pdf-preview">
+                        <PdfPreview :pdf-path="item.pdfPath" />
+                    </div>
+                </template>
+            </ProductionBlock>
+
+            <div v-if="filteredProductList.length === 0" class="no-result">
+                <el-empty description="未找到匹配的数据模板" />
+            </div>
+        </div>
+    </div>
+</template>
+<style lang="scss" scoped>
+.data-template-container {
+    width: 100%;
+}
+
+.search-container {
+    width: 100%;
+    margin: 0 24px 24px;
+    box-sizing: border-box;
+
+    .search-input {
+        width: 100%;
+        height: 48px;
+
+        :deep(.el-input__wrapper) {
+            height: 48px;
+        }
+    }
+}
+
+.col-content {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-between;
+    width: 100%;
+    margin: 0 24px 24px;
+
+    :deep(.production-block) {
+        width: calc(50% - 60px);
+        margin-bottom: 24px;
+    }
+
+    .pdf-preview {
+        width: 118px;
+        height: 88px;
+    }
+
+    .no-result {
+        width: 100%;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        padding: 60px 0;
+    }
+}
+</style>
