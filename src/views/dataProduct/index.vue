@@ -15,7 +15,7 @@
               fill="white" />
           </svg>
           <span class="li-icon" :class="{ 'selected-li-icon': item.key === selectedLi }" v-else></span>
-          <span>{{ `${item.title}${item.num !== null ? `（${item.num}）` : ''}` }}</span>
+          <span>{{ `${item.title}` }}</span>
         </div>
       </div>
       <div v-if="selectedLi === 'all'" class="func-content">
@@ -23,62 +23,34 @@
           <el-collapse-item name="1">
             <template #title>
               <div class="col-online-title">
-                <div><span class="col-online-icon"></span>{{ `已上线产品数据（${6}）` }}</div>
+                <div><span class="col-online-icon"></span>{{ `已上线产品数据` }}</div>
                 <div class="col-tip">{{ activeNames.includes('1') ? '查看全部' : '收起隐藏' }}</div>
               </div>
             </template>
             <div class="col-content mt12">
-              <div class="production-block" v-for="(item, index) in onlineProduct" :key="index"
-                @click="jumpToDetail(item.id || (index + 1).toString())">
-                <img :src="item.img" alt="数据库交互工具" style="width: 5.8vw;height: 5.8vw;background-color: #e9eff8" />
-                <div class="block-content">
-                  <div class="block-title">
-                    <el-text line-clamp="1" class="block-title">
-                      {{ item.title }}
-                    </el-text>
-                  </div>
-                  <div class="block-desc">
-                    <el-text line-clamp="2" class="title-text">
-                      {{ item.desc }}
-                    </el-text>
-                  </div>
-                  <div class="block-desc block-info">
-                    <img :src="dataProductUser" alt="用户" class="mr6"> <span class="mr12">{{ item.user }}</span>
-                    <img :src="dataProductTime" alt="时间" class="mr6"> <span>{{ item.time }}</span>
-                  </div>
-                </div>
-              </div>
+              <ProductionBlock 
+                v-for="(item, index) in onlineProduct" 
+                :key="index"
+                :item="item"
+                @click="jumpToDetail(item)"
+              />
             </div>
 
           </el-collapse-item>
           <el-collapse-item title="Feedback" name="2">
             <template #title>
               <div class="col-offline-title">
-                <div><span class="col-offline-icon"></span>{{ `待上线产品数据（${12}）` }}</div>
+                <div><span class="col-offline-icon"></span>{{ `待上线产品数据` }}</div>
                 <div class="col-tip">{{ activeNames.includes('2') ? '查看全部' : '收起隐藏' }}</div>
               </div>
             </template>
             <div class="col-content mt12">
-              <div class="production-block" v-for="(item, index) in offlineProduct" :key="index"
-                @click="jumpToDetail(item.id || (index + 4).toString())">
-                <img :src="item.img" alt="数据库交互工具" style="width: 5.8vw;height: 5.8vw;background-color: #e9eff8" />
-                <div class="block-content">
-                  <div class="block-title">
-                    <el-text line-clamp="1" class="block-title">
-                      {{ item.title }}
-                    </el-text>
-                  </div>
-                  <div class="block-desc">
-                    <el-text line-clamp="2" class="title-text">
-                      {{ item.desc }}
-                    </el-text>
-                  </div>
-                  <div class="block-desc block-info">
-                    <img :src="dataProductUser" alt="用户" class="mr6"> <span class="mr12">{{ item.user }}</span>
-                    <img :src="dataProductTime" alt="时间" class="mr6"> <span>{{ item.time }}</span>
-                  </div>
-                </div>
-              </div>
+              <ProductionBlock 
+                v-for="(item, index) in offlineProduct" 
+                :key="index"
+                :item="item"
+                @click="jumpToDetail(item)"
+              />
             </div>
           </el-collapse-item>
 
@@ -141,29 +113,13 @@
         </div>
       </div>
       <div v-else class="func-content">
-        <div class="col-content ">
-          <div class="col-content">
-            <div class="production-block" v-for="(item, index) in curProductList" :key="index"
-              @click="jumpToDetail(item.id || (index + 4).toString())">
-              <img :src="item.img" alt="数据库交互工具" style="width: 5.8vw;height: 5.8vw;background-color: #e9eff8" />
-              <div class="block-content">
-                <div class="block-title">
-                  <el-text line-clamp="1" class="block-title">
-                    {{ item.title }}
-                  </el-text>
-                </div>
-                <div class="block-desc">
-                  <el-text line-clamp="2" class="title-text">
-                    {{ item.desc }}
-                  </el-text>
-                </div>
-                <div class="block-desc block-info">
-                  <img :src="dataProductUser" alt="用户" class="mr6"> <span class="mr12">{{ item.user }}</span>
-                  <img :src="dataProductTime" alt="时间" class="mr6"> <span>{{ item.time }}</span>
-                </div>
-              </div>
-            </div>
-          </div>
+        <div class="col-content">
+          <ProductionBlock 
+            v-for="(item, index) in curProductList" 
+            :key="index"
+            :item="item"
+            @click="jumpToDetail(item)"
+          />
         </div>
       </div>
     </div>
@@ -181,6 +137,7 @@ import ReaxFFLogo from '@/assets/img/dataProduct/detail/ReaXFF/logo.jpg'
 import { softwareList } from '@/views/dataResources/softwareList'
 import DatabaseQueryToolLogo from '@/assets/img/dataProduct/detail/DatabaseQueryTool/head.png'
 import { jumpTo } from '@/utils';
+import ProductionBlock from '@/components/ProductionBlock.vue'
 
 const router = useRouter();
 const route = useRoute()
@@ -196,9 +153,13 @@ const onSelProduct = (item) => {
   selectedLi.value = item.key
 }
 
-const jumpToDetail = (productId) => {
-  const url = router.resolve({ name: 'data-product-detail', params: { id: productId } }).href;
-  window.open(url, '_blank', 'noreferrer');
+const jumpToDetail = (item) => {
+  if (item.link) {
+    jumpTo(item.link)
+  } else {
+    const url = router.resolve({ name: 'data-product-detail', params: { id: item.id } }).href;
+    window.open(url, '_blank', 'noreferrer');
+  }
 }
 const activeNames = ref(['1', '2'])
 const onlineProduct = ref([])
@@ -229,16 +190,16 @@ const getProductList = () => {
       desc: '反应力场数据采集软件ReaxFFCollector面向文献中ReaXFF参数主要以PDF形式发布、难以直接复用的问题，提供从PDF自动提取、清洗与格式修复的一体化解决方案。该软件可将分散目易出错的反应力场文本标准化为可被LAMMPS等主流分子动力学软件直接读取的力场文件，并通过自动化验证快速评估参数可用性，显著降低人工整理成本，提高反应力场参数复用的可靠性与分子动力学研究效率。',
       img: ReaxFFLogo,
       user: '材料计算设计专用数据资源节点',
-      time: '2025.10.17',
+      time: '2026.02.09',
       link: ''
     },
     {
       id: 'LiteratureData',
       title: '材料文献数据挖掘系统',
-      desc: '支撑新材料计算设计数据资源节点--文献数据挖掘工具。面向PDF、markdown等材料文献文件类型，自动识别并挖掘材料成分、工艺、性能等要素，抽取结构化性质数据，同时构建材料结构化知识图谱，具有图谱可视化功能，同时支持根据抽取的性质数据知识库开展智能知识问答。',
+      desc: '材料文献数据挖掘系统是支撑新材料计算设计数据资源节点--文献数据挖掘工具。面向PDF、markdown等材料文献文件类型，自动识别并挖掘材料成分、工艺、性能等要素，抽取结构化性质数据，同时构建材料结构化知识图谱，具有图谱可视化功能，同时支持根据抽取的性质数据知识库开展智能知识问答。',
       img: productBlockImg,
       user: '材料计算设计专用数据资源节点',
-      time: '2025.10.17',
+      time: '2026.02.09',
     },
     {
       id: 'FirstPrinciplesData',
@@ -246,7 +207,7 @@ const getProductList = () => {
       desc: '第一性原理计算数据采集软件是一款专为科研人员开发的自动化Web端采集工具，实现Quantum-ESPRESSO网站UPF赝势数据和Turbomole网站基组数据的自动化高效采集，结合实时监控、自定义采集范围及输出目录和全局重置实用功能，为量子化学与材料科学研究提供稳定可靠的数据获取解决方案。',
       img: productBlockImg,
       user: '材料计算设计专用数据资源节点',
-      time: '2025.12.25'
+      time: '2026.02.09'
     },
     {
       id: 'PhaseFieldData',
@@ -254,15 +215,15 @@ const getProductList = () => {
       desc: '相场模拟数据采集软件是一款专为材料科学研究人员设计的专业数据采集工具。该软件采用自动化技术，通过Web界面实现NIST相场数据库的高效采集，支持批量数据下载和智能断点续传功能。系统提供实时任务监控、日志查看和统计分析等功能，帮助科研人员快速获取高质量的相场模拟数据集，提升科研效率和数据处理精度。',
       img: productBlockImg,
       user: '材料计算设计专用数据资源节点',
-      time: '2025.12.25'
+      time: '2026.02.09'
     },
     {
       id: 'DatabaseQueryToolData',
-      title: '数据库统一查询工具',
-      desc: '标准的材料数据库查询软件，专为材料科学研究人员设计。通过本工具可以统一查询全球多个材料数据库，提供可视化元素选择、智能结果管理和数据导出功能，无需逐个访问不同数据库，大幅提升材料数据检索效率。',
+      title: '材料数据库统一采集工具',
+      desc: '材料数据库统一采集工具是一款基于 OPTIMADE 标准的材料数据库查询软件，专为材料科学研究人员设计。通过本工具可以统一查询全球多个材料数据库，提供可视化元素选择、智能结果管理和数据导出功能，无需逐个访问不同数据库，大幅提升材料数据检索效率。',
       img: ReaxFFLogo,
       user: '材料计算设计专用数据资源节点',
-      time: '2025.10.17',
+      time: '2026.02.09',
       link: ''
     },
     {
@@ -271,120 +232,77 @@ const getProductList = () => {
       desc: 'TDB（热力学数据库，Thermodynamic DataBase）文件包含热力学参数的完整描述，内部包括元素、相、组成、参数等多个部分，结构复杂多样，是介观尺度相图计算用的共性基础数据。TDB元数据抽取与校验平台集成了从数据获取到结果验证的全流程功能，帮助高效管理和利用.TDB文件。',
       img: productBlockImg,
       user: '材料计算设计专用数据资源节点',
-      time: '2026.01.28',
+      time: '2026.02.09',
       link: ''
+    },
+    {
+      id: 'OrganicCathodePotentialEngine',
+      title: '有机正极材料还原电位生产引擎',
+      desc: '有机正极材料还原电位生产引擎，基于能斯特方程量化材料在中性与还原态之间的能量差异，实现电位的高效精准计算。高效生产出的电位数据将用于机器学习训练，以预测有机正极材料的工作电压。',
+      img: productBlockImg,
+      user: '材料计算设计专用数据资源节点',
+      time: '2026.02.09',
+      link: 'http://mathtc.nscc-tj.cn/workflow_v3/work?project=133&category=5&name=%E6%9C%89%E6%9C%BA%E6%AD%A3%E6%9E%81%E6%9D%90%E6%96%99%E8%BF%98%E5%8E%9F%E7%94%B5%E4%BD%8D%E7%94%9F%E4%BA%A7%E5%BC%95%E6%93%8E&desc=%E6%9C%89%E6%9C%BA%E6%AD%A3%E6%9E%81%E6%9D%90%E6%96%99%E8%BF%98%E5%8E%9F%E7%94%B5%E4%BD%8D%E7%94%9F%E4%BA%A7%E5%BC%95%E6%93%8E'
+    },
+    {
+      id: 'BatteryElectrodeSolubilityEngine',
+      title: '电池电极材料溶解度生产引擎',
+      desc: '电池电极材料溶解度生产引擎，通过溶剂化体系与气相体系的单点能差值精确表征溶解特性，实现溶解性能的高效精准计算。高效生产出的溶解度参数将用于溶剂筛选与配方优化，以预测材料在复杂溶液体系中的溶解行为。',
+      img: productBlockImg,
+      user: '材料计算设计专用数据资源节点',
+      time: '2026.02.09',
+      link: 'http://mathtc.nscc-tj.cn/workflow_v3/work?project=134&category=5&name=%E7%94%B5%E6%B1%A0%E7%94%B5%E6%9E%81%E6%9D%90%E6%96%99%E6%BA%B6%E8%A7%A3%E5%BA%A6%E7%94%9F%E4%BA%A7%E5%BC%95%E6%93%8E&desc=%E7%94%B5%E6%B1%A0%E7%94%B5%E6%9E%81%E6%9D%90%E6%96%99%E6%BA%B6%E8%A7%A3%E5%BA%A6%E7%94%9F%E4%BA%A7%E5%BC%95%E6%93%8E'
     },
   ]
   offlineProduct.value = [
     {
       id: '4',
-      title: '多尺度模拟数据集',
-      desc: '包含从原子到宏观的仿真结果样本（能带、应力-应变曲线、相图等），计划支持按体系类型下载完整数据包。',
+      title: '宏观共性基础数据采集整合工具',
+      desc: '宏观数据采集工具面向大型仿真计算用数据，提供自动化采集与标准化整合功能，支持高效提取力学性能、热物性等宏观共性基础数据，实现多源数据的统一管理与快速复用，显著提升仿真数据采集与整理效率。',
       img: productBlockImg,
       user: '模拟中心',
-      time: '2025.11.05',
+      time: '2026.02.09',
       link: ''
     },
     {
-      id: '5',
-      title: '晶体结构数据库升级',
-      desc: '对现有晶体数据库进行结构清洗、重标注与索引优化，支持更精准的相似结构检索与批量导出。',
+      id: 'CrystalStructureProcessingTool',
+      title: '晶体材料结构数据二次处理工具',
+      desc: '晶体结构数据净化与整合工具面向MP、OQMD、ICSD等主流材料数据库中晶体结构数据存在重复与错误的问题，提供跨库自动去重、关键参数验证与数据质量筛选的一体化处理能力，可快速输出洁净、可靠的结构数据集，显著提升计算材料学中数据准备的效率与可靠性。',
       img: productBlockImg,
-      user: '结构解析组',
-      time: '2025.10.01',
-      link: ''
+      user: '材料计算设计专用数据资源节点',
+      time: '2026.02.09'
     },
     {
-      id: '6',
-      title: '分子动力学分析模块',
-      desc: '提供 MD 轨迹分析、配位数统计、能量分布与可视化报告生成功能，便于离线批量处理大规模轨迹数据。',
+      id: 'MultiAlloyNEPEngine',
+      title: '多元合金机器学习势NEP生产引擎',
+      desc: '多元合金机器学习势NEP生产引擎提供了构建金属及多元合金NEP的详细流程，主要包含三部分：初始势函数构建、主动学习与探索及NEP势训练与测试。',
       img: productBlockImg,
-      user: '计算材料平台',
-      time: '2025.09.12',
-      link: ''
+      user: '材料计算设计专用数据资源节点',
+      time: '2026.02.09'
     },
     {
-      id: '7',
-      title: '材料合成路线推荐',
-      desc: '基于文献与专利数据的合成路线挖掘模块，输出可行实验步骤与关键试剂/条件建议（待内测）。',
+      id: 'ThermodynamicTDBEngine',
+      title: '热力学数据库TDB数据生产引擎',
+      desc: '基于第一性原理自动化生产面向相图计算所需的热力学数据库TDB数据，实现材料微观数据到介观数据的高效转换。',
       img: productBlockImg,
-      user: '化学数据组',
-      time: '2025.08.28',
-      link: ''
+      user: '材料计算设计专用数据资源节点',
+      time: '2026.02.09'
     },
     {
-      id: '8',
-      title: '材料性能预测API',
-      desc: '离线训练的机器学习模型服务化接口，预测弹性模量、带隙等指标，支持批量预测与模型版本管理。',
+      id: 'MagneticBandgapEngine',
+      title: '磁性材料能带数据自主生产引擎',
+      desc: '通过第一性原理计算的方法，对从materials project筛选的能带缺失磁性材料进行电子结构性质生产补充。',
       img: productBlockImg,
-      user: '模型团队',
-      time: '2025.08.10',
-      link: ''
+      user: '材料计算设计专用数据资源节点',
+      time: '2026.02.09'
     },
     {
-      id: '9',
-      title: '设备数据接入器',
-      desc: '用于将实验表征设备（XRD、SEM、CV 等）数据接入平台并标准化保存，支持批量上传与元数据标注功能。',
+      id: 'MagneticPropertyPredictionModel',
+      title: '磁性材料性能预测模型',
+      desc: '通过现有磁性材料数据对图神经网络模型进行训练，并分出测试集数据对模型准确度进行测试。训练后模型可预测未知的磁性材料性能',
       img: productBlockImg,
-      user: '数据工程部',
-      time: '2025.07.22',
-      link: ''
-    },
-    {
-      id: '10',
-      title: '用户行为分析仪表盘',
-      desc: '离线分析用户行为与访问日志，生成热力图、使用频次与功能偏好，辅助产品决策与资源规划。',
-      img: productBlockImg,
-      user: '平台运营',
-      time: '2025.06.30',
-      link: ''
-    },
-    {
-      id: '11',
-      title: '定制模型训练服务',
-      desc: '提供数据标注、特征工程与模型训练一站式离线服务，交付可部署模型或 API 接入包。',
-      img: productBlockImg,
-      user: '模型团队',
-      time: '2025.06.10',
-      link: ''
-    }
-    ,
-    {
-      id: '12',
-      title: '材料数据标准化工具包',
-      desc: '一套离线工具用于字段映射、单位换算与元数据模板生成，便于批量标准化历史数据并输出可入库格式。',
-      img: productBlockImg,
-      user: '数据治理组',
-      time: '2025.05.01',
-      link: ''
-    },
-    {
-      id: '13',
-      title: '实验室信息管理系统（LIMS）集成',
-      desc: '离线集成包，支持将 LIMS 导出的实验记录批量转换并同步到平台，保留原始附件与制样信息。',
-      img: productBlockImg,
-      user: '平台工程',
-      time: '2025.04.15',
-      link: ''
-    },
-    {
-      id: '14',
-      title: '知识图谱构建服务（离线）',
-      desc: '提供基于实体抽取与关系抽取的离线知识图谱构建服务，可从文献与数据库中抽取材料-性能-制备等关系。',
-      img: productBlockImg,
-      user: '知识图谱组',
-      time: '2025.03.01',
-      link: ''
-    }
-    ,
-    {
-      id: '15',
-      title: '离线数据脱敏与合规审计工具',
-      desc: '为敏感科研数据提供批量脱敏、访问审计与合规性检查功能，输出可审计的脱敏报告，便于数据共享与合规发布。',
-      img: productBlockImg,
-      user: '合规与安全组',
-      time: '2025.02.20',
-      link: ''
+      user: '材料计算设计专用数据资源节点',
+      time: '2026.02.09'
     }
   ]
 }
@@ -399,22 +317,22 @@ watch(() => selectedLi.value, () => {
 const curProductList = ref([])
 const getCurProductList = () => {
   const toolProducts = [
-    {
+     {
       id: 'ReaxFFData',
       title: '反应力场数据采集软件ReaxFFCollector',
       desc: '反应力场数据采集软件ReaxFFCollector面向文献中ReaXFF参数主要以PDF形式发布、难以直接复用的问题，提供从PDF自动提取、清洗与格式修复的一体化解决方案。该软件可将分散目易出错的反应力场文本标准化为可被LAMMPS等主流分子动力学软件直接读取的力场文件，并通过自动化验证快速评估参数可用性，显著降低人工整理成本，提高反应力场参数复用的可靠性与分子动力学研究效率。',
       img: ReaxFFLogo,
       user: '材料计算设计专用数据资源节点',
-      time: '2025.10.17',
+      time: '2026.02.09',
       link: ''
     },
     {
       id: 'LiteratureData',
       title: '材料文献数据挖掘系统',
-      desc: '支撑新材料计算设计数据资源节点--文献数据挖掘工具。面向PDF、markdown等材料文献文件类型，自动识别并挖掘材料成分、工艺、性能等要素，抽取结构化性质数据，同时构建材料结构化知识图谱，具有图谱可视化功能，同时支持根据抽取的性质数据知识库开展智能知识问答。',
+      desc: '材料文献数据挖掘系统是支撑新材料计算设计数据资源节点--文献数据挖掘工具。面向PDF、markdown等材料文献文件类型，自动识别并挖掘材料成分、工艺、性能等要素，抽取结构化性质数据，同时构建材料结构化知识图谱，具有图谱可视化功能，同时支持根据抽取的性质数据知识库开展智能知识问答。',
       img: productBlockImg,
       user: '材料计算设计专用数据资源节点',
-      time: '2025.10.17',
+      time: '2026.02.09',
     },
     {
       id: 'FirstPrinciplesData',
@@ -422,7 +340,7 @@ const getCurProductList = () => {
       desc: '第一性原理计算数据采集软件是一款专为科研人员开发的自动化Web端采集工具，实现Quantum-ESPRESSO网站UPF赝势数据和Turbomole网站基组数据的自动化高效采集，结合实时监控、自定义采集范围及输出目录和全局重置实用功能，为量子化学与材料科学研究提供稳定可靠的数据获取解决方案。',
       img: productBlockImg,
       user: '材料计算设计专用数据资源节点',
-      time: '2025.12.25'
+      time: '2026.02.09'
     },
     {
       id: 'PhaseFieldData',
@@ -430,7 +348,16 @@ const getCurProductList = () => {
       desc: '相场模拟数据采集软件是一款专为材料科学研究人员设计的专业数据采集工具。该软件采用自动化技术，通过Web界面实现NIST相场数据库的高效采集，支持批量数据下载和智能断点续传功能。系统提供实时任务监控、日志查看和统计分析等功能，帮助科研人员快速获取高质量的相场模拟数据集，提升科研效率和数据处理精度。',
       img: productBlockImg,
       user: '材料计算设计专用数据资源节点',
-      time: '2025.12.25'
+      time: '2026.02.09'
+    },
+    {
+      id: 'DatabaseQueryToolData',
+      title: '材料数据库统一采集工具',
+      desc: '材料数据库统一采集工具是一款基于 OPTIMADE 标准的材料数据库查询软件，专为材料科学研究人员设计。通过本工具可以统一查询全球多个材料数据库，提供可视化元素选择、智能结果管理和数据导出功能，无需逐个访问不同数据库，大幅提升材料数据检索效率。',
+      img: ReaxFFLogo,
+      user: '材料计算设计专用数据资源节点',
+      time: '2026.02.09',
+      link: ''
     },
     {
       id: 'MesoMtdData',
@@ -438,87 +365,69 @@ const getCurProductList = () => {
       desc: 'TDB（热力学数据库，Thermodynamic DataBase）文件包含热力学参数的完整描述，内部包括元素、相、组成、参数等多个部分，结构复杂多样，是介观尺度相图计算用的共性基础数据。TDB元数据抽取与校验平台集成了从数据获取到结果验证的全流程功能，帮助高效管理和利用.TDB文件。',
       img: productBlockImg,
       user: '材料计算设计专用数据资源节点',
-      time: '2026.01.28'
+      time: '2026.02.09',
+      link: ''
     },
   ]
 
   const engineProducts = [
     {
-      title: '连贯性计算引擎',
-      desc: '任务调度、结果收集与错误重试一体化管理，支持常见 DFT 软件（VASP、Quantum ESPRESSO）接入。',
+      id: 'OrganicCathodePotentialEngine',
+      title: '有机正极材料还原电位生产引擎',
+      desc: '有机正极材料还原电位生产引擎，基于能斯特方程量化材料在中性与还原态之间的能量差异，实现电位的高效精准计算。高效生产出的电位数据将用于机器学习训练，以预测有机正极材料的工作电压。',
       img: productBlockImg,
-      user: '计算材料平台',
-      time: '2025.08.12'
+      user: '材料计算设计专用数据资源节点',
+      time: '2026.02.09',
+      link: 'http://mathtc.nscc-tj.cn/workflow_v3/work?project=133&category=5&name=%E6%9C%89%E6%9C%BA%E6%AD%A3%E6%9E%81%E6%9D%90%E6%96%99%E8%BF%98%E5%8E%9F%E7%94%B5%E4%BD%8D%E7%94%9F%E4%BA%A7%E5%BC%95%E6%93%8E&desc=%E6%9C%89%E6%9C%BA%E6%AD%A3%E6%9E%81%E6%9D%90%E6%96%99%E8%BF%98%E5%8E%9F%E7%94%B5%E4%BD%8D%E7%94%9F%E4%BA%A7%E5%BC%95%E6%93%8E'
     },
     {
-      title: '分子动力学批处理引擎',
-      desc: '支持 LAMMPS/GPUMD 作业批量提交、监控与后处理（轨迹切分、配位分析、能量统计）。',
+      id: 'BatteryElectrodeSolubilityEngine',
+      title: '电池电极材料溶解度生产引擎',
+      desc: '电池电极材料溶解度生产引擎，通过溶剂化体系与气相体系的单点能差值精确表征溶解特性，实现溶解性能的高效精准计算。高效生产出的溶解度参数将用于溶剂筛选与配方优化，以预测材料在复杂溶液体系中的溶解行为。',
       img: productBlockImg,
-      user: '计算材料平台',
-      time: '2025.08.01'
+      user: '材料计算设计专用数据资源节点',
+      time: '2026.02.09',
+      link: 'http://mathtc.nscc-tj.cn/workflow_v3/work?project=134&category=5&name=%E7%94%B5%E6%B1%A0%E7%94%B5%E6%9E%81%E6%9D%90%E6%96%99%E6%BA%B6%E8%A7%A3%E5%BA%A6%E7%94%9F%E4%BA%A7%E5%BC%95%E6%93%8E&desc=%E7%94%B5%E6%B1%A0%E7%94%B5%E6%9E%81%E6%9D%90%E6%96%99%E6%BA%B6%E8%A7%A3%E5%BA%A6%E7%94%9F%E4%BA%A7%E5%BC%95%E6%93%8E'
     },
     {
-      title: '材料性能预测引擎',
-      desc: '集成多模型的离线预测系统，可批量预测带隙、弹性模量、热导等指标并输出可信度评估。',
+      id: 'CrystalStructureProcessingTool',
+      title: '晶体材料结构数据二次处理工具',
+      desc: '晶体结构数据净化与整合工具面向MP、OQMD、ICSD等主流材料数据库中晶体结构数据存在重复与错误的问题，提供跨库自动去重、关键参数验证与数据质量筛选的一体化处理能力，可快速输出洁净、可靠的结构数据集，显著提升计算材料学中数据准备的效率与可靠性。',
       img: productBlockImg,
-      user: '模型团队',
-      time: '2025.07.10'
+      user: '材料计算设计专用数据资源节点',
+      time: '2026.02.09'
     },
     {
-      title: '晶体相图计算模块',
-      desc: '基于热力学数据库的相图计算服务，支持多组分体系并导出相稳定性报告。',
+      id: 'MultiAlloyNEPEngine',
+      title: '多元合金机器学习势NEP生产引擎',
+      desc: '多元合金机器学习势NEP生产引擎提供了构建金属及多元合金NEP的详细流程，主要包含三部分：初始势函数构建、主动学习与探索及NEP势训练与测试。',
       img: productBlockImg,
-      user: '模拟中心',
-      time: '2025.06.28'
+      user: '材料计算设计专用数据资源节点',
+      time: '2026.02.09'
     },
     {
-      title: '自动化工作流编排器',
-      desc: '拖拽式工作流设计器，支持串行/并行任务编排，可将常用计算流程封装为可复用模板。',
+      id: 'ThermodynamicTDBEngine',
+      title: '热力学数据库TDB数据生产引擎',
+      desc: '基于第一性原理自动化生产面向相图计算所需的热力学数据库TDB数据，实现材料微观数据到介观数据的高效转换。',
       img: productBlockImg,
-      user: '平台工程',
-      time: '2025.06.15'
+      user: '材料计算设计专用数据资源节点',
+      time: '2026.02.09'
     },
     {
-      title: '催化位点筛选引擎',
-      desc: '用于高通量筛选催化活性位点的自动化分析模块，结合能量计算与表面吸附能评价。',
+      id: 'MagneticBandgapEngine',
+      title: '磁性材料能带数据自主生产引擎',
+      desc: '通过第一性原理计算的方法，对从materials project筛选的能带缺失磁性材料进行电子结构性质生产补充。',
       img: productBlockImg,
-      user: '催化研究组',
-      time: '2025.05.30'
+      user: '材料计算设计专用数据资源节点',
+      time: '2026.02.09'
     },
     {
-      title: '材料组合优化器',
-      desc: '基于贝叶斯优化与多目标搜索的材料组合优化工具，旨在寻找满足多性能约束的最优候选。',
+      id: 'MagneticPropertyPredictionModel',
+      title: '磁性材料性能预测模型',
+      desc: '通过现有磁性材料数据对图神经网络模型进行训练，并分出测试集数据对模型准确度进行测试。训练后模型可预测未知的磁性材料性能',
       img: productBlockImg,
-      user: '模型团队',
-      time: '2025.05.10'
-    },
-    {
-      title: '微结构表征自动化',
-      desc: '对 SEM/EBSD/AFM 等表征结果的自动化特征提取与统计分析，输出标准化报告。',
-      img: productBlockImg,
-      user: '表征中心',
-      time: '2025.04.20'
-    },
-    {
-      title: '应力应变仿真引擎',
-      desc: '面向材料力学的有限元/谱方法仿真平台，支持批量参数扫描与收敛性分析。',
-      img: productBlockImg,
-      user: '力学研究组',
-      time: '2025.04.05'
-    },
-    {
-      title: '多尺度耦合平台',
-      desc: '连通从原子尺度到宏观尺度的仿真链路，支持结果传递与误差控制策略。',
-      img: productBlockImg,
-      user: '模拟中心',
-      time: '2025.03.18'
-    },
-    {
-      title: '模型训练与部署管线',
-      desc: '完整的离线模型训练、验证与部署流程，包含数据预处理、自动超参搜索和模型版本管理。',
-      img: productBlockImg,
-      user: '模型团队',
-      time: '2025.02.28'
+      user: '材料计算设计专用数据资源节点',
+      time: '2026.02.09'
     }
   ]
 
@@ -710,7 +619,7 @@ watchEffect(() => {
       {
         title: '生产引擎',
         key: 'engine',
-        num: 11,
+        num: 7,
       },
       // {
       //   title: '材料数据库系统',
@@ -815,6 +724,8 @@ watchEffect(() => {
       display: flex;
       flex-wrap: wrap;
       justify-content: space-between;
+      width: 100%;
+
     }
 
     .col-online-title {
@@ -857,48 +768,6 @@ watchEffect(() => {
       margin-right: 12px;
     }
   }
-}
-
-.production-block {
-  display: flex;
-  align-items: center;
-  justify-content: flex-start;
-  width: calc(50% - 60px);
-  background-color: #f7f9fb;
-  padding: 24px;
-  margin: 0 0 24px 0;
-  height: 10vh;
-
-  .block-content {
-    margin-left: 24px;
-    display: flex;
-    flex-direction: column;
-    justify-content: space-between;
-
-    .block-title {
-      width: 100%;
-      font-size: 16px;
-      font-weight: 700;
-      color: #333333;
-    }
-
-    .block-desc {
-      font-size: 12px;
-      color: #999999;
-    }
-
-    .block-info {
-      display: flex;
-      align-items: center;
-    }
-  }
-}
-
-.production-block:hover {
-  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-  transform: translateY(-2px);
-  transition: box-shadow;
-  cursor: pointer;
 }
 
 .el-collapse {

@@ -13,7 +13,8 @@ const route = useRoute();
 const urlMap={
   FirstPrinciplesData:'http://172.31.6.90:5001/',
   PrivateDomainDataSharingSystemData:'http://1.92.89.15:8080/',
-  MesoMtdData:'http://172.31.6.90:8000/'
+  MesoMtdData:'http://172.31.6.90:8000/',
+  PhaseFieldData:'http://172.31.6.90:5002/'
 }
 const iframeUrl = computed(() => {
   const id = route.params.id as string;

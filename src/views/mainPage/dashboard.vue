@@ -9,7 +9,7 @@
         <div class="marquee">
           <div class="marquee-inner">
             <span v-for="(item, index) in newsDynamic" :key="index">
-              <span class="hero-block" @click="jumpTo(item.link)">
+              <span class="hero-block">
                 {{ item.title }}
               </span>
               <span>{{ (index === newsDynamic.length - 1 ? '' : '&ensp;|&ensp;') }}</span>
@@ -78,21 +78,10 @@
             <titleLine :nameZh="'数据产品'" :nameEn="'/ COLLECTION TOOL'" :showMore="true" :moreLink="'/data-product'"
               class="block-title"></titleLine>
             <div class="data-production">
-              <div class="production-block" @click="router.push('/data-product')">
-                <img src="../../assets/img/database-tools.png" alt="数据库交互工具" style="width: 96px;height: 96px" />
-                <div class="block-content">
-                  <div class="block-title">数据库交互工具</div>
-                  <div class="block-desc">高效的数据采集工与管理工具，支持多种数据库格式</div>
-                </div>
-              </div>
-              <el-divider border-style="dashed" />
-              <div class="production-block" @click="router.push('/data-product')">
-                <img src="../../assets/img/spider-tools.jpeg" alt="数据库交互工具" style="width: 96px;height: 96px" />
-                <div class="block-content">
-                  <div class="block-title">网络采集工具</div>
-                  <div class="block-desc">自动化采集网络公开数据资源</div>
-                </div>
-              </div>
+              <template v-for="(item, index) in dataProducts" :key="index">
+                <ProductionBlock :item="item" :dashboard-style="true" @click="router.push('/data-product')" />
+                <el-divider v-if="index < dataProducts.length - 1" border-style="dashed" />
+              </template>
             </div>
           </div>
         </div>
@@ -141,14 +130,30 @@ import titleLine from '@/components/cardList/titleLine.vue'
 import dataStatics from "./dataStatics.vue";
 import noticeAnnouncement from './noticeAnnouncement.vue'
 import newsCenter from './newsCenter.vue'
+import ProductionBlock from '@/components/ProductionBlock.vue'
 import { jumpTo } from '@/utils'
 
 import { Search } from '@element-plus/icons-vue';
 import { onMounted, ref } from "vue";
 import { useRouter } from "vue-router";
+import { getStatisticsSetCount } from '@/api';
+import { capitalizeFirstLetter, clazzNameMap } from '@/utils/common';
 
 const router = useRouter()
 const searchValue = ref('')
+const dataProducts = ref([
+  {
+    title: '数据库交互工具',
+    desc: '高效的数据采集工与管理工具，支持多种数据库格式',
+    img: new URL('../../assets/img/database-tools.png', import.meta.url).href
+  },
+  {
+    title: '网络采集工具',
+    desc: '自动化采集网络公开数据资源',
+    img: new URL('../../assets/img/spider-tools.jpeg', import.meta.url).href
+  }
+])
+
 const handleSearch = () => {
   if (searchValue.value.trim()) {
     router.push({
@@ -161,25 +166,35 @@ const handleSearch = () => {
 }
 const newsDynamic = ref([])
 const friendList = ref([])
-onMounted(() => {
-  newsDynamic.value = [
-    {
-      title: '材料计算设计软件天河培育计划',
+onMounted(async () => {
+  try {
+    const { data: res } = await getStatisticsSetCount()
+    newsDynamic.value = res.filter(item => clazzNameMap[capitalizeFirstLetter(item.clazz)]).map(item =>
+    ({
+      title: `${clazzNameMap[capitalizeFirstLetter(item.clazz)]}数据--${item.count}条`,
       link: ''
-    },
-    {
-      title: '津·天河科学计算奖',
-      link: ''
-    },
-    {
-      title: '结构数据总计82784条',
-      link: ''
-    },
-    {
-      title: '基组数据总计740846条',
-      link: ''
-    },
-  ]
+    })
+    )
+  } catch (err) {
+    newsDynamic.value = [
+      {
+        title: '材料计算设计软件天河培育计划',
+        link: ''
+      },
+      {
+        title: '津·天河科学计算奖',
+        link: ''
+      },
+      {
+        title: '结构数据总计82784条',
+        link: ''
+      },
+      {
+        title: '基组数据总计740846条',
+        link: ''
+      },
+    ]
+  }
   friendList.value = [
     {
       title: '中华人民共和国信息部',
@@ -331,33 +346,6 @@ onMounted(() => {
   display: flex;
   flex-wrap: wrap;
   align-items: center;
-
-  .production-block {
-    display: flex;
-    align-items: center;
-    justify-content: flex-start;
-    cursor: pointer;
-
-    .block-content {
-      margin-left: 24px;
-      display: flex;
-      flex-direction: column;
-      justify-content: space-between;
-      height: 100px;
-
-      .block-title {
-        width: 100%;
-        font-size: 16px;
-        font-weight: 700;
-        color: #333333;
-      }
-
-      .block-desc {
-        font-size: 16px;
-        color: #999999;
-      }
-    }
-  }
 }
 
 .function-card {

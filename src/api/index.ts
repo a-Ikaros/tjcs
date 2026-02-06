@@ -68,9 +68,18 @@ export const getDefaultPotentialTypes = () => {
   });
 };
 
+// 统计数据
 export const getStatistics = () => {
   return request({
     url: "/potdata/statistics/statisticsCount",
+    method: "get",
+  });
+};
+
+// 统计分类数据
+export const getStatisticsSetCount = () => {
+  return request({
+    url: "/potdata/statistics/statisticsDataSetCount",
     method: "get",
   });
 };

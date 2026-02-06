@@ -54,7 +54,7 @@ const microDataTypes: Array<cardInfo> = [
     ],
   },
   {
-    key: "pseudopotential",
+    key: "pawPseudopotential",
     name: "赝势",
     children: [
       {

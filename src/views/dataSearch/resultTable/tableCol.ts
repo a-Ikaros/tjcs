@@ -1,30 +1,30 @@
 // 晶体结构
-const crystals=[
+const crystals = [
   {
-    key:'id',
-    label:'ID'
+    key: "id",
+    label: "ID",
   },
   {
-    key:'formula',
-    label:'formula'
+    key: "formula",
+    label: "formula",
   },
   {
-    key:'spaceGroup',
-    label:'SpaceGroup'
+    key: "spaceGroup",
+    label: "SpaceGroup",
   },
   {
-    key:'crystalSystem',
-    label:'Crystal System'
+    key: "crystalSystem",
+    label: "Crystal System",
   },
   {
-    key:'density',
-    label:'density'
+    key: "density",
+    label: "density",
   },
   {
-    key:'volume',
-    label:'volume'
-  }
-]
+    key: "volume",
+    label: "volume",
+  },
+];
 // 基组
 const basisSetPotential = [
   {
@@ -159,7 +159,7 @@ const dynamics = [
   },
 ];
 // 热力学数据
-const mtd=[
+const mtd = [
   {
     key: "id",
     label: "ID",
@@ -172,11 +172,11 @@ const mtd=[
     key: "authors",
     label: "生产作者",
   },
-   {
+  {
     key: "date",
     label: "生产日期",
   },
-]
+];
 export const tableCol = {
   // 晶体结构
   crystals: crystals,
@@ -185,6 +185,9 @@ export const tableCol = {
   pmbjz: basisSetPotential,
   // 赝势
   pseudopotential: pseudopotential,
+  pawPseudopotential: pseudopotential,
+  ncppPseudopotential: pseudopotential,
+  usppPseudopotential: pseudopotential,
   tyzjb: pseudopotential,
   // 对势
   pairPotential: [
@@ -205,7 +208,7 @@ export const tableCol = {
       label: "Sigma",
     },
   ],
-  nist:[
+  nist: [
     {
       key: "id",
       label: "Many-body Potential ID",
@@ -274,7 +277,7 @@ export const tableCol = {
       label: "Compute Device",
     },
   ],
-  nep:[
+  nep: [
     {
       key: "id",
       label: "ID",
@@ -331,7 +334,7 @@ export const tableCol = {
     {
       key: "lumoHomoGap",
       label: "LUMO-HOMO Gap(eV)",
-        removeUnit: true,
+      removeUnit: true,
     },
     {
       key: "avgWorkingVoltage",
@@ -341,11 +344,11 @@ export const tableCol = {
     {
       key: "cyclicStability",
       label: "循环稳定性(mAAhg-1/C/cycles)",
-    }
+    },
   ],
   // 有机光电材料
   op: [
-     {
+    {
       key: "cod",
       label: "COD Number",
     },
@@ -373,7 +376,7 @@ export const tableCol = {
     {
       key: "maxElecTransferIntegral",
       label: "Max Electron Tranefer Integral (meV)",
-        removeUnit: true,
+      removeUnit: true,
     },
     {
       key: "holeTREnergy",
@@ -384,10 +387,10 @@ export const tableCol = {
       key: "elecTREnergy",
       label: "Electron Tranefer Reorganization Energy (meV)",
       removeUnit: true,
-    }
+    },
   ],
   //三维编织材料数据
-  '3dWeaving': [
+  "3dWeaving": [
     {
       key: "id",
       label: "ID",

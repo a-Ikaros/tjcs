@@ -14,7 +14,7 @@ export const PhaseFieldData = {
     "相场模拟数据采集软件是一款专为材料科学研究人员设计的专业数据采集工具。该软件采用自动化技术，通过Web界面实现NIST相场数据库的高效采集，支持批量数据下载和智能断点续传功能。系统提供实时任务监控、日志查看和统计分析等功能，帮助科研人员快速获取高质量的相场模拟数据集，提升科研效率和数据处理精度。",
   headImg: image1, // head,
   btnName: "申请使用",
-  btnLink: "/data-product/application/PhaseFieldData",
+  btnLink: "/#/data-product/application/PhaseFieldData",
   content: [
     {
       descName: "软件介绍",

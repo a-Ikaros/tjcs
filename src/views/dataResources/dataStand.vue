@@ -4,6 +4,7 @@ import dataProductTime from '@/assets/img/dataProduct/product-icon-time.png'
 import { useRouter } from 'vue-router'
 import { ref, computed } from 'vue'
 import PdfPreview from '@/components/PdfPreview.vue'
+import ProductionBlock from '@/components/ProductionBlock.vue'
 import { Search } from '@element-plus/icons-vue'
 
 // 导入PDF文件
@@ -80,23 +81,18 @@ const jumpToDetail = (productId) => {
 
         <!-- 列表内容 -->
         <div class="col-content">
-            <div class="production-block" v-for="(item, index) in filteredProductList" :key="index"
-                @click="jumpToDetail(item.id || (index + 4).toString())">
-                <div class="pdf-preview">
-                    <PdfPreview :pdf-path="item.pdfPath" />
-                </div>
-                <div class="block-content">
-                    <div class="block-title">
-                        <el-text line-clamp="2" class="block-title">
-                            {{ item.title }}
-                        </el-text>
+            <ProductionBlock 
+                v-for="(item, index) in filteredProductList" 
+                :key="index"
+                :item="item"
+                @click="jumpToDetail(item.id || (index + 4).toString())"
+            >
+                <template #icon>
+                    <div class="pdf-preview">
+                        <PdfPreview :pdf-path="item.pdfPath" />
                     </div>
-                    <div class="block-desc block-info">
-                        <img :src="dataProductUser" alt="用户" class="mr6"> <span class="mr12">{{ item.user }}</span>
-                        <img :src="dataProductTime" alt="时间" class="mr6"> <span>{{ item.time }}</span>
-                    </div>
-                </div>
-            </div>
+                </template>
+            </ProductionBlock>
 
             <!-- 无搜索结果提示 -->
             <div v-if="filteredProductList.length === 0" class="no-result">
@@ -132,50 +128,14 @@ const jumpToDetail = (productId) => {
     width: 100%;
     margin: 0 24px 24px;
 
-    .production-block {
-        display: flex;
-        align-items: center;
-        justify-content: flex-start;
+    :deep(.production-block) {
         width: calc(50% - 60px);
-        background-color: #f7f9fb;
-        padding: 24px;
-        margin: 0 0 24px 0;
-        height: 10vh;
-        .pdf-preview {
-            width: 118px;
-            height: 88px;
-        }
-        .block-content {
-            margin-left: 24px;
-            height: 100%;
-            display: flex;
-            flex-direction: column;
-            justify-content: space-around;
-
-            .block-title {
-                width: 100%;
-                font-size: 16px;
-                font-weight: 700;
-                color: #333333;
-            }
-
-            .block-desc {
-                font-size: 12px;
-                color: #999999;
-            }
-
-            .block-info {
-                display: flex;
-                align-items: center;
-            }
-        }
+        margin-bottom: 24px;
     }
 
-    .production-block:hover {
-        box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-        transform: translateY(-2px);
-        transition: box-shadow;
-        cursor: pointer;
+    .pdf-preview {
+        width: 118px;
+        height: 88px;
     }
 
     .no-result {

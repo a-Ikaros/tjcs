@@ -7,10 +7,10 @@
           <div class="card-first-level" :class="{selected:selectedCard===card.path}">
             <img :src="card.icon" :alt="card.name"/>
             <span class="title">{{ card.name }}</span>
-            <span v-if="card?.children?.length" class="card-collapse" @click.stop="handleExpand(card)">
+            <!-- <span v-if="card?.children?.length" class="card-collapse" @click.stop="handleExpand(card)">
                 <el-icon v-if="expandedCard!==card.path"><ArrowDown/></el-icon>
                   <el-icon v-else><ArrowUp/></el-icon>
-            </span>
+            </span> -->
           </div>
           <div v-if="card?.children?.length && expandedCard===card.path" class="card-second-level">
             <div v-for="child in card.children" :key="child.path" class="child-item"

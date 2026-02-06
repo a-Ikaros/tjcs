@@ -7,11 +7,11 @@ import dbImage4 from "@/assets/img/dataProduct/detail/DBSearch/结果导出.png"
 
 export const DatabaseQueryToolData = {
   id: "DatabaseQueryToolData",
-  name: "数据库统一查询工具",
+  name: "材料数据库统一采集工具",
   unit: "材料计算设计专用数据资源节点",
   time: "2026.01.28",
   description:
-    "数据库统一查询工具是一款基于 OPTIMADE 标准的材料数据库查询软件，专为材料科学研究人员设计。通过本工具可以统一查询全球多个材料数据库，提供可视化元素选择、智能结果管理和数据导出功能，无需逐个访问不同数据库，大幅提升材料数据检索效率。",
+    "材料数据库统一采集工具是一款基于 OPTIMADE 标准的材料数据库查询软件，专为材料科学研究人员设计。通过本工具可以统一查询全球多个材料数据库，提供可视化元素选择、智能结果管理和数据导出功能，无需逐个访问不同数据库，大幅提升材料数据检索效率。",
   headImg: dbImage1,
   btnName: "申请使用",
   btnLink: "/data-product/application/DatabaseQueryToolData",
@@ -21,11 +21,11 @@ export const DatabaseQueryToolData = {
       content: [
         // {
         //   type: "strong",
-        //   text: "数据库统一查询工具是什么？",
+        //   text: "材料数据库统一采集工具是什么？",
         // },
         {
           type: "p",
-          text: "数据库统一查询工具是一款基于 OPTIMADE 标准的材料数据库查询软件，专为材料科学研究人员设计。通过本工具可以实现以下功能：",
+          text: "材料数据库统一采集工具是一款基于 OPTIMADE 标准的材料数据库查询软件，专为材料科学研究人员设计。通过本工具可以实现以下功能：",
         },
         {
           type: "p",
@@ -46,7 +46,7 @@ export const DatabaseQueryToolData = {
         {
           type: "img",
           src: dbImage1,
-          imgDesc: "数据库统一查询工具主界面",
+          imgDesc: "材料数据库统一采集工具主界面",
         },
       ],
     },
