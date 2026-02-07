@@ -293,7 +293,7 @@ const handleDownload = async (row) => {
   }
 }
 const handleRowClick = (row) => {
-  handleWatch(row)
+  // handleWatch(row)
 }
 
 const handleSel = (key) => {
