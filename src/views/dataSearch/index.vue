@@ -547,7 +547,7 @@ const handlePageChange = (pagination) => {
     height: 80px;
     width: 250px;
     display: inline-block;
-    background-image: url("@/assets/img/dataSearch/pic_计算尺度.png");
+    background-image: url("@/assets/img/dataSearch/pic_calculation-scale.png");
     background-size: cover;
     position: relative;
 

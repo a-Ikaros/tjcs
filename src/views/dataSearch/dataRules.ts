@@ -1,5 +1,5 @@
-import materialDataIcon from "@/assets/img/dataResources/icon_全球材料数据库.png";
-import materialSoftwareIcon from "@/assets/img/dataResources/icon_全球材料计算软件库.png";
+import materialDataIcon from "@/assets/img/dataResources/icon_global-material-database.png";
+import materialSoftwareIcon from "@/assets/img/dataResources/icon_global-material-software-library.png";
 
 interface cardInfo {
   key: string;

@@ -402,7 +402,7 @@ const handleFilter = () => {
 }
 
 .type-is-sel {
-  background-image: url("@/assets/img/dataSearch/选中.png");
+  background-image: url("@/assets/img/dataSearch/selected.png");
   background-size: cover;
 }
 

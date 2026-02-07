@@ -1,9 +1,9 @@
 // DatabaseQueryTool images
 // 注意：需要将实际的图片文件放到 @/assets/img/dataProduct/detail/DatabaseQueryTool/ 目录下
-import dbImage1 from "@/assets/img/dataProduct/detail/DBSearch/主界面.png";
-import dbImage2 from "@/assets/img/dataProduct/detail/DBSearch/元素筛选器.png";
-import dbImage3 from "@/assets/img/dataProduct/detail/DBSearch/结果查询.png";
-import dbImage4 from "@/assets/img/dataProduct/detail/DBSearch/结果导出.png";
+import dbImage1 from "@/assets/img/dataProduct/detail/DBSearch/main-interface.png";
+import dbImage2 from "@/assets/img/dataProduct/detail/DBSearch/element-filter.png";
+import dbImage3 from "@/assets/img/dataProduct/detail/DBSearch/result-query.png";
+import dbImage4 from "@/assets/img/dataProduct/detail/DBSearch/result-export.png";
 
 export const DatabaseQueryToolData = {
   id: "DatabaseQueryToolData",
