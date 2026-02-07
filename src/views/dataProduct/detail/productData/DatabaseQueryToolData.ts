@@ -14,7 +14,7 @@ export const DatabaseQueryToolData = {
     "材料数据库统一采集工具是一款基于 OPTIMADE 标准的材料数据库查询软件，专为材料科学研究人员设计。通过本工具可以统一查询全球多个材料数据库，提供可视化元素选择、智能结果管理和数据导出功能，无需逐个访问不同数据库，大幅提升材料数据检索效率。",
   headImg: dbImage1,
   btnName: "申请使用",
-  btnLink: "/data-product/application/DatabaseQueryToolData",
+  btnLink: 'http://mathtc.nscc-tj.cn/msdb/download/optimade_gui.exe',
   content: [
     {
       descName: "软件介绍",

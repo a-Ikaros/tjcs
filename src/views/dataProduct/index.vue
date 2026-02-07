@@ -42,7 +42,7 @@
               </div>
             </template>
             <div class="col-content mt12">
-              <ProductionBlock v-for="(item, index) in offlineProduct" :key="index" :item="item"
+              <ProductionBlock v-for="(item, index) in offlineProduct" :key="index" :item="item" :disabled="true"
                 @click="jumpToDetail(item)" />
             </div>
           </el-collapse-item>
@@ -110,7 +110,7 @@
       </div>
       <div v-else class="func-content">
         <div class="col-content">
-          <ProductionBlock v-for="(item, index) in curProductList" :key="index" :item="item"
+          <ProductionBlock v-for="(item, index) in curProductList" :key="index" :item="item" :disabled="item.disabled"
             @click="jumpToDetail(item)" />
         </div>
       </div>
@@ -264,7 +264,8 @@ const getProductList = () => {
       desc: '晶体结构数据净化与整合工具面向MP、OQMD、ICSD等主流材料数据库中晶体结构数据存在重复与错误的问题，提供跨库自动去重、关键参数验证与数据质量筛选的一体化处理能力，可快速输出洁净、可靠的结构数据集，显著提升计算材料学中数据准备的效率与可靠性。',
       img: productBlockImg,
       user: '材料计算设计专用数据资源节点',
-      time: '2026.02.09'
+      time: '2026.02.09',
+      disabled: true
     },
     {
       id: 'MultiAlloyNEPEngine',
@@ -272,7 +273,8 @@ const getProductList = () => {
       desc: '多元合金机器学习势NEP生产引擎提供了构建金属及多元合金NEP的详细流程，主要包含三部分：初始势函数构建、主动学习与探索及NEP势训练与测试。',
       img: productBlockImg,
       user: '材料计算设计专用数据资源节点',
-      time: '2026.02.09'
+      time: '2026.02.09',
+      disabled: true
     },
     {
       id: 'ThermodynamicTDBEngine',
@@ -280,7 +282,8 @@ const getProductList = () => {
       desc: '基于第一性原理自动化生产面向相图计算所需的热力学数据库TDB数据，实现材料微观数据到介观数据的高效转换。',
       img: productBlockImg,
       user: '材料计算设计专用数据资源节点',
-      time: '2026.02.09'
+      time: '2026.02.09',
+      disabled: true
     },
     {
       id: 'MagneticBandgapEngine',
@@ -288,7 +291,8 @@ const getProductList = () => {
       desc: '通过第一性原理计算的方法，对从materials project筛选的能带缺失磁性材料进行电子结构性质生产补充。',
       img: productBlockImg,
       user: '材料计算设计专用数据资源节点',
-      time: '2026.02.09'
+      time: '2026.02.09',
+      disabled: true
     },
     {
       id: 'MagneticPropertyPredictionModel',
@@ -296,7 +300,8 @@ const getProductList = () => {
       desc: '通过现有磁性材料数据对图神经网络模型进行训练，并分出测试集数据对模型准确度进行测试。训练后模型可预测未知的磁性材料性能',
       img: productBlockImg,
       user: '材料计算设计专用数据资源节点',
-      time: '2026.02.09'
+      time: '2026.02.09',
+      disabled: true
     }
   ]
 }
@@ -389,7 +394,8 @@ const getCurProductList = () => {
       desc: '晶体结构数据净化与整合工具面向MP、OQMD、ICSD等主流材料数据库中晶体结构数据存在重复与错误的问题，提供跨库自动去重、关键参数验证与数据质量筛选的一体化处理能力，可快速输出洁净、可靠的结构数据集，显著提升计算材料学中数据准备的效率与可靠性。',
       img: productBlockImg,
       user: '材料计算设计专用数据资源节点',
-      time: '2026.02.09'
+      time: '2026.02.09',
+      disabled: true
     },
     {
       id: 'MultiAlloyNEPEngine',
@@ -397,7 +403,8 @@ const getCurProductList = () => {
       desc: '多元合金机器学习势NEP生产引擎提供了构建金属及多元合金NEP的详细流程，主要包含三部分：初始势函数构建、主动学习与探索及NEP势训练与测试。',
       img: productBlockImg,
       user: '材料计算设计专用数据资源节点',
-      time: '2026.02.09'
+      time: '2026.02.09',
+      disabled: true
     },
     {
       id: 'ThermodynamicTDBEngine',
@@ -405,7 +412,8 @@ const getCurProductList = () => {
       desc: '基于第一性原理自动化生产面向相图计算所需的热力学数据库TDB数据，实现材料微观数据到介观数据的高效转换。',
       img: productBlockImg,
       user: '材料计算设计专用数据资源节点',
-      time: '2026.02.09'
+      time: '2026.02.09',
+      disabled: true
     },
     {
       id: 'MagneticBandgapEngine',
@@ -413,7 +421,8 @@ const getCurProductList = () => {
       desc: '通过第一性原理计算的方法，对从materials project筛选的能带缺失磁性材料进行电子结构性质生产补充。',
       img: productBlockImg,
       user: '材料计算设计专用数据资源节点',
-      time: '2026.02.09'
+      time: '2026.02.09',
+      disabled: true
     },
     {
       id: 'MagneticPropertyPredictionModel',
@@ -421,7 +430,8 @@ const getCurProductList = () => {
       desc: '通过现有磁性材料数据对图神经网络模型进行训练，并分出测试集数据对模型准确度进行测试。训练后模型可预测未知的磁性材料性能',
       img: productBlockImg,
       user: '材料计算设计专用数据资源节点',
-      time: '2026.02.09'
+      time: '2026.02.09',
+      disabled: true
     }
   ]
 

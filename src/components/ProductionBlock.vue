@@ -1,5 +1,5 @@
 <template>
-  <div :class="['production-block', { 'dashboard-style': dashboardStyle }]" @click="handleClick">
+  <div :class="['production-block', { 'dashboard-style': dashboardStyle, 'disabled': disabled }]" @click="handleClick">
     <slot name="icon">
       <img :src="item.img" :alt="item.title" style="width: 5.8vw;height: 5.8vw;background-color: #e9eff8" />
     </slot>
@@ -36,11 +36,13 @@ interface ProductionItem {
   time?: string
   img?: string
   link?: string
+  disabled?: boolean
 }
 
 const props = defineProps<{
   item: ProductionItem
   dashboardStyle?: boolean
+  disabled?: boolean
 }>()
 
 const emit = defineEmits<{
@@ -48,6 +50,9 @@ const emit = defineEmits<{
 }>()
 
 const handleClick = () => {
+  if (props.disabled) {
+    return
+  }
   emit('click')
 }
 </script>
@@ -98,9 +103,14 @@ const handleClick = () => {
   }
 }
 
-.production-block:hover {
+.production-block:hover:not(.disabled) {
   box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
   transform: translateY(-2px);
+}
+
+.production-block.disabled {
+  cursor: not-allowed;
+  opacity: 0.6;
 }
 
 .production-block.dashboard-style {
@@ -123,7 +133,7 @@ const handleClick = () => {
     }
   }
 
-  &:hover {
+  &:hover:not(.disabled) {
     box-shadow: none;
     transform: none;
   }

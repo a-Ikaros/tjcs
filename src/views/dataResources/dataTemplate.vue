@@ -3,7 +3,6 @@ import dataProductUser from '@/assets/img/dataProduct/product-icon-user.png'
 import dataProductTime from '@/assets/img/dataProduct/product-icon-time.png'
 import { useRouter } from 'vue-router'
 import { ref, computed } from 'vue'
-import PdfPreview from '@/components/PdfPreview.vue'
 import ProductionBlock from '@/components/ProductionBlock.vue'
 import { Search } from '@element-plus/icons-vue'
 
@@ -124,7 +123,15 @@ const jumpToDetail = (productId) => {
             >
                 <template #icon>
                     <div class="pdf-preview">
-                        <PdfPreview :pdf-path="item.pdfPath" />
+                        <div class="pdf-placeholder">
+                            <div class="pdf-icon-wrapper">
+                                <el-icon :size="48" color="#ff4d4f">
+                                    <Document />
+                                </el-icon>
+                                <span class="pdf-label">PDF</span>
+                            </div>
+                            <div class="pdf-title">{{ item.title }}</div>
+                        </div>
                     </div>
                 </template>
             </ProductionBlock>
@@ -170,6 +177,53 @@ const jumpToDetail = (productId) => {
     .pdf-preview {
         width: 118px;
         height: 88px;
+        background-color: #f7f9fb;
+        border-radius: 8px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        padding: 12px;
+    }
+
+    .pdf-placeholder {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+        text-align: center;
+        width: 100%;
+        height: 100%;
+    }
+
+    .pdf-icon-wrapper {
+        position: relative;
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+    }
+
+    .pdf-label {
+        position: absolute;
+        bottom: -2px;
+        right: -8px;
+        background-color: #ff4d4f;
+        color: white;
+        font-size: 8px;
+        padding: 2px 4px;
+        border-radius: 2px;
+        font-weight: 600;
+    }
+
+    .pdf-title {
+        margin-top: 8px;
+        font-size: 10px;
+        color: #333333;
+        line-height: 1.2;
+        overflow: hidden;
+        text-overflow: ellipsis;
+        display: -webkit-box;
+        -webkit-line-clamp: 2;
+        -webkit-box-orient: vertical;
     }
 
     .no-result {

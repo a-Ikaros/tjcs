@@ -1,7 +1,7 @@
 // 晶体结构
 const crystals = [
   {
-    key: "id",
+    key: "sourceId",
     label: "ID",
   },
   {
@@ -162,7 +162,7 @@ const multiphysicsPotential = [
 const carbon=[
   {
     label:'Multiphysics Coupling ID',
-    key:'',
+    key:'id',
     prefix:'MC-'
   },
   {

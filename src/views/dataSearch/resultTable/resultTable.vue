@@ -17,18 +17,21 @@
         <span>筛选</span>
       </span>
     </div>
-    <el-table :data="tableData" border style="width: 100%" @row-click="handleRowClick" empty-text="-">
+    <el-table :data="tableData" border style="width: 100%" @row-click="handleRowClick">
       <el-table-column label="Num" type="index" width="80" align="center" />
       <el-table-column v-for="col in currentTableColumns" :key="col.key" :prop="col.key" :label="col.label"
-        :width="col.width || 'auto'" :align="col.align || 'center'" :min-width="col.minWidth || '120px'">
+        :width="col.width || 'auto'" :align="col.align || 'center'" :min-width="col.minWidth || '120px'"  empty-text="-">
         <template #default="scope" v-if="col.key === 'elements'">
           <span>{{Array.isArray(scope.row.elements) ? scope.row.elements?.join(', ') || '-' : scope.row.elements }}</span>
         </template>
-        <template #default="scope" v-if="col.removeUnit">
+        <template #default="scope" v-else-if="col.removeUnit">
           <span>{{ removeUnit(scope.row[col.key]) || '-' }}</span>
         </template>
-        <template #default="scope" v-if="col.prefix">
+        <template #default="scope" v-else-if="col.prefix">
           <span>{{ col.prefix + (scope.row[col.key] || '-') }}</span>
+        </template>
+        <template #default="scope" v-else>
+          <span>{{ scope.row[col.key] || '-' }}</span>
         </template>
       </el-table-column>
       <el-table-column label="操作" width="120" align="center" fixed="right">

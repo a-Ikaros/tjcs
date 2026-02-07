@@ -137,19 +137,19 @@ import { Search } from '@element-plus/icons-vue';
 import { onMounted, ref } from "vue";
 import { useRouter } from "vue-router";
 import { getStatisticsSetCount } from '@/api';
-import { capitalizeFirstLetter, clazzNameMap } from '@/utils/common';
+import { capitalizeFirstLetter, getStructuralType } from '@/utils/common';
 
 const router = useRouter()
 const searchValue = ref('')
 const dataProducts = ref([
   {
-    title: '数据库交互工具',
+    title: '材料数据库统一采集工具',
     desc: '高效的数据采集工与管理工具，支持多种数据库格式',
     img: new URL('../../assets/img/dataProduct/product-block-img.png', import.meta.url).href
   },
   {
-    title: '网络采集工具',
-    desc: '自动化采集网络公开数据资源',
+    title: '有机正极材料还原电位生产引擎',
+    desc: '有机正极材料还原电位生产引擎',
     img: new URL('../../assets/img/dataProduct/product-block-img.png', import.meta.url).href
   }
 ])
@@ -169,30 +169,77 @@ const friendList = ref([])
 onMounted(async () => {
   try {
     const { data: res } = await getStatisticsSetCount()
-    newsDynamic.value = res.filter(item => clazzNameMap[capitalizeFirstLetter(item.clazz)]).map(item =>
+    const typeList = getStructuralType()
+
+    const countMap = res.reduce((map, item) => {
+      const key = capitalizeFirstLetter(item.clazz)
+      map[key] = item.count
+      return map
+    }, {})
+
+    const getCount = (item) => {
+      return item.childrenKey?.length ? item.childrenKey.reduce((pre, cur) => {
+        return pre + (countMap[capitalizeFirstLetter(cur)] || 0)
+      }, 0) : (countMap[capitalizeFirstLetter(item.key)] || 0)
+    }
+
+    newsDynamic.value = typeList.map(item =>
     ({
-      title: `${clazzNameMap[capitalizeFirstLetter(item.clazz)]}数据--${item.count}条`,
+      title: `${item.label}数据--${getCount(item)}条`,
       link: ''
     })
     )
+    console.log(newsDynamic.value, ' newsDynamic.value')
   } catch (err) {
     newsDynamic.value = [
       {
-        title: '材料计算设计软件天河培育计划',
-        link: ''
+        "title": "结构数据--909610条",
+        "link": ""
       },
       {
-        title: '津·天河科学计算奖',
-        link: ''
+        "title": "基组数据--690342条",
+        "link": ""
       },
       {
-        title: '结构数据总计82784条',
-        link: ''
+        "title": "赝势数据--3510条",
+        "link": ""
       },
       {
-        title: '基组数据总计740846条',
-        link: ''
+        "title": "经验势函数数据--994条",
+        "link": ""
       },
+      {
+        "title": "机器学习势函数数据--444条",
+        "link": ""
+      },
+      {
+        "title": "机器学习用数据数据--2446398条",
+        "link": ""
+      },
+      {
+        "title": "粗粒化势函数数据--511条",
+        "link": ""
+      },
+      {
+        "title": "热力学数据数据--3602条",
+        "link": ""
+      },
+      {
+        "title": "动力学数据数据--32395条",
+        "link": ""
+      },
+      {
+        "title": "多物理场耦合参数数据--351条",
+        "link": ""
+      },
+      {
+        "title": "力学性能数据--53102条",
+        "link": ""
+      },
+      {
+        "title": "热物性数据数据--53102条",
+        "link": ""
+      }
     ]
   }
   friendList.value = [
@@ -481,7 +528,7 @@ onMounted(async () => {
   background-color: #ffffff;
   height: 48px;
   display: flex;
-  justify-content: start;
+  justify-content: center;
   align-items: center;
   position: relative;
   padding: 24px;

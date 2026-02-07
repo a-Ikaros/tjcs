@@ -136,9 +136,8 @@ const microDataTypes: Array<cardInfo> = [
 // 介观尺度数据类型
 const mesoDataTypes: Array<cardInfo> = [
   {
-    key: "klhshs",
+    key: "cgp",
     name: "粗粒化势函数",
-    disabled: true,
   },
   {
     key: "mtd",
