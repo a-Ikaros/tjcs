@@ -111,12 +111,11 @@
       <div v-else class="func-content">
         <div class="col-content">
           <ProductionBlock v-for="(item, index) in curProductList" :key="index" :item="item"
-            @click="item.isUploadCard ? (showUploadDialog = true) : jumpToDetail(item)" />
+            @click="jumpToDetail(item)" />
         </div>
       </div>
     </div>
 
-    <DataUploadDialog v-model="showUploadDialog" />
   </div>
 </template>
 
@@ -131,7 +130,6 @@ import { softwareList } from '@/views/dataResources/softwareList'
 import DatabaseQueryToolLogo from '@/assets/img/dataProduct/detail/DatabaseQueryTool/head.png'
 import { jumpTo } from '@/utils';
 import ProductionBlock from '@/components/ProductionBlock.vue'
-import DataUploadDialog from '@/components/DataUploadDialog.vue'
 
 const router = useRouter();
 const route = useRoute()
@@ -156,7 +154,6 @@ const jumpToDetail = (item) => {
   }
 }
 
-const showUploadDialog = ref(false)
 
 const activeNames = ref(['1', '2'])
 const onlineProduct = ref([])
@@ -257,7 +254,7 @@ const getProductList = () => {
       title: '宏观共性基础数据采集整合工具',
       desc: '宏观数据采集工具面向大型仿真计算用数据，提供自动化采集与标准化整合功能，支持高效提取力学性能、热物性等宏观共性基础数据，实现多源数据的统一管理与快速复用，显著提升仿真数据采集与整理效率。',
       img: productBlockImg,
-      user: '模拟中心',
+      user: '材料计算设计专用数据资源节点',
       time: '2026.02.09',
       link: ''
     },
@@ -433,21 +430,21 @@ const getCurProductList = () => {
       title: '无机材料晶体结构数据库',
       desc: '收录超过 50 万条无机材料晶体结构数据，包含晶格参数、原子坐标、空间群等完整信息，支持 CIF 格式导出。',
       img: productBlockImg,
-      user: '新材料大数据中心',
+      user: '材料计算设计专用数据资源节点',
       time: '2025.10.20'
     },
     {
       title: '材料热力学性能数据库',
       desc: '整合相图、热容、熵等热力学数据，覆盖 2000+ 材料体系，提供相稳定性分析与热力学计算支持。',
       img: productBlockImg,
-      user: '热力学数据组',
+      user: '材料计算设计专用数据资源节点',
       time: '2025.09.15'
     },
     {
       title: '材料力学性能数据库',
       desc: '收集各类材料的拉伸、压缩、疲劳等力学性能数据，包含应力-应变曲线与失效模式分析。',
       img: productBlockImg,
-      user: '力学性能组',
+      user: '材料计算设计专用数据资源节点',
       time: '2025.08.25'
     }
   ]
@@ -455,12 +452,21 @@ const getCurProductList = () => {
   const privateDataProducts = [
     {
       id: 'PrivateDomainDataSharingSystemData',
-      title: '企业私域数据管理平台',
+      title: '私域数据有偿交换',
       desc: '为企业提供私域数据存储、管理与交易服务，支持数据确权、定价与安全共享，保障数据资产价值。',
       img: productBlockImg,
-      user: '数据交易部',
+      user: '材料计算设计专用数据资源节点',
       time: '2025.11.01',
     },
+      {
+      title: '公益数据上传',
+      id: 'DataUpload',
+      desc: '上传您的材料数据，支持 Excel 和 JSON 格式，请选择数据尺度和类型后上传文件。',
+      img: productBlockImg,
+      user: '材料计算设计专用数据资源节点',
+      time: '2026.02.09',
+      isUploadCard: true
+    }
   ]
 
   const materialSoftwareProducts = [
@@ -468,21 +474,21 @@ const getCurProductList = () => {
       title: 'VASP 计算软件集成包',
       desc: '提供 VASP 软件的安装配置、参数优化与结果分析工具，支持高通量计算与自动化工作流。',
       img: productBlockImg,
-      user: '计算软件组',
+      user: '材料计算设计专用数据资源节点',
       time: '2025.10.15'
     },
     {
       title: 'LAMMPS 分子动力学软件库',
       desc: '集成 LAMMPS 分子动力学模拟软件，提供常用势函数库、参数模板与后处理工具。',
       img: productBlockImg,
-      user: '计算软件组',
+      user: '材料计算设计专用数据资源节点',
       time: '2025.09.28'
     },
     {
       title: 'Materials Studio 工具集',
       desc: '提供 Materials Studio 软件的使用教程、脚本模板与常用模块配置指南，加速材料模拟研究。',
       img: productBlockImg,
-      user: '计算软件组',
+      user: '材料计算设计专用数据资源节点',
       time: '2025.08.18'
     }
   ]
@@ -492,59 +498,49 @@ const getCurProductList = () => {
       title: '材料数据定制化采集服务',
       desc: '根据客户需求定制化采集特定领域的材料数据，包括文献、专利、实验数据等多源数据整合。',
       img: productBlockImg,
-      user: '定制服务部',
+      user: '材料计算设计专用数据资源节点',
       time: '2025.11.05'
     },
     {
       title: '材料计算仿真服务',
       desc: '提供专业的材料计算仿真服务，包括第一性原理计算、分子动力学模拟、相图计算等。',
       img: productBlockImg,
-      user: '定制服务部',
+      user: '材料计算设计专用数据资源节点',
       time: '2025.10.25'
     },
     {
       title: '材料数据分析与建模服务',
       desc: '提供材料数据分析、机器学习建模与预测服务，帮助客户挖掘数据价值与优化材料设计。',
       img: productBlockImg,
-      user: '定制服务部',
+      user: '材料计算设计专用数据资源节点',
       time: '2025.09.30'
     },
     {
       title: '材料数据库搭建服务',
       desc: '为企业或科研机构提供材料数据库搭建服务，包括数据标准化、系统开发与运维支持。',
       img: productBlockImg,
-      user: '定制服务部',
+      user: '材料计算设计专用数据资源节点',
       time: '2025.09.10'
     },
     {
       title: '材料咨询与培训服务',
       desc: '提供材料领域的专业咨询与技术培训，包括材料设计、数据分析、软件使用等方面的指导。',
       img: productBlockImg,
-      user: '定制服务部',
+      user: '材料计算设计专用数据资源节点',
       time: '2025.08.20'
     }
   ]
 
   const dataConnectorProducts = [
     {
-      title: '数据融通器',
+      title: '节点融通器',
       desc: '连接不同数据源的数据集成工具，支持跨系统数据交换与共享，实现数据价值最大化。',
       img: productBlockImg,
-      user: '数据融通部',
+      user: '材料计算设计专用数据资源节点',
       time: '2025.10.28'
     },
   ]
 
-  const dataUpdateProducts = [
-    {
-      title: '数据上传',
-      desc: '上传您的材料数据，支持 Excel 和 JSON 格式，请选择数据尺度和类型后上传文件。',
-      img: productBlockImg,
-      user: '数据上传',
-      time: '2026.02.09',
-      isUploadCard: true
-    }
-  ]
 
   if (selectedLi.value === 'tool') {
     curProductList.value = toolProducts
@@ -575,20 +571,15 @@ watchEffect(() => {
     // data-sharing 只展示私域数据交易系统和数据融通器
     menuList.value = [
       {
-        title: '私域数据有偿交换',
+        title: '节点内部流通',
         key: 'privateData',
         num: 3,
       },
       {
-        title: '节点融通器',
+        title: '主平台融通',
         key: 'dataConnector',
         num: 2,
       },
-      {
-        title: '数据上传',
-        key: 'dataUpdate',
-        num: 2,
-      }
     ]
   } else {
     selectedLi.value = 'all'

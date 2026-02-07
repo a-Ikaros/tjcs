@@ -1,7 +1,13 @@
+import {
+  microDataTypes,
+  mesoDataTypes,
+  macroDataTypes,
+} from "@/views/dataSearch/dataRules";
+
 export const clazzNameMap = {
-//   wg: "微观",
-//   jg: "结构",
-//   hg: "宏观",
+  //   wg: "微观",
+  //   jg: "结构",
+  //   hg: "宏观",
   crystals: "晶体结构",
   basisSetPotential: "赝势基组",
   trackBasisSet: "数值原子轨道基组",
@@ -21,4 +27,21 @@ export const clazzNameMap = {
 export const capitalizeFirstLetter = (str: string): string => {
   if (!str) return str;
   return str.charAt(0).toLowerCase() + str.slice(1);
+};
+
+export const getStructuralType = () => {
+  const getTypeList = (list) => {
+    return list
+      .filter((item) => !item.disabled)
+      .map((item) => ({
+        key: item.key,
+        label: item.name,
+        childrenKey: item.children?.map((child) => child.key).filter((child) => !child.disabled),
+      }));
+  };
+  return [
+    ...getTypeList(microDataTypes),
+    ...getTypeList(mesoDataTypes),
+    ...getTypeList(macroDataTypes),
+  ];
 };

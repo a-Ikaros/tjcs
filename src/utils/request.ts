@@ -14,9 +14,9 @@ const service: AxiosInstance = axios.create({
 service.interceptors.request.use(
   (config: InternalAxiosRequestConfig) => {
     config.headers = config.headers || {};
-    config.headers["Content-Type"] = "application/json";
+    config.headers["Content-Type"] =
+      config.headers["Content-Type"] || "application/json";
     config.headers["ngrok-skip-browser-warning"] = "true";
-
     // 添加 token 到请求头
     const token = localStorage.getItem("token");
     if (token) {

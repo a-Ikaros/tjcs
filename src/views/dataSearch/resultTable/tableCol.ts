@@ -30,6 +30,7 @@ const basisSetPotential = [
   {
     key: "id",
     label: "Effective Core Potential ID",
+    prefix: "ECP-",
   },
   {
     key: "elements",
@@ -47,7 +48,7 @@ const basisSetPotential = [
 // 赝势
 const pseudopotential = [
   {
-    key: "id",
+    key: "pid",
     label: "Projected Augmented Wave ID",
     prefix:"PAW-"
   },
@@ -157,7 +158,32 @@ const multiphysicsPotential = [
     removeUnit: true,
   },
 ];
-
+//碳材料
+const carbon=[
+  {
+    label:'Multiphysics Coupling ID',
+    key:'',
+    prefix:'MC-'
+  },
+  {
+    label:'Material Name',
+    key:'name'
+  },
+  {
+    label:'Material Type',
+    key:'type'
+  },
+  {
+    label:'Electrical Resistivity（ohm-cm）',
+    key:'electricalResistivity',
+    removeUnit: true,
+  },
+  {
+    label:'Thermal Conductivity（W/m-K）',
+    key:'thermalConductivity',
+    removeUnit: true,
+  },
+]
 // 动力学数据
 const dynamics = [
   {
@@ -214,7 +240,7 @@ const dynamics = [
 // 热力学数据
 const mtd = [
   {
-    key: "id",
+    key: "dataId",
     label: "ID",
   },
   {
@@ -325,17 +351,17 @@ export const tableCol = {
   // 赝势基组
   basisSetPotential: basisSetPotential,
   // 数值原子轨道基组
-  trackBasisSet: basisSetPotential,
+  trackBasisSet:  [{label:'Numerical Atomic Orbital ID',key:'id',prefix:"NAO-"},...basisSetPotential.slice(1)],
   // 高斯型基组
-  gsBasisSet: basisSetPotential,
+  gsBasisSet: [{label:' ‌Gaussian-type Orbital ID',key:'id',prefix:"GTO-"},...basisSetPotential.slice(1)],
   // 赝势
   pseudopotential: pseudopotential,
   // 投影缀加波
   pawPseudopotential: pseudopotential,
   // 模守恒赝势
-  ncppPseudopotential: [{label:'Norm-Conserving Pseudopotential ID',key:'id',prefix:"NCPP-"},...pseudopotential.slice(1)],
+  ncppPseudopotential: [{label:'Norm-Conserving Pseudopotential ID',key:'pid',prefix:"NCPP-"},...pseudopotential.slice(1)],
   // 超软赝势
-  usppPseudopotential: [{label:'Ultrasoft Pseudopotential ID',key:'id',prefix:"USPP-"},...pseudopotential.slice(1)],
+  usppPseudopotential: [{label:'Ultrasoft Pseudopotential ID',key:'pid',prefix:"USPP-"},...pseudopotential.slice(1)],
   // 对势
   pairPotential: [
     {
@@ -429,6 +455,26 @@ export const tableCol = {
     //   label: "Compute Device",
     // },
   ],
+
+  //
+  machineLearnGap:[
+    {
+      key: "id",
+      label: "GAP ID",
+    },
+    {
+      key: "elements",
+      label: "Elements",
+    },
+    {
+      key: "potentialType",
+      label: "Potential Type",
+    },
+    {
+      key:'year',
+      label:'Year',
+    }
+  ],
   nep: [
     {
       key: "id",
@@ -454,7 +500,7 @@ export const tableCol = {
   cdMachineLearn:cdMachineLearn,
   // 多物理场耦合参数
   multiphysicsPotential: multiphysicsPotential,
-
+carbon:carbon,
   // 热力学数据
   mtd: mtd,
 

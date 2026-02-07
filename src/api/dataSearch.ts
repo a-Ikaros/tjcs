@@ -78,3 +78,28 @@ export const getDownloadR = (rule: string,id: string) => {
     });
 };
 
+
+/**
+ * 获取指定数据类型的 Potential Type 列表
+ * @param rule 数据类型规则
+ */
+export const uploadData = (params: {
+    parentId : string;
+    dataSetType : string;
+    visibility : boolean;
+    file: File;
+}) => {
+    const formData = new FormData();
+    formData.append('parentId', params.parentId);
+    formData.append('dataSetType', params.dataSetType);
+    formData.append('visibility', params.visibility);
+    formData.append('file', params.file);
+    return request({
+        url: `/potdata/dataSet/upload`,
+        method: 'post',
+        headers: {
+            'Content-Type': 'multipart/form-data',
+        },
+        data: formData,
+    });
+};

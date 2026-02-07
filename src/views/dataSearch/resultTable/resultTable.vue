@@ -72,7 +72,7 @@ const removeUnit = (value: any): string | number => {
     const num = parseFloat(match[0]);
     return isNaN(num) ? value : num;
   }
-  return value;
+  return value || '-';
 };
 import watchIcon from '@/assets/img/dataSearch/icon_查看.png'
 import { tableCol } from './tableCol'

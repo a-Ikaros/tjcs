@@ -113,8 +113,7 @@ const microDataTypes: Array<cardInfo> = [
       // },
       {
         name: "基函数展开与线性方法",
-        key: "jhszkyxxff",
-        disabled: true,
+        key: "machineLearnGap",
       },
       {
         name: "物理信息与约束模型",

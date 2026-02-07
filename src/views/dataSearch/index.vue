@@ -45,11 +45,11 @@
       <el-input v-model="searchValue" class="source-input" placeholder="请输入您要搜索的内容" clearable>
         <template #append>
           <div class="search-append">
-            <img src="@/assets/img/dataSearch/pic_元素.png" alt="元素周期表"
+            <img src="../../assets/img/dataSearch/pic_元素.png" alt="元素周期表"
               v-if="computeRules !== 'macro' && elemTableVisible" class="elem-table-ctr"
               @click="handleElemTableVisible(false)" />
 
-            <img src="@/assets/img/dataSearch/pic_元素1.png" alt="元素周期表" class="elem-table-ctr"
+            <img src="../../assets/img/dataSearch/pic_元素1.png" alt="元素周期表" class="elem-table-ctr"
               v-if="computeRules !== 'macro' && !elemTableVisible" @click="handleElemTableVisible(true)" />
             <span @click="searchTableData">
               <el-button :icon="Search" class="search-icon" />

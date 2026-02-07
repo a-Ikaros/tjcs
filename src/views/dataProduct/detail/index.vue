@@ -23,7 +23,7 @@
                         </p>
                     </div>
                     <div class="frame-btns">
-                        <a :href="data.btnLink" target="_blank" no-referrer>
+                        <a target="_blank" no-referrer @click="handleClickBtn(data.btnLink)">
                             {{ data.btnName }}
                         </a>
                     </div>
@@ -66,18 +66,31 @@
         </div>
 
     </div>
+    <DataUploadDialog v-model="showUploadDialog" />
+
 </template>
 
 <script setup lang="ts">
 import { ref, onMounted } from 'vue';
 import { useRoute } from 'vue-router';
 import breadCrumb from '@/components/breadCrumb/index.vue';
+import DataUploadDialog from '@/components/DataUploadDialog.vue'
+
 import { data as productData } from './index';
 import dataProductUser from '@/assets/img/dataProduct/product-icon-user.png'
 import dataProductTime from '@/assets/img/dataProduct/product-icon-time.png'
 const breadCrumbList = ref(['首页', '数据产品', '数据产品详情']);
 const data = ref<any>([])
 const route = useRoute();
+const showUploadDialog = ref(false)
+
+const handleClickBtn = (url:string) => {
+    if (data.value.showDialog) {
+        showUploadDialog.value = true;
+    }else{
+        window.open(url, '_blank', 'noreferrer');
+    }
+}
 onMounted(() => {
     data.value = productData[route.params.id as any]
     // 处理数据加载
