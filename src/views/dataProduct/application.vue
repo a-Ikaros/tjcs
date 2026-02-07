@@ -15,6 +15,7 @@ const urlMap = {
   PrivateDomainDataSharingSystemData: 'http://1.92.89.15:8080/',
   MesoMtdData: 'http://172.31.6.90:8000/',
   PhaseFieldData: 'http://172.31.6.90:5002/',
+  LiteratureData:'http://172.31.6.90:8010/',
   OrganicCathodePotentialEngine: 'http://mathtc.nscc-tj.cn/workflow_v3/work?project=133&category=5&name=%E6%9C%89%E6%9C%BA%E6%AD%A3%E6%9E%81%E6%9D%90%E6%96%99%E8%BF%98%E5%8E%9F%E7%94%B5%E4%BD%8D%E7%94%9F%E4%BA%A7%E5%BC%95%E6%93%8E&desc=%E6%9C%89%E6%9C%BA%E6%AD%A3%E6%9E%81%E6%9D%90%E6%96%99%E8%BF%98%E5%8E%9F%E7%94%B5%E4%BD%8D%E7%94%9F%E4%BA%A7%E5%BC%95%E6%93%8E',
   BatteryElectrodeSolubilityEngine: 'http://mathtc.nscc-tj.cn/workflow_v3/work?project=134&category=5&name=%E7%94%B5%E6%B1%A0%E7%94%B5%E6%9E%81%E6%9D%90%E6%96%99%E6%BA%B6%E8%A7%A3%E5%BA%A6%E7%94%9F%E4%BA%A7%E5%BC%95%E6%93%8E&desc=%E7%94%B5%E6%B1%A0%E7%94%B5%E6%9E%81%E6%9D%90%E6%96%99%E6%BA%B6%E8%A7%A3%E5%BA%A6%E7%94%9F%E4%BA%A7%E5%BC%95%E6%93%8E'
 }

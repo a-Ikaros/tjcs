@@ -145,12 +145,12 @@ const dataProducts = ref([
   {
     title: '数据库交互工具',
     desc: '高效的数据采集工与管理工具，支持多种数据库格式',
-    img: new URL('../../assets/img/database-tools.png', import.meta.url).href
+    img: new URL('../../assets/img/dataProduct/product-block-img.png', import.meta.url).href
   },
   {
     title: '网络采集工具',
     desc: '自动化采集网络公开数据资源',
-    img: new URL('../../assets/img/spider-tools.jpeg', import.meta.url).href
+    img: new URL('../../assets/img/dataProduct/product-block-img.png', import.meta.url).href
   }
 ])
 

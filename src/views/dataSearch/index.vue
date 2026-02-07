@@ -212,7 +212,7 @@ onActivated(() => {
   const scale = route.query.scale as string
   const type = route.query.type as string
   const query = route.query.q as string
-  
+  if(!scale && !type && !query) return
   // Only process if we have new query parameters (not just returning from navigation)
   const hasNewParams = (scale && type) || (type && privateDatasetTypes[type]) || (query && query !== searchValue.value)
   
@@ -505,7 +505,7 @@ const searchTableData = async () => {
     resTable.value.setTotal && resTable.value.setTotal(total)
     resTable.value.setCurrentPage && resTable.value.setCurrentPage(currentPage)
     // 使用 API 返回的 total 值更新 totalNum
-    totalNum.value = `共计${total}条`
+    totalNum.value = `共计${resTable.value.totalNumRes}条`
   } catch (error) {
     console.error('搜索失败:', error)
   }

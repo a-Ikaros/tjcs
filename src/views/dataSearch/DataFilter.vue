@@ -231,6 +231,7 @@ defineExpose({
 
 :deep(.el-input__wrapper) {
   background-color: white;
+  border-right: 2px solid #e5e5e5;
 }
 
 :deep(.el-date-editor) {

@@ -28,37 +28,90 @@ const crystals = [
 // 基组
 const basisSetPotential = [
   {
+    key: "id",
+    label: "Effective Core Potential ID",
+  },
+  {
     key: "elements",
-    label: "元素",
+    label: "Elements",
   },
   {
     key: "basisSet",
-    label: "基组名称",
+    label: "Basis Set",
   },
   {
     key: "outputFormat",
-    label: "输出格式",
+    label: "Supported Software",
   },
 ];
 // 赝势
 const pseudopotential = [
   {
+    key: "id",
+    label: "Projected Augmented Wave ID",
+    prefix:"PAW-"
+  },
+  {
     key: "elements",
-    label: "元素",
+    label: "Elements",
   },
   {
     key: "pseudopotentialMethod",
-    label: "赝势方法",
+    label: "Pseudopotential Method",
   },
   {
     key: "functional",
-    label: "泛函",
+    label: "Functional",
   },
   {
     key: "relativisticTreatment",
-    label: "相对论处理",
+    label: "Relativistic Treatment",
   },
 ];
+// 机器学习用数据
+const cdMachineLearn=[
+  {
+    key: "materialId",
+    label: "Material ID",
+  },
+  {
+    key: "formulaPretty",
+    label: "Formula",
+  },
+  {
+    key: "volume",
+    label: "Volume",
+  },
+  {
+    key: "atomicDensity",
+    label: "Atomic Density",
+  },
+  {
+    key: "formationEnergyPerAtom",
+    label: "Formation Energy per atom",
+  },
+  {
+    key: "energyAboveHull",
+    label: "Energy Above Hull",
+  },
+  {
+    key: "bandGap",
+    label: "Band Gap",
+  },
+  {
+    key: "efermi",
+    label: "Efermi",
+  },
+  {
+    key: "totalMagnetization",
+    label: "Total Magnetization",
+  },
+  {
+    key: "energyPerAtom",
+    label: "Energy per Atom",
+  },
+]
+
 // 多物理场耦合参数
 const multiphysicsPotential = [
   {
@@ -108,12 +161,12 @@ const multiphysicsPotential = [
 // 动力学数据
 const dynamics = [
   {
-    key: "id",
-    label: "ID",
+    key: "dataId",
+    label: "Diffusion ID",
   },
   {
     key: "elements",
-    label: "元素",
+    label: "Elements",
   },
   {
     key: "diffusionMode",
@@ -166,7 +219,7 @@ const mtd = [
   },
   {
     key: "elements",
-    label: "元素",
+    label: "Elements",
   },
   {
     key: "authors",
@@ -177,27 +230,125 @@ const mtd = [
     label: "生产日期",
   },
 ];
+// 力学性能
+const macroMechanics = [
+  {
+    key: "id",
+    label: "序号",
+  },
+  {
+    key: "materialName",
+    label: "材料牌号",
+  },
+  {
+    key: "elements",
+    label: "Elements",
+  },
+  {
+    key: "temperature",
+    label: "温度(℃)",
+  },
+  {
+    key: "youngModulus",
+    label: "杨氏模量(GPa)",
+    removeUnit: true,
+  },
+  {
+    key: "poissonRatio",
+    label: "泊松比",
+    removeUnit: true,
+  },
+]
+
+// 热物性
+const macroHeat = [
+  {
+    key: "id",
+    label: "序号",
+  },
+  {
+    key: "materialName",
+    label: "材料牌号",
+  },
+  {
+    key: "temperature",
+    label: "温度（℃）",
+    removeUnit: true,
+  },
+  {
+    key: "elements",
+    label: "元素组成",
+  },
+  {
+    key: "density",
+    label: "密度（g/cm3）",
+    removeUnit: true,
+  },
+  {
+    key: "electricalConductivity",
+    label: "导热系数(W/(m·K))",
+    removeUnit: true,
+  },
+  {
+    key: "specificHeat",
+    label: "比热（J/(g·K)）",
+    removeUnit: true,
+  },
+  {
+    key: "thermalDiffusivity",
+    label: "热扩散系数（m2/s）",
+    removeUnit: true,
+  },
+]
 export const tableCol = {
   // 晶体结构
   crystals: crystals,
-  // 基组
-  basisSetPotential: basisSetPotential,
-  pmbjz: basisSetPotential,
-  // 赝势
-  pseudopotential: pseudopotential,
-  pawPseudopotential: pseudopotential,
-  ncppPseudopotential: pseudopotential,
-  usppPseudopotential: pseudopotential,
-  tyzjb: pseudopotential,
-  // 对势
-  pairPotential: [
+  // 分子结构
+  molecule: [
     {
-      key: "id",
+      key: "cid",
       label: "ID",
     },
     {
+      key: "name",
+      label: "Name",
+    },
+    {
+      key: "iupacName",
+      label: "IUPAC Name",
+    },
+    {
+      key: "molecularFormula",
+      label: "Molecular Formula",
+    },
+  ],
+  // 赝势基组
+  basisSetPotential: basisSetPotential,
+  // 数值原子轨道基组
+  trackBasisSet: basisSetPotential,
+  // 高斯型基组
+  gsBasisSet: basisSetPotential,
+  // 赝势
+  pseudopotential: pseudopotential,
+  // 投影缀加波
+  pawPseudopotential: pseudopotential,
+  // 模守恒赝势
+  ncppPseudopotential: [{label:'Norm-Conserving Pseudopotential ID',key:'id',prefix:"NCPP-"},...pseudopotential.slice(1)],
+  // 超软赝势
+  usppPseudopotential: [{label:'Ultrasoft Pseudopotential ID',key:'id',prefix:"USPP-"},...pseudopotential.slice(1)],
+  // 对势
+  pairPotential: [
+    {
+      key: "dataId",
+      label: "Pair Potential ID",
+    },
+    {
       key: "elements",
-      label: "元素",
+      label: "Elements",
+    },
+    {
+      key: "potentialType",
+      label: "Potential Type",
     },
     {
       key: "epsilon",
@@ -208,9 +359,10 @@ export const tableCol = {
       label: "Sigma",
     },
   ],
+  //多体势
   nist: [
     {
-      key: "id",
+      key: "mbpId",
       label: "Many-body Potential ID",
     },
     {
@@ -233,12 +385,12 @@ export const tableCol = {
   //反应力场
   reaxffPotential: [
     {
-      key: "id",
-      label: "ID",
+      key: "dataId",
+      label: "ReaxFF ID",
     },
     {
       key: "elements",
-      label: "元素",
+      label: "Elements",
     },
     {
       key: "potentialType",
@@ -257,8 +409,8 @@ export const tableCol = {
   //神经网络势
   machineLearningPotential: [
     {
-      key: "id",
-      label: "ID",
+      key: "dataId",
+      label: "Neural Network Potential ID",
     },
     {
       key: "elements",
@@ -272,10 +424,10 @@ export const tableCol = {
       key: "year",
       label: "Year",
     },
-    {
-      key: "computeDevice",
-      label: "Compute Device",
-    },
+    // {
+    //   key: "computeDevice",
+    //   label: "Compute Device",
+    // },
   ],
   nep: [
     {
@@ -299,6 +451,7 @@ export const tableCol = {
       label: "Compute Device",
     },
   ],
+  cdMachineLearn:cdMachineLearn,
   // 多物理场耦合参数
   multiphysicsPotential: multiphysicsPotential,
 
@@ -307,7 +460,14 @@ export const tableCol = {
 
   //金属材料
   metalMaterial: multiphysicsPotential,
+
+  // 动力学数据
   dynamics: dynamics,
+
+  // 力学性能
+  macroMechanics: macroMechanics,
+  // 热物性
+  macroHeat: macroHeat,
   // 电池有机正极材料数据
   oc: [
     {

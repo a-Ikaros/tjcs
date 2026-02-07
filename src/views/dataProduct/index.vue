@@ -127,7 +127,6 @@ import breadCrumb from '@/components/breadCrumb/index.vue'
 import dataProductUser from '@/assets/img/dataProduct/product-icon-user.png'
 import dataProductTime from '@/assets/img/dataProduct/product-icon-time.png'
 import productBlockImg from '@/assets/img/dataProduct/product-block-img.png'
-import ReaxFFLogo from '@/assets/img/dataProduct/detail/ReaXFF/logo.jpg'
 import { softwareList } from '@/views/dataResources/softwareList'
 import DatabaseQueryToolLogo from '@/assets/img/dataProduct/detail/DatabaseQueryTool/head.png'
 import { jumpTo } from '@/utils';
@@ -182,22 +181,14 @@ const selectSoftwareHeader = (header: string) => {
 
 const getProductList = () => {
   onlineProduct.value = [
-    {
-      id: 'ReaxFFData',
-      title: '反应力场数据采集软件ReaxFFCollector',
-      desc: '反应力场数据采集软件ReaxFFCollector面向文献中ReaXFF参数主要以PDF形式发布、难以直接复用的问题，提供从PDF自动提取、清洗与格式修复的一体化解决方案。该软件可将分散目易出错的反应力场文本标准化为可被LAMMPS等主流分子动力学软件直接读取的力场文件，并通过自动化验证快速评估参数可用性，显著降低人工整理成本，提高反应力场参数复用的可靠性与分子动力学研究效率。',
-      img: ReaxFFLogo,
-      user: '材料计算设计专用数据资源节点',
-      time: '2026.02.09',
-      link: ''
-    },
-    {
-      id: 'LiteratureData',
-      title: '材料文献数据挖掘系统',
-      desc: '材料文献数据挖掘系统是支撑新材料计算设计数据资源节点--文献数据挖掘工具。面向PDF、markdown等材料文献文件类型，自动识别并挖掘材料成分、工艺、性能等要素，抽取结构化性质数据，同时构建材料结构化知识图谱，具有图谱可视化功能，同时支持根据抽取的性质数据知识库开展智能知识问答。',
+     {
+      id: 'DatabaseQueryToolData',
+      title: '材料数据库统一采集工具',
+      desc: '材料数据库统一采集工具是一款基于 OPTIMADE 标准的材料数据库查询软件，专为材料科学研究人员设计。通过本工具可以统一查询全球多个材料数据库，提供可视化元素选择、智能结果管理和数据导出功能，无需逐个访问不同数据库，大幅提升材料数据检索效率。',
       img: productBlockImg,
       user: '材料计算设计专用数据资源节点',
       time: '2026.02.09',
+      link: ''
     },
     {
       id: 'FirstPrinciplesData',
@@ -208,18 +199,10 @@ const getProductList = () => {
       time: '2026.02.09'
     },
     {
-      id: 'PhaseFieldData',
-      title: '相场模拟数据采集软件',
-      desc: '相场模拟数据采集软件是一款专为材料科学研究人员设计的专业数据采集工具。该软件采用自动化技术，通过Web界面实现NIST相场数据库的高效采集，支持批量数据下载和智能断点续传功能。系统提供实时任务监控、日志查看和统计分析等功能，帮助科研人员快速获取高质量的相场模拟数据集，提升科研效率和数据处理精度。',
+      id: 'ReaxFFData',
+      title: '反应力场数据采集软件ReaxFFCollector',
+      desc: '反应力场数据采集软件ReaxFFCollector面向文献中ReaXFF参数主要以PDF形式发布、难以直接复用的问题，提供从PDF自动提取、清洗与格式修复的一体化解决方案。该软件可将分散目易出错的反应力场文本标准化为可被LAMMPS等主流分子动力学软件直接读取的力场文件，并通过自动化验证快速评估参数可用性，显著降低人工整理成本，提高反应力场参数复用的可靠性与分子动力学研究效率。',
       img: productBlockImg,
-      user: '材料计算设计专用数据资源节点',
-      time: '2026.02.09'
-    },
-    {
-      id: 'DatabaseQueryToolData',
-      title: '材料数据库统一采集工具',
-      desc: '材料数据库统一采集工具是一款基于 OPTIMADE 标准的材料数据库查询软件，专为材料科学研究人员设计。通过本工具可以统一查询全球多个材料数据库，提供可视化元素选择、智能结果管理和数据导出功能，无需逐个访问不同数据库，大幅提升材料数据检索效率。',
-      img: ReaxFFLogo,
       user: '材料计算设计专用数据资源节点',
       time: '2026.02.09',
       link: ''
@@ -232,6 +215,22 @@ const getProductList = () => {
       user: '材料计算设计专用数据资源节点',
       time: '2026.02.09',
       link: ''
+    },
+     {
+      id: 'PhaseFieldData',
+      title: '相场模拟数据采集软件',
+      desc: '相场模拟数据采集软件是一款专为材料科学研究人员设计的专业数据采集工具。该软件采用自动化技术，通过Web界面实现NIST相场数据库的高效采集，支持批量数据下载和智能断点续传功能。系统提供实时任务监控、日志查看和统计分析等功能，帮助科研人员快速获取高质量的相场模拟数据集，提升科研效率和数据处理精度。',
+      img: productBlockImg,
+      user: '材料计算设计专用数据资源节点',
+      time: '2026.02.09'
+    },
+    {
+      id: 'LiteratureData',
+      title: '材料文献数据挖掘系统',
+      desc: '材料文献数据挖掘系统是支撑新材料计算设计数据资源节点--文献数据挖掘工具。面向PDF、markdown等材料文献文件类型，自动识别并挖掘材料成分、工艺、性能等要素，抽取结构化性质数据，同时构建材料结构化知识图谱，具有图谱可视化功能，同时支持根据抽取的性质数据知识库开展智能知识问答。',
+      img: productBlockImg,
+      user: '材料计算设计专用数据资源节点',
+      time: '2026.02.09',
     },
     {
       id: 'OrganicCathodePotentialEngine',
@@ -315,22 +314,14 @@ watch(() => selectedLi.value, () => {
 const curProductList = ref([])
 const getCurProductList = () => {
   const toolProducts = [
-    {
-      id: 'ReaxFFData',
-      title: '反应力场数据采集软件ReaxFFCollector',
-      desc: '反应力场数据采集软件ReaxFFCollector面向文献中ReaXFF参数主要以PDF形式发布、难以直接复用的问题，提供从PDF自动提取、清洗与格式修复的一体化解决方案。该软件可将分散目易出错的反应力场文本标准化为可被LAMMPS等主流分子动力学软件直接读取的力场文件，并通过自动化验证快速评估参数可用性，显著降低人工整理成本，提高反应力场参数复用的可靠性与分子动力学研究效率。',
-      img: ReaxFFLogo,
-      user: '材料计算设计专用数据资源节点',
-      time: '2026.02.09',
-      link: ''
-    },
-    {
-      id: 'LiteratureData',
-      title: '材料文献数据挖掘系统',
-      desc: '材料文献数据挖掘系统是支撑新材料计算设计数据资源节点--文献数据挖掘工具。面向PDF、markdown等材料文献文件类型，自动识别并挖掘材料成分、工艺、性能等要素，抽取结构化性质数据，同时构建材料结构化知识图谱，具有图谱可视化功能，同时支持根据抽取的性质数据知识库开展智能知识问答。',
+     {
+      id: 'DatabaseQueryToolData',
+      title: '材料数据库统一采集工具',
+      desc: '材料数据库统一采集工具是一款基于 OPTIMADE 标准的材料数据库查询软件，专为材料科学研究人员设计。通过本工具可以统一查询全球多个材料数据库，提供可视化元素选择、智能结果管理和数据导出功能，无需逐个访问不同数据库，大幅提升材料数据检索效率。',
       img: productBlockImg,
       user: '材料计算设计专用数据资源节点',
       time: '2026.02.09',
+      link: ''
     },
     {
       id: 'FirstPrinciplesData',
@@ -341,18 +332,10 @@ const getCurProductList = () => {
       time: '2026.02.09'
     },
     {
-      id: 'PhaseFieldData',
-      title: '相场模拟数据采集软件',
-      desc: '相场模拟数据采集软件是一款专为材料科学研究人员设计的专业数据采集工具。该软件采用自动化技术，通过Web界面实现NIST相场数据库的高效采集，支持批量数据下载和智能断点续传功能。系统提供实时任务监控、日志查看和统计分析等功能，帮助科研人员快速获取高质量的相场模拟数据集，提升科研效率和数据处理精度。',
+      id: 'ReaxFFData',
+      title: '反应力场数据采集软件ReaxFFCollector',
+      desc: '反应力场数据采集软件ReaxFFCollector面向文献中ReaXFF参数主要以PDF形式发布、难以直接复用的问题，提供从PDF自动提取、清洗与格式修复的一体化解决方案。该软件可将分散目易出错的反应力场文本标准化为可被LAMMPS等主流分子动力学软件直接读取的力场文件，并通过自动化验证快速评估参数可用性，显著降低人工整理成本，提高反应力场参数复用的可靠性与分子动力学研究效率。',
       img: productBlockImg,
-      user: '材料计算设计专用数据资源节点',
-      time: '2026.02.09'
-    },
-    {
-      id: 'DatabaseQueryToolData',
-      title: '材料数据库统一采集工具',
-      desc: '材料数据库统一采集工具是一款基于 OPTIMADE 标准的材料数据库查询软件，专为材料科学研究人员设计。通过本工具可以统一查询全球多个材料数据库，提供可视化元素选择、智能结果管理和数据导出功能，无需逐个访问不同数据库，大幅提升材料数据检索效率。',
-      img: ReaxFFLogo,
       user: '材料计算设计专用数据资源节点',
       time: '2026.02.09',
       link: ''
@@ -365,6 +348,22 @@ const getCurProductList = () => {
       user: '材料计算设计专用数据资源节点',
       time: '2026.02.09',
       link: ''
+    },
+     {
+      id: 'PhaseFieldData',
+      title: '相场模拟数据采集软件',
+      desc: '相场模拟数据采集软件是一款专为材料科学研究人员设计的专业数据采集工具。该软件采用自动化技术，通过Web界面实现NIST相场数据库的高效采集，支持批量数据下载和智能断点续传功能。系统提供实时任务监控、日志查看和统计分析等功能，帮助科研人员快速获取高质量的相场模拟数据集，提升科研效率和数据处理精度。',
+      img: productBlockImg,
+      user: '材料计算设计专用数据资源节点',
+      time: '2026.02.09'
+    },
+    {
+      id: 'LiteratureData',
+      title: '材料文献数据挖掘系统',
+      desc: '材料文献数据挖掘系统是支撑新材料计算设计数据资源节点--文献数据挖掘工具。面向PDF、markdown等材料文献文件类型，自动识别并挖掘材料成分、工艺、性能等要素，抽取结构化性质数据，同时构建材料结构化知识图谱，具有图谱可视化功能，同时支持根据抽取的性质数据知识库开展智能知识问答。',
+      img: productBlockImg,
+      user: '材料计算设计专用数据资源节点',
+      time: '2026.02.09',
     },
   ]
 

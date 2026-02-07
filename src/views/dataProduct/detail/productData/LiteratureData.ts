@@ -24,7 +24,7 @@ export const LiteratureData = {
     "材料文献数据挖掘系统是支撑新材料计算设计数据资源节点--文献数据挖掘工具。面向PDF、markdown等材料文献文件类型，自动识别并挖掘材料成分、工艺、性能等要素，抽取结构化性质数据，同时构建材料结构化知识图谱，具有图谱可视化功能，同时支持根据抽取的性质数据知识库开展智能知识问答。",
   headImg: litImage1,
   btnName: "申请使用",
-  btnLink: "/data-product/application/LiteratureData",
+  btnLink: "/#/data-product/application/LiteratureData",
   content: [
     {
       descName: "软件介绍",

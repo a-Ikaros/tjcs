@@ -129,8 +129,8 @@ const handleCommand = async (command: string) => {
 
         // 清除本地存储
         localStorage.removeItem('token');
-        localStorage.removeItem('userInfo');
-        localStorage.removeItem('rememberedAccount');
+        // localStorage.removeItem('userInfo');
+        // localStorage.removeItem('rememberedAccount');
 
         // 更新登录状态
         isLoggedIn.value = false;

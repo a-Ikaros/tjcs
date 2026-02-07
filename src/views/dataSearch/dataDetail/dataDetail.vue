@@ -28,7 +28,7 @@
             <!-- 右侧数据详情 -->
             <div class="data-info" ref="dataInfoRef" @scroll="handleScroll">
                 <template v-for="item in Object.keys(apiResponse)" :key="item">
-                    <div v-if="apiResponse[item]?.isFile || item === 'Formula'" class="info-section" :id="item">
+                    <div v-if="apiResponse[item]?.isFile" class="info-section" :id="item">
                         <h3 class="sub-section-title">
                             {{ item }}
                             <el-button type="text" class="download-btn" @click="handleDownload">
@@ -42,8 +42,8 @@
                             <pre class="tdb-text">{{ apiResponse[item] || '暂无内容' }}</pre>
                         </div>
                         <div style="margin-bottom: 12px;">
-                            <div class="meta-label">fileName:</div>
-                            <div class="meta-value">{{ apiResponse[item]?.fileName }}</div>
+                            <div class="meta-label">File Name:</div>
+                            <div class="meta-value">{{ apiResponse[item]?.['File Name'] }}</div>
                         </div>
                         <div v-if="apiResponse[item]?.needShow !== 'false'" class="tdb-content">
                             <pre class="tdb-text">{{ apiResponse[item].content || '暂无TDB文件内容' }}</pre>
@@ -125,16 +125,18 @@ const catalogItems = computed(() => {
 // 格式化字段名称（将驼峰转换为可读的中文标签）
 const formatFieldLabel = (key: string): string => {
     const labelMap: Record<string, string> = {
-        id: 'ID',
-        createTime: '创建时间',
-        createBy: '创建人',
-        modifyTime: '修改时间',
-        modifyBy: '修改人',
+        // id: 'ID',
+        // createTime: '创建时间',
+        // createBy: '创建人',
+        // modifyTime: '修改时间',
+        // modifyBy: '修改人',
         // potentialType: '势函数类型',
-        elements: '元素',
-        epsilon: 'Epsilon',
-        sigma: 'Sigma',
-        reference: '来源'
+        // elements: '元素',
+        // epsilon: 'Epsilon',
+        // sigma: 'Sigma',
+        // reference: '来源'
+        doi:'DOI',
+        mbpid:'ID'
     }
     return labelMap[key] || key
 }

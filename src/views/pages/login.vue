@@ -200,11 +200,13 @@ const handleLogin = async () => {
             localStorage.setItem('userInfo', JSON.stringify(loginForm.username))
           }
 
-          // 如果勾选了记住账号，保存账号
+          // 如果勾选了记住账号，保存账号和密码
           if (rememberAccount.value) {
             localStorage.setItem('rememberedAccount', loginForm.username)
+            localStorage.setItem('rememberedPassword', loginForm.password)
           } else {
             localStorage.removeItem('rememberedAccount')
+            localStorage.removeItem('rememberedPassword')
           }
 
           ElMessage.success('登录成功')
@@ -225,13 +227,17 @@ const handleLogin = async () => {
   })
 }
 
-// 页面加载时获取验证码和记住的账号
+// 页面加载时获取验证码和记住的账号密码
 onMounted(() => {
   getCaptcha()
   const rememberedAccount = localStorage.getItem('rememberedAccount')
+  const rememberedPassword = localStorage.getItem('rememberedPassword')
   if (rememberedAccount) {
     loginForm.username = rememberedAccount
     rememberAccount.value = true
+  }
+  if (rememberedPassword) {
+    loginForm.password = rememberedPassword
   }
 })
 </script>

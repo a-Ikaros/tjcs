@@ -20,8 +20,7 @@ const microDataTypes: Array<cardInfo> = [
       },
       {
         name: "分子结构",
-        key: "fzjg",
-        disabled: true,
+        key: "molecule",
       },
     ],
   },
@@ -92,11 +91,11 @@ const microDataTypes: Array<cardInfo> = [
         name: "反应力场",
         key: "reaxffPotential",
       },
-      {
-        name: "专用领域势",
-        key: "zylys",
-        disabled: true,
-      },
+      // {
+      //   name: "专用领域势",
+      //   key: "zylys",
+      //   disabled: true,
+      // },
     ],
   },
   {
@@ -122,17 +121,17 @@ const microDataTypes: Array<cardInfo> = [
         key: "wlxxyysmx",
         disabled: true,
       },
-      {
-        name: "专用优化模型",
-        key: "zyyhmx",
-        disabled: true,
-      },
+      // {
+      //   name: "专用优化模型",
+      //   key: "zyyhmx",
+      //   disabled: true,
+      // },
     ],
   },
   {
     key: "cdMachineLearn",
     name: "机器学习用数据",
-  }
+  },
 ];
 
 // 介观尺度数据类型
@@ -161,6 +160,7 @@ const mesoDataTypes: Array<cardInfo> = [
       {
         name: "金属材料",
         key: "metalMaterial",
+        disabled: true,
       },
       {
         name: "陶瓷材料",
@@ -194,14 +194,12 @@ const mesoDataTypes: Array<cardInfo> = [
 // 宏观尺度数据类型
 const macroDataTypes: Array<cardInfo> = [
   {
-    key: "lxxn",
+    key: "macroMechanics",
     name: "力学性能",
-    disabled: true,
   },
   {
-    key: "rwxsj",
+    key: "macroHeat",
     name: "热物性数据",
-    disabled: true,
   },
   {
     key: "xbsj",

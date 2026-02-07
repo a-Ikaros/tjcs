@@ -11,21 +11,24 @@
       </el-badge>
     </div>
     <div class="res-total-line">
-      共找到 <span class="res-num">{{ totalNumRes }}</span> 个结果
+      共找到 <span class="res-num">{{ total }}</span> 个结果
       <span class="res-filter" @click="handleFilter">
         <img src="@/assets/img/dataSearch/icon_筛选.png" alt="筛选" class="filter-icon" />
         <span>筛选</span>
       </span>
     </div>
-    <el-table :data="tableData" border style="width: 100%" @row-click="handleRowClick">
-      <el-table-column label="序号" type="index" width="60" align="center" />
+    <el-table :data="tableData" border style="width: 100%" @row-click="handleRowClick" empty-text="-">
+      <el-table-column label="Num" type="index" width="80" align="center" />
       <el-table-column v-for="col in currentTableColumns" :key="col.key" :prop="col.key" :label="col.label"
         :width="col.width || 'auto'" :align="col.align || 'center'" :min-width="col.minWidth || '120px'">
         <template #default="scope" v-if="col.key === 'elements'">
-          <span>{{ scope.row.elements?.join(', ') || '-' }}</span>
+          <span>{{Array.isArray(scope.row.elements) ? scope.row.elements?.join(', ') || '-' : scope.row.elements }}</span>
         </template>
         <template #default="scope" v-if="col.removeUnit">
           <span>{{ removeUnit(scope.row[col.key]) || '-' }}</span>
+        </template>
+        <template #default="scope" v-if="col.prefix">
+          <span>{{ col.prefix + (scope.row[col.key] || '-') }}</span>
         </template>
       </el-table-column>
       <el-table-column label="操作" width="120" align="center" fixed="right">
@@ -265,16 +268,23 @@ const handleDownload = async (row) => {
       return
     }
 
-    if (currentDataType.value === 'machineLearningPotential') {
-      try {
-        await getDownloadBf(currentDataType.value, row.id as string)
-      } catch (err) {
+    // if (currentDataType.value === 'machineLearningPotential') {
+    //   try {
+    //     await getDownloadBf(currentDataType.value, row.id as string)
+    //   } catch (err) {
+    //     console.error('下载失败:', err)
+    //   }
+    // }
+    // else {
+    //   const url = `${import.meta.env.VITE_BASE_URL}potdata/${currentDataType.value}/download?id=${row.id}&satoken=${token}`
+    //   window.open(url, '_blank', 'noopener,noreferrer')
+    // }
+    try {
+        const { data } = await downloadFileById({ rule: currentDataType.value, id: row.id as string })
+        // const url = `${import.meta.env.VITE_BASE_URL}potdata/${currentDataType.value}/download?id=${row.id}&satoken=${token}`
+        window.open(data?.data, '_blank', 'noopener,noreferrer')
+    } catch (err) {
         console.error('下载失败:', err)
-      }
-    }
-    else {
-      const url = `${import.meta.env.VITE_BASE_URL}potdata/${currentDataType.value}/download?id=${row.id}&satoken=${token}`
-      window.open(url, '_blank', 'noopener,noreferrer')
     }
   } catch (err) {
     console.error('下载失败:', err)

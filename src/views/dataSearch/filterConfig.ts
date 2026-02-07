@@ -66,28 +66,21 @@ export const filterConfigMap: Record<string, FilterConfig[]> = {
       placeholder: '选择年份范围',
       clearable: true,
     },
-    {
-      key: 'computeDevice',
-      label: 'Compute Device',
-      type: 'select',
-      options: [
-        { label: 'CPU', value: 'CPU' },
-        { label: 'GPU', value: 'GPU' },
-      ],
-      placeholder: '请选择计算设备',
-      clearable: true,
-    },
+    // {
+    //   key: 'computeDevice',
+    //   label: 'Compute Device',
+    //   type: 'select',
+    //   options: [
+    //     { label: 'CPU', value: 'CPU' },
+    //     { label: 'GPU', value: 'GPU' },
+    //   ],
+    //   placeholder: '请选择计算设备',
+    //   clearable: true,
+    // },
   ],
 
   // 多体势 - 筛选 Elements、Potential Type 和 Year
   nist: [
-    {
-      key: 'elements',
-      label: 'Elements',
-      type: 'input',
-      placeholder: '请输入元素，如 Fe, Fe-Cr, Fe-*',
-      clearable: true,
-    },
     {
       key: 'potentialType',
       label: 'Potential Type',
@@ -108,13 +101,6 @@ export const filterConfigMap: Record<string, FilterConfig[]> = {
   // 介观尺度 - 动力学数据
   dynamics: [
     {
-      key: 'elements',
-      label: 'Elements',
-      type: 'input',
-      placeholder: '请输入元素，如 Fe, Fe-Cr, Fe-*',
-      clearable: true,
-    },
-    {
       key: 'diffusionMode',
       label: 'Diffusion Mode',
       type: 'select',
@@ -130,30 +116,30 @@ export const filterConfigMap: Record<string, FilterConfig[]> = {
       placeholder: '请选择 Diffusing Element',
       clearable: true,
     },
-    {
-      key: 'd0',
-      label: 'D0 (m²/s)',
-      type: 'numberRange',
-      placeholder: '请输入范围',
-      clearable: true,
-      unit: 'm²/s',
-    },
-    {
-      key: 'q',
-      label: 'Q (kJ/mol)',
-      type: 'numberRange',
-      placeholder: '请输入范围',
-      clearable: true,
-      unit: 'kJ/mol',
-    },
-    {
-      key: 'd',
-      label: 'D (m²/s)',
-      type: 'numberRange',
-      placeholder: '请输入范围',
-      clearable: true,
-      unit: 'm²/s',
-    },
+    // {
+    //   key: 'd0',
+    //   label: 'D0 (m²/s)',
+    //   type: 'numberRange',
+    //   placeholder: '请输入范围',
+    //   clearable: true,
+    //   unit: 'm²/s',
+    // },
+    // {
+    //   key: 'q',
+    //   label: 'Q (kJ/mol)',
+    //   type: 'numberRange',
+    //   placeholder: '请输入范围',
+    //   clearable: true,
+    //   unit: 'kJ/mol',
+    // },
+    // {
+    //   key: 'd',
+    //   label: 'D (m²/s)',
+    //   type: 'numberRange',
+    //   placeholder: '请输入范围',
+    //   clearable: true,
+    //   unit: 'm²/s',
+    // },
     {
       key: 'yearRange',
       label: 'Year',
