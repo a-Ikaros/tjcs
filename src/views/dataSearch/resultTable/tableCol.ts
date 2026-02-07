@@ -666,4 +666,33 @@ export const tableCol = {
       removeUnit: true,
     },
   ],
+  magneticMaterial: [
+    {
+      key: "formulaPretty",
+      label: "Formula Pretty",
+    },
+    {
+      key: "energy",
+      label: "Energy",
+    },
+    {
+      key: "bandGap",
+      label: "Band Gap",
+    },
+    {
+      key: "efermi",
+      label: "Efermi",
+    },
+    {
+      key: "cbm",
+      label: "Cbm",
+    },
+    {
+      key: "vbm",
+      label: "Vbm",
+    },{
+      key: "gapDirect",
+      label: "Is Gap Direct",
+    }
+  ],
 };

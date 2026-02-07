@@ -31,8 +31,8 @@ export const list: Array<cardInfo> = [
         icon: privateIcon,
         children:[
             {
-                path:'private/zgyz',
-                name:'中国一重私域数据'
+                path:'private/magneticMaterial',
+                name:'磁性材料电子结构性质计算数据库'
             },
              {
                 path: 'private/battery',

@@ -73,7 +73,7 @@ export const privateDatasets: DatasetMock[] = [
     desc: '磁性材料因其高能量存储密度、场响应特性优异、多功能耦合性强等特性，在新一代电子信息与绿色能源装备领域具有革命性的潜力。本数据集涵盖了磁性材料的总能量，带隙，费米能级等关键参数。系统构建了磁性材料的电子结构性质计算数据库，可为磁性材料机器学习中的稳定性筛选及磁性-电性关联预测提供关键支撑。',
     num: '1,200',
     example: '1',
-    link: ''
+    link: '/data-search?type=magneticMaterial'
   },
     {
     title: '电池有机正极材料数据',

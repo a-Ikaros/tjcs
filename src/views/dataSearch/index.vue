@@ -99,6 +99,7 @@ const isPrivateDataset = ref(false)
 const isDirectJump = ref(false)
 
 const privateDatasetTypes = {
+   'magneticMaterial': { name: '磁性材料电子结构性质计算数据库', key: 'magneticMaterial' },
   'oc': { name: '电池有机正极材料数据', key: 'oc' },
   'op': { name: '有机光电材料数据', key: 'op' },
   '3dWeaving': { name: '三维编织复合材料数据', key: '3dWeaving' }

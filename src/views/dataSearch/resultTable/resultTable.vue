@@ -128,7 +128,7 @@ onMounted(() => {
 // 根据选中的类型切换表格数据
 const tableData = ref([])
 const refResTableData = (arr, dataType = 'pairPotential') => {
-  const privateDatasetTypes = ['oc', 'op', '3dWeaving']
+  const privateDatasetTypes = ['oc', 'op', '3dWeaving', 'magneticMaterial']
 
   if (privateDatasetTypes.includes(dataType)) {
     badgeList.value = [{
