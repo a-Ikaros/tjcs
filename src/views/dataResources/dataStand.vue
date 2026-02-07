@@ -6,11 +6,10 @@ import { ref, computed } from 'vue'
 import ProductionBlock from '@/components/ProductionBlock.vue'
 import { Search, Document } from '@element-plus/icons-vue'
 
-// 导入PDF文件
-import pdf1 from '@/assets/pdf/dataStandard/TCSTM 00120-2019 材料基因工程数据通则.pdf'
-import pdf2 from '@/assets/pdf/dataStandard/TCSTM 00837-2022 材料基因工程数据 元数据标准化原则与方法.pdf'
-import pdf3 from '@/assets/pdf/dataStandard/TCSTM 00838-2022 材料基因工程 材料数据标识（MID）.pdf'
-import pdf4 from '@/assets/pdf/dataStandard/TCSTM 00839-2022 材料基因工程 术语.pdf'
+import pdf1 from '@/assets/pdf/dataStandard/TCSTM-00120-2019-data-general-principles.pdf'
+import pdf2 from '@/assets/pdf/dataStandard/TCSTM-00837-2022-metadata-standardization-principles.pdf'
+import pdf3 from '@/assets/pdf/dataStandard/TCSTM-00838-2022-material-data-identification.pdf'
+import pdf4 from '@/assets/pdf/dataStandard/TCSTM-00839-2022-terminology.pdf'
 
 const router = useRouter()
 

@@ -13,7 +13,7 @@
 
 <script setup lang="ts">
 import { onMounted, ref } from "vue";
-import dataIcon from '@/assets/img/dataResources/数据图标.png'
+import dataIcon from '@/assets/img/dataResources/data-icon.png'
 import { getStatistics } from "@/api";
 
 const overviewList = ref([])

@@ -3,7 +3,7 @@
   <div class="search-type" v-if="!isPrivateDataset && !isDirectJump">
     <span class="head-tag">
       <span class="tag-content">
-        <img src="../../assets/img/dataSearch/icon_计算尺度.png" alt="计算尺度" class="tag-img" />计算尺度
+        <img src="../../assets/img/dataSearch/icon_calculation-scale.png" alt="计算尺度" class="tag-img" />计算尺度
       </span>
     </span>
     <el-segmented style="flex: 1;" v-model="computeRules" :options="rulesOptions" @change="onRulesChange" />
@@ -11,7 +11,7 @@
   <div class="search-content search-p">
     <div class="content-left" v-if="!isPrivateDataset && !isDirectJump">
       <div class="card-title">
-        <img src="../../assets/img/dataSearch/icon_数据类型.png" alt="数据类型." class="card-title-img" />
+        <img src="../../assets/img/dataSearch/icon_data-type.png" alt="数据类型." class="card-title-img" />
         <span>{{`${rulesOptions.find(item => item.value === computeRules).label}`}}</span>
       </div>
       <div class="card-item" v-for="(card, index) in cardList" :key="card.key">
@@ -45,11 +45,11 @@
       <el-input v-model="searchValue" class="source-input" placeholder="请输入您要搜索的内容" clearable>
         <template #append>
           <div class="search-append">
-            <img src="../../assets/img/dataSearch/pic_元素.png" alt="元素周期表"
+            <img src="../../assets/img/dataSearch/pic_element.png" alt="元素周期表"
               v-if="computeRules !== 'macro' && elemTableVisible" class="elem-table-ctr"
               @click="handleElemTableVisible(false)" />
 
-            <img src="../../assets/img/dataSearch/pic_元素1.png" alt="元素周期表" class="elem-table-ctr"
+            <img src="../../assets/img/dataSearch/pic_element1.png" alt="元素周期表" class="elem-table-ctr"
               v-if="computeRules !== 'macro' && !elemTableVisible" @click="handleElemTableVisible(true)" />
             <span @click="searchTableData">
               <el-button :icon="Search" class="search-icon" />

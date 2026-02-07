@@ -1,11 +1,11 @@
-import overviewIcon from '@/assets/img/dataResources/icon_数据总览.png'
-import publicIcon from '@/assets/img/dataResources/icon_公益数据集.png'
-import privateIcon from '@/assets/img/dataResources/icon_私域数据集.png'
-import specialIcon from '@/assets/img/dataResources/icon_专题数据集.png'
-import templateIcon from '@/assets/img/dataResources/icon_数据模板.png'
-import standardIcon from '@/assets/img/dataResources/icon_数据标准.png'
-import materialDataIcon from '@/assets/img/dataResources/icon_全球材料数据库.png'
-import materialSoftwareIcon from '@/assets/img/dataResources/icon_全球材料计算软件库.png'
+import overviewIcon from '@/assets/img/dataResources/icon_data-overview.png'
+import publicIcon from '@/assets/img/dataResources/icon_public-dataset.png'
+import privateIcon from '@/assets/img/dataResources/icon_private-dataset.png'
+import specialIcon from '@/assets/img/dataResources/icon_special-dataset.png'
+import templateIcon from '@/assets/img/dataResources/icon_data-template.png'
+import standardIcon from '@/assets/img/dataResources/icon_data-standard.png'
+import materialDataIcon from '@/assets/img/dataResources/icon_global-material-database.png'
+import materialSoftwareIcon from '@/assets/img/dataResources/icon_global-material-software-library.png'
 
 interface cardInfo {
     path: string;

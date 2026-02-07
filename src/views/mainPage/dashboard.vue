@@ -93,21 +93,21 @@
         <div class="mtb30">
           <titleLine :nameZh="'建设单位'" :nameEn="'/ CONSTRUCTION ENTITY'"></titleLine>
           <div class="mtb30 wp100 construction-box">
-            <img class="" src="../../assets/img/construction/国家超级计算天津中心.png" alt=""
+            <img class="" src="../../assets/img/construction/national-supercomputing-center-tianjin.png" alt=""
               @click="jumpTo('https://www.nscc-tj.cn/zxjj/index')" />
-            <img class="" src="../../assets/img/construction/四川大学.png" alt=""
+            <img class="" src="../../assets/img/construction/sichuan-university.png" alt=""
               @click="jumpTo('https://www.scu.edu.cn/')" />
-            <img class="" src="../../assets/img/construction/中国工程物理研究院计算机应用研究所.png" alt=""
+            <img class="" src="../../assets/img/construction/institute-of-applied-physics-and-computational-mathematics.png" alt=""
               @click="jumpTo('https://www.caep.ac.cn/')" />
-            <img class="" src="../../assets/img/construction/中国一重.png" alt=""
+            <img class="" src="../../assets/img/construction/china-first-heavy-industries.png" alt=""
               @click="jumpTo('https://www.cfhi.com/')" />
-            <img class="" src="../../assets/img/construction/北京航空航天大学.png" alt=""
+            <img class="" src="../../assets/img/construction/beihang-university.png" alt=""
               @click="jumpTo('https://www.buaa.edu.cn/')" />
-            <img class="" src="../../assets/img/construction/福州大学.png" alt=""
+            <img class="" src="../../assets/img/construction/fuzhou-university.png" alt=""
               @click="jumpTo('https://www.fzu.edu.cn/')" />
-            <img class="" src="../../assets/img/construction/中山大学.png" alt=""
+            <img class="" src="../../assets/img/construction/sun-yat-sen-university.png" alt=""
               @click="jumpTo('https://www.sysu.edu.cn/')" />
-            <img class="" src="../../assets/img/construction/信创海河实验室.png" alt=""
+            <img class="" src="../../assets/img/construction/xinchuang-haihe-laboratory.png" alt=""
               @click="jumpTo('https://www.hl-it.cn/')" />
           </div>
         </div>

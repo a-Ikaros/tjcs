@@ -13,7 +13,7 @@
     <div class="res-total-line">
       共找到 <span class="res-num">{{ total }}</span> 个结果
       <span class="res-filter" @click="handleFilter">
-        <img src="@/assets/img/dataSearch/icon_筛选.png" alt="筛选" class="filter-icon" />
+        <img src="@/assets/img/dataSearch/icon_filter.png" alt="筛选" class="filter-icon" />
         <span>筛选</span>
       </span>
     </div>
@@ -79,7 +79,7 @@ const removeUnit = (value: any): string | number => {
   }
   return value || '-';
 };
-import watchIcon from '@/assets/img/dataSearch/icon_查看.png'
+import watchIcon from '@/assets/img/dataSearch/icon_view.png'
 import { tableCol } from './tableCol'
 import { useRouter } from 'vue-router'
 import { downloadFileById } from '@/api/dataSearch';

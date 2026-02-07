@@ -22,7 +22,7 @@
 <script setup lang="ts">
 import { ref } from 'vue';
 import breadCrumb from '@/components/breadCrumb/index.vue'
-import pdfExample from '@/assets/pdf/新闻稿.pdf'
+import pdfExample from '@/assets/pdf/news-draft.pdf'
 import CanvasPdf from '@/views/updatesDetail/CanvasPdf.vue'
 import PDFIframe from '@/views/updatesDetail/PDFIframe.vue'
 const breadCrumbList = ['首页', '领域动态']

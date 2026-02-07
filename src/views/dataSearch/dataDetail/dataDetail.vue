@@ -78,8 +78,8 @@
 import { ref, onMounted, computed } from 'vue'
 import { useRouter, useRoute } from 'vue-router'
 import { ArrowLeft, Download } from '@element-plus/icons-vue'
-import fileIcon from '@/assets/img/dataSearch/icon_文件.png'
-import fileIconSel from '@/assets/img/dataSearch/icon_文件1.png'
+import fileIcon from '@/assets/img/dataSearch/icon_file.png'
+import fileIconSel from '@/assets/img/dataSearch/icon_file1.png'
 import { downloadFileById, getDataDetail } from '@/api/dataSearch'
 
 const router = useRouter()

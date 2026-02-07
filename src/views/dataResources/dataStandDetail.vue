@@ -8,10 +8,10 @@
 <script setup lang="ts">
 import { ref, onMounted } from 'vue';
 import { useRoute } from 'vue-router';
-import dataCommon from '@/assets/pdf/dataStandard/TCSTM 00120-2019 材料基因工程数据通则.pdf'
-import dataMetadata from '@/assets/pdf/dataStandard/TCSTM 00837-2022 材料基因工程数据 元数据标准化原则与方法.pdf'
-import dataMid from '@/assets/pdf/dataStandard/TCSTM 00838-2022 材料基因工程 材料数据标识（MID）.pdf'
-import dataTerm from '@/assets/pdf/dataStandard/TCSTM 00839-2022 材料基因工程 术语.pdf'
+import dataCommon from '@/assets/pdf/dataStandard/TCSTM-00120-2019-data-general-principles.pdf'
+import dataMetadata from '@/assets/pdf/dataStandard/TCSTM-00837-2022-metadata-standardization-principles.pdf'
+import dataMid from '@/assets/pdf/dataStandard/TCSTM-00838-2022-material-data-identification.pdf'
+import dataTerm from '@/assets/pdf/dataStandard/TCSTM-00839-2022-terminology.pdf'
 
 const route = useRoute();
 const pdfUrl = ref('');
