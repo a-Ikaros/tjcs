@@ -50,7 +50,7 @@ const pseudopotential = [
   {
     key: "pid",
     label: "Projected Augmented Wave ID",
-    prefix:"PAW-"
+    prefix: "PAW-",
   },
   {
     key: "elements",
@@ -70,7 +70,7 @@ const pseudopotential = [
   },
 ];
 // 机器学习用数据
-const cdMachineLearn=[
+const cdMachineLearn = [
   {
     key: "materialId",
     label: "Material ID",
@@ -111,8 +111,27 @@ const cdMachineLearn=[
     key: "energyPerAtom",
     label: "Energy per Atom",
   },
-]
+];
 
+// 粗粒化势函数
+const cgp = [
+  {
+    label: "Coarse-Grained Potential ID",
+    key: "dataId",
+  },
+  {
+    label: "Particle Type",
+    key: "particleType",
+  },
+  {
+    label: "Param Type",
+    key: "paramType",
+  },
+  {
+    label: "Potential Type ",
+    key: "potentialType",
+  },
+];
 // 多物理场耦合参数
 const multiphysicsPotential = [
   {
@@ -159,31 +178,31 @@ const multiphysicsPotential = [
   },
 ];
 //碳材料
-const carbon=[
+const carbon = [
   {
-    label:'Multiphysics Coupling ID',
-    key:'id',
-    prefix:'MC-'
+    label: "Multiphysics Coupling ID",
+    key: "id",
+    prefix: "MC-",
   },
   {
-    label:'Material Name',
-    key:'name'
+    label: "Material Name",
+    key: "name",
   },
   {
-    label:'Material Type',
-    key:'type'
+    label: "Material Type",
+    key: "type",
   },
   {
-    label:'Electrical Resistivity（ohm-cm）',
-    key:'electricalResistivity',
+    label: "Electrical Resistivity（ohm-cm）",
+    key: "electricalResistivity",
     removeUnit: true,
   },
   {
-    label:'Thermal Conductivity（W/m-K）',
-    key:'thermalConductivity',
+    label: "Thermal Conductivity（W/m-K）",
+    key: "thermalConductivity",
     removeUnit: true,
   },
-]
+];
 // 动力学数据
 const dynamics = [
   {
@@ -237,6 +256,7 @@ const dynamics = [
     label: "Year",
   },
 ];
+
 // 热力学数据
 const mtd = [
   {
@@ -249,12 +269,16 @@ const mtd = [
   },
   {
     key: "authors",
-    label: "生产作者",
+    label: "Authors",
   },
   {
     key: "date",
-    label: "生产日期",
+    label: "Date",
   },
+  {
+    key: "phases",
+    label: "Phases",
+  }
 ];
 // 力学性能
 const macroMechanics = [
@@ -268,7 +292,7 @@ const macroMechanics = [
   },
   {
     key: "elements",
-    label: "Elements",
+    label: "元素组成",
   },
   {
     key: "temperature",
@@ -284,7 +308,7 @@ const macroMechanics = [
     label: "泊松比",
     removeUnit: true,
   },
-]
+];
 
 // 热物性
 const macroHeat = [
@@ -325,7 +349,7 @@ const macroHeat = [
     label: "热扩散系数（m2/s）",
     removeUnit: true,
   },
-]
+];
 export const tableCol = {
   // 晶体结构
   crystals: crystals,
@@ -351,17 +375,33 @@ export const tableCol = {
   // 赝势基组
   basisSetPotential: basisSetPotential,
   // 数值原子轨道基组
-  trackBasisSet:  [{label:'Numerical Atomic Orbital ID',key:'id',prefix:"NAO-"},...basisSetPotential.slice(1)],
+  trackBasisSet: [
+    { label: "Numerical Atomic Orbital ID", key: "id", prefix: "NAO-" },
+    ...basisSetPotential.slice(1),
+  ],
   // 高斯型基组
-  gsBasisSet: [{label:' ‌Gaussian-type Orbital ID',key:'id',prefix:"GTO-"},...basisSetPotential.slice(1)],
+  gsBasisSet: [
+    { label: " ‌Gaussian-type Orbital ID", key: "id", prefix: "GTO-" },
+    ...basisSetPotential.slice(1),
+  ],
   // 赝势
   pseudopotential: pseudopotential,
   // 投影缀加波
   pawPseudopotential: pseudopotential,
   // 模守恒赝势
-  ncppPseudopotential: [{label:'Norm-Conserving Pseudopotential ID',key:'pid',prefix:"NCPP-"},...pseudopotential.slice(1)],
+  ncppPseudopotential: [
+    {
+      label: "Norm-Conserving Pseudopotential ID",
+      key: "pid",
+      prefix: "NCPP-",
+    },
+    ...pseudopotential.slice(1),
+  ],
   // 超软赝势
-  usppPseudopotential: [{label:'Ultrasoft Pseudopotential ID',key:'pid',prefix:"USPP-"},...pseudopotential.slice(1)],
+  usppPseudopotential: [
+    { label: "Ultrasoft Pseudopotential ID", key: "pid", prefix: "USPP-" },
+    ...pseudopotential.slice(1),
+  ],
   // 对势
   pairPotential: [
     {
@@ -457,7 +497,7 @@ export const tableCol = {
   ],
 
   //
-  machineLearnGap:[
+  machineLearnGap: [
     {
       key: "id",
       label: "GAP ID",
@@ -471,9 +511,9 @@ export const tableCol = {
       label: "Potential Type",
     },
     {
-      key:'year',
-      label:'Year',
-    }
+      key: "year",
+      label: "Year",
+    },
   ],
   nep: [
     {
@@ -497,13 +537,15 @@ export const tableCol = {
       label: "Compute Device",
     },
   ],
-  cdMachineLearn:cdMachineLearn,
+  cdMachineLearn: cdMachineLearn,
   // 多物理场耦合参数
-  multiphysicsPotential: multiphysicsPotential,
-carbon:carbon,
+  multiphysicsPotential: carbon,
+  // 碳材料
+  carbon: carbon,
+  // 粗粒化势函数
+  cgp: cgp,
   // 热力学数据
   mtd: mtd,
-
   //金属材料
   metalMaterial: multiphysicsPotential,
 

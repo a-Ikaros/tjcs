@@ -41,6 +41,9 @@ import dataset from './dataset.vue'
 import globalMaterial from './globalMaterial.vue';
 import dataStand from './dataStand.vue'
 import dataTemplate from './dataTemplate.vue'
+import { useStatisticsStore } from '@/store/statistics';
+
+const statisticsStore = useStatisticsStore()
 const primaryBread = ['首页', '数据资源']
 const breadCrumbList = ref([...primaryBread])
 const cardList = list
@@ -87,7 +90,8 @@ const componentMap = {
   'materialSoftware': dataset
 }
 
-onMounted(() => {
+onMounted(async () => {
+  await statisticsStore.fetchDataSetCount()
   handleSelect(cardList[0])
 })
 </script>

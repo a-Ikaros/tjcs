@@ -16,16 +16,55 @@
 </template>
 
 <script setup lang="ts">
-import { generatedDatasets, privateDatasets, standardDatasets, templateDatasets, computationalDatasets } from "@/mock/generatedDatasets";
-import { jumpTo } from "@/utils";
-import { ref, watchEffect } from "vue";
+import { ref, watchEffect, onMounted } from "vue";
 import { useRouter } from "vue-router";
+import { jumpTo } from "@/utils";
+import { useStatisticsStore } from "@/store/statistics";
+import { capitalizeFirstLetter, getLeafDataTypes, buildCountMap } from "@/utils/common";
+import { privateDatasets, standardDatasets, templateDatasets, computationalDatasets } from "@/mock/generatedDatasets";
 
 const router = useRouter()
+const statisticsStore = useStatisticsStore()
 const datasetList = ref([])
 const props = defineProps<{ selectedCard: string }>()
+
+const loadPublicDataCount = async () => {
+  try {
+    const res = await statisticsStore.fetchDataSetCount()
+    const countMap = buildCountMap(res)
+    const leafTypes = getLeafDataTypes()
+    
+    datasetList.value = leafTypes.map(item => {
+      const key = capitalizeFirstLetter(item.key)
+      const count = countMap[key] || 0
+      
+      let scale = ''
+      if (['crystals', 'molecule', 'basisSetPotential', 'trackBasisSet', 'gsBasisSet', 'pawPseudopotential', 'ncppPseudopotential', 'usppPseudopotential', 'pairPotential', 'nist', 'reaxffPotential', 'machineLearningPotential', 'machineLearnGap', 'cdMachineLearn'].includes(item.key)) {
+        scale = 'micro'
+      } else if (['cgp', 'mtd', 'dynamics', 'carbon', 'metalMaterial', 'tccl', 'ltcl', 'jhwcl', 'mccl', 'qtgccl'].includes(item.key)) {
+        scale = 'meso'
+      } else {
+        scale = 'macro'
+      }
+      
+      return {
+        title: item.label,
+        desc: `${item.label}数据集合，适用于材料科学研究。`,
+        key: item.key,
+        scale: scale,
+        example: '1',
+        link: `/data-search?scale=${scale}&type=${item.key}`,
+        num: count
+      }
+    })
+  } catch (err) {
+    console.error('Failed to load public data count:', err)
+    datasetList.value = []
+  }
+}
+
 const dataMap = {
-  public: generatedDatasets,
+  public: null,
   standard: standardDatasets,
   template: templateDatasets,
   private: privateDatasets,
@@ -33,7 +72,21 @@ const dataMap = {
 }
 
 watchEffect(() => {
-  datasetList.value = dataMap[props.selectedCard.includes('/') ? props.selectedCard.split('/')[0] : props.selectedCard] || []
+  const cardType = props.selectedCard.includes('/') ? props.selectedCard.split('/')[0] : props.selectedCard
+  
+  if (cardType === 'public') {
+    loadPublicDataCount()
+  } else {
+    datasetList.value = dataMap[cardType] || []
+  }
+})
+
+onMounted(() => {
+  const cardType = props.selectedCard.includes('/') ? props.selectedCard.split('/')[0] : props.selectedCard
+  
+  if (cardType === 'public') {
+    loadPublicDataCount()
+  }
 })
 
 const handleClick = (item: any) => {

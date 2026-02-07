@@ -89,9 +89,11 @@ import {
 import resultTable from "@/views/dataSearch/resultTable/resultTable.vue";
 import { searchPotData } from '@/api/dataSearch';
 import { useRoute, useRouter } from 'vue-router';
+import { useStatisticsStore } from '@/store/statistics';
 
 const route = useRoute()
 const router = useRouter()
+const statisticsStore = useStatisticsStore()
 
 const isPrivateDataset = ref(false)
 const isDirectJump = ref(false)
@@ -187,7 +189,8 @@ const selectDefaultCrystalStructure = () => {
   return false
 }
 
-onMounted(() => {
+onMounted(async () => {
+  await statisticsStore.fetchDataSetCount()
   handlePublicDatasetJump()
   handlePrivateDatasetJump()
   

@@ -136,10 +136,11 @@ import { jumpTo } from '@/utils'
 import { Search } from '@element-plus/icons-vue';
 import { onMounted, ref } from "vue";
 import { useRouter } from "vue-router";
-import { getStatisticsSetCount } from '@/api';
-import { capitalizeFirstLetter, getStructuralType } from '@/utils/common';
+import { useStatisticsStore } from '@/store/statistics';
+import { capitalizeFirstLetter, getStructuralType, buildCountMap, getTypeCount } from '@/utils/common';
 
 const router = useRouter()
+const statisticsStore = useStatisticsStore()
 const searchValue = ref('')
 const dataProducts = ref([
   {
@@ -168,24 +169,13 @@ const newsDynamic = ref([])
 const friendList = ref([])
 onMounted(async () => {
   try {
-    const { data: res } = await getStatisticsSetCount()
+    const res = await statisticsStore.fetchDataSetCount()
     const typeList = getStructuralType()
-
-    const countMap = res.reduce((map, item) => {
-      const key = capitalizeFirstLetter(item.clazz)
-      map[key] = item.count
-      return map
-    }, {})
-
-    const getCount = (item) => {
-      return item.childrenKey?.length ? item.childrenKey.reduce((pre, cur) => {
-        return pre + (countMap[capitalizeFirstLetter(cur)] || 0)
-      }, 0) : (countMap[capitalizeFirstLetter(item.key)] || 0)
-    }
+    const countMap = buildCountMap(res)
 
     newsDynamic.value = typeList.map(item =>
     ({
-      title: `${item.label}数据--${getCount(item)}条`,
+      title: `${item.label}数据--${getTypeCount(item, countMap)}条`,
       link: ''
     })
     )

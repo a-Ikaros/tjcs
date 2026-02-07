@@ -48,6 +48,45 @@ export const filterConfigMap: Record<string, FilterConfig[]> = {
       clearable: true,
     },
   ],
+  // 机器学习用数据 - 支持 Band Gap 和 Energy per Atom 筛选
+  cdMachineLearn: [
+    {
+      key: 'bandGap',
+      label: 'Band Gap',
+      type: 'numberRange',
+      placeholder: '请输入 Band Gap 范围',
+      clearable: true,
+      unit: 'eV',
+    },
+    {
+      key: 'energyPerAtom',
+      label: 'Energy per Atom',
+      type: 'numberRange',
+      placeholder: '请输入 Energy per Atom 范围',
+      clearable: true,
+      unit: 'eV/atom',
+    },
+  ],
+  // 晶体结构 - 增加按化学式筛选
+  crystals: [
+    {
+      key: 'formula',
+      label: 'formula',
+      type: 'input',
+      placeholder: '搜索formula',
+      clearable: true,
+    },
+  ],
+  // 分子结构 - 增加按 Molecular Formula 筛选
+  molecule: [
+    {
+      key: 'molecularFormula',
+      label: 'Molecular Formula',
+      type: 'input',
+      placeholder: '搜索Molecular Formula',
+      clearable: true,
+    },
+  ],
 
   // 神经网络势 - 筛选 Potential Type、Year、Compute Device
   machineLearningPotential: [
@@ -94,6 +133,97 @@ export const filterConfigMap: Record<string, FilterConfig[]> = {
       label: 'Year',
       type: 'yearRange',
       placeholder: '选择年份范围',
+      clearable: true,
+    },
+  ],
+
+  // 基组：支持按 Basis Set 和 Supported Software 搜索
+  basisSetPotential: [
+    {
+      key: 'basisSet',
+      label: 'Basis Set',
+      type: 'input',
+      placeholder: '搜索 Basis Set',
+      clearable: true,
+    },
+    {
+      key: 'outputFormat',
+      label: 'Supported Software',
+      type: 'input',
+      placeholder: '搜索 Supported Software',
+      clearable: true,
+    },
+  ],
+
+  trackBasisSet: [
+    {
+      key: 'basisSet',
+      label: 'Basis Set',
+      type: 'input',
+      placeholder: '搜索 Basis Set',
+      clearable: true,
+    },
+    {
+      key: 'outputFormat',
+      label: 'Supported Software',
+      type: 'input',
+      placeholder: '搜索 Supported Software',
+      clearable: true,
+    },
+  ],
+
+  gsBasisSet: [
+    {
+      key: 'basisSet',
+      label: 'Basis Set',
+      type: 'input',
+      placeholder: '搜索 Basis Set',
+      clearable: true,
+    },
+    {
+      key: 'outputFormat',
+      label: 'Supported Software',
+      type: 'input',
+      placeholder: '搜索 Supported Software',
+      clearable: true,
+    },
+  ],
+
+  // 粗粒化势函数 - 下拉筛选：Particle Type、Param Type、Potential Type
+  cgp: [
+    {
+      key: 'particleType',
+      label: 'Particle Type',
+      type: 'select',
+      api: '/potdata/cgp/getParticleTypes',
+      placeholder: '请选择 Particle Type',
+      clearable: true,
+    },
+    {
+      key: 'paramType',
+      label: 'Param Type',
+      type: 'select',
+      api: '/potdata/cgp/getParamTypes',
+      placeholder: '请选择 Param Type',
+      clearable: true,
+    },
+    {
+      key: 'potentialType',
+      label: 'Potential Type',
+      type: 'select',
+      api: '/potdata/cgp/getPotentialTypes',
+      placeholder: '请选择 Potential Type',
+      clearable: true,
+    },
+  ],
+
+  // 热力学数据 - 支持按 phases 搜索
+  mtd: [
+    {
+      key: 'phases',
+      label: 'Phases',
+      type: 'input',
+      placeholder: '搜索 Phases',
       clearable: true,
     },
   ],
@@ -145,6 +275,94 @@ export const filterConfigMap: Record<string, FilterConfig[]> = {
       label: 'Year',
       type: 'yearRange',
       placeholder: '选择年份范围',
+      clearable: true,
+    },
+  ],
+  // 赝势 - 支持按 Pseudopotential Method 和 Functional 搜索
+  pawPseudopotential: [
+    {
+      key: 'pseudopotentialMethod',
+      label: 'Pseudopotential Method',
+      type: 'input',
+      placeholder: '搜索 Pseudopotential Method',
+      clearable: true,
+    },
+    {
+      key: 'functional',
+      label: 'Functional',
+      type: 'input',
+      placeholder: '搜索 Functional',
+      clearable: true,
+    },
+  ],
+  ncppPseudopotential: [
+    {
+      key: 'pseudopotentialMethod',
+      label: 'Pseudopotential Method',
+      type: 'input',
+      placeholder: '搜索 Pseudopotential Method',
+      clearable: true,
+    },
+    {
+      key: 'functional',
+      label: 'Functional',
+      type: 'input',
+      placeholder: '搜索 Functional',
+      clearable: true,
+    },
+  ],
+  usppPseudopotential: [
+    {
+      key: 'pseudopotentialMethod',
+      label: 'Pseudopotential Method',
+      type: 'input',
+      placeholder: '搜索 Pseudopotential Method',
+      clearable: true,
+    },
+    {
+      key: 'functional',
+      label: 'Functional',
+      type: 'input',
+      placeholder: '搜索 Functional',
+      clearable: true,
+    },
+  ],
+  // 多物理场 - 碳材料（Electrical Resistivity, Thermal Conductivity）
+  carbon: [
+    {
+      key: 'electricalResistivity',
+      label: 'Electrical Resistivity',
+      type: 'numberRange',
+      placeholder: '请输入 Electrical Resistivity 范围',
+      clearable: true,
+      unit: 'ohm-cm',
+    },
+    {
+      key: 'thermalConductivity',
+      label: 'Thermal Conductivity',
+      type: 'numberRange',
+      placeholder: '请输入 Thermal Conductivity 范围',
+      clearable: true,
+      unit: 'W/m-K',
+    },
+  ],
+  // 力学性能 - 可按材料牌号筛选
+  macroMechanics: [
+    {
+      key: 'systemName',
+      label: '材料牌号',
+      type: 'input',
+      placeholder: '搜索材料牌号',
+      clearable: true,
+    },
+  ],
+  // 热物性 - 可按材料牌号筛选
+  macroHeat: [
+    {
+      key: 'systemName',
+      label: '材料牌号',
+      type: 'input',
+      placeholder: '搜索材料牌号',
       clearable: true,
     },
   ],

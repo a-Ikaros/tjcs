@@ -45,3 +45,91 @@ export const getStructuralType = () => {
     ...getTypeList(macroDataTypes),
   ];
 };
+
+export const getAllDataTypes = () => {
+  const getTypeList = (list) => {
+    const result = [];
+    list.forEach((item) => {
+      if (!item.disabled) {
+        if (item.children && item.children.length > 0) {
+          item.children.forEach((child) => {
+            if (!child.disabled) {
+              result.push({
+                key: child.key,
+                label: child.name,
+                parentKey: item.key,
+                parentLabel: item.name,
+              });
+            }
+          });
+        } else {
+          result.push({
+            key: item.key,
+            label: item.name,
+            parentKey: null,
+            parentLabel: null,
+          });
+        }
+      }
+    });
+    return result;
+  };
+  return [
+    ...getTypeList(microDataTypes),
+    ...getTypeList(mesoDataTypes),
+    ...getTypeList(macroDataTypes),
+  ];
+};
+
+export const buildCountMap = (data: any[]) => {
+  return data.reduce((map, item) => {
+    const key = capitalizeFirstLetter(item.clazz);
+    map[key] = item.count;
+    return map;
+  }, {});
+};
+
+export const getTypeCount = (item: any, countMap: Record<string, number>) => {
+  if (item.childrenKey && item.childrenKey.length > 0) {
+    return item.childrenKey.reduce((pre: number, cur: string) => {
+      return pre + (countMap[capitalizeFirstLetter(cur)] || 0);
+    }, 0);
+  } else {
+    return countMap[capitalizeFirstLetter(item.key)] || 0;
+  }
+};
+
+export const getLeafDataTypes = () => {
+  const getTypeList = (list) => {
+    const result = [];
+    list.forEach((item) => {
+      if (!item.disabled) {
+        if (item.children && item.children.length > 0) {
+          item.children.forEach((child) => {
+            if (!child.disabled) {
+              result.push({
+                key: child.key,
+                label: child.name,
+                parentKey: item.key,
+                parentLabel: item.name,
+              });
+            }
+          });
+        } else {
+          result.push({
+            key: item.key,
+            label: item.name,
+            parentKey: null,
+            parentLabel: null,
+          });
+        }
+      }
+    });
+    return result;
+  };
+  return [
+    ...getTypeList(microDataTypes),
+    ...getTypeList(mesoDataTypes),
+    ...getTypeList(macroDataTypes),
+  ];
+};

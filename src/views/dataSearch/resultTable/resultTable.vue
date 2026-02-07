@@ -31,7 +31,7 @@
           <span>{{ col.prefix + (scope.row[col.key] || '-') }}</span>
         </template>
         <template #default="scope" v-else>
-          <span>{{ scope.row[col.key] || '-' }}</span>
+          <span>{{ (scope.row[col.key] === 'null' ? '-' : scope.row[col.key])||'-' }}</span>
         </template>
       </el-table-column>
       <el-table-column label="操作" width="120" align="center" fixed="right">
@@ -86,10 +86,11 @@ import { getFilterConfig } from '../filterConfig';
 import type { FilterConfig } from '../filterConfig';
 import { computed, onMounted, ref, watch } from 'vue';
 import { ElMessageBox } from 'element-plus'
-import { capitalizeFirstLetter } from '@/utils/common';
-import { getStatisticsSetCount } from '@/api';
+import { capitalizeFirstLetter, buildCountMap } from '@/utils/common';
+import { useStatisticsStore } from '@/store/statistics';
 
 const router = useRouter()
+const statisticsStore = useStatisticsStore()
 const dataMap = ref({})
 const badgeList = ref([
   {
@@ -112,10 +113,8 @@ const currentTableColumns = computed(() => {
 
 const getDataMap = async () => {
   try {
-    const { data: res } = await getStatisticsSetCount()
-    res.forEach(item => {
-      dataMap.value[capitalizeFirstLetter(item.clazz)] = item.count
-    })
+    const res = await statisticsStore.fetchDataSetCount()
+    dataMap.value = buildCountMap(res)
   } catch (err) {
     dataMap.value = {}
   }

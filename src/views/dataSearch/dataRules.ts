@@ -148,7 +148,7 @@ const mesoDataTypes: Array<cardInfo> = [
     name: "动力学数据",
   },
   {
-    key: "multiphysicsPotential",
+    key: "carbon",
     name: "多物理场耦合参数",
     children: [
       {
