@@ -18,11 +18,13 @@
       </span>
     </div>
     <el-table :data="tableData" border style="width: 100%" @row-click="handleRowClick">
-      <el-table-column label="Num" type="index" width="80" align="center" />
+      <el-table-column label="Num" type="index" width="80" align="center"
+        v-if="selectedType !== 'macroMechanics' && selectedType !== 'macroHeat'" />
       <el-table-column v-for="col in currentTableColumns" :key="col.key" :prop="col.key" :label="col.label"
-        :width="col.width || 'auto'" :align="col.align || 'center'" :min-width="col.minWidth || '120px'"  empty-text="-">
+        :width="col.width || 'auto'" :align="col.align || 'center'" :min-width="col.minWidth || '120px'" empty-text="-">
         <template #default="scope" v-if="col.key === 'elements'">
-          <span>{{Array.isArray(scope.row.elements) ? scope.row.elements?.join(', ') || '-' : scope.row.elements }}</span>
+          <span>{{ Array.isArray(scope.row.elements) ? scope.row.elements?.join(', ') || '-' : scope.row.elements
+            }}</span>
         </template>
         <template #default="scope" v-else-if="col.removeUnit">
           <span>{{ removeUnit(scope.row[col.key]) || '-' }}</span>
@@ -31,7 +33,7 @@
           <span>{{ col.prefix + (scope.row[col.key] || '-') }}</span>
         </template>
         <template #default="scope" v-else>
-          <span>{{ (scope.row[col.key] === 'null' ? '-' : scope.row[col.key])||'-' }}</span>
+          <span>{{ (scope.row[col.key] === 'null' ? '-' : scope.row[col.key]) || '-' }}</span>
         </template>
       </el-table-column>
       <el-table-column label="操作" width="120" align="center" fixed="right">
@@ -140,10 +142,10 @@ const refResTableData = (arr, dataType = 'pairPotential') => {
     currentDataType.value = dataType
   } else if (arr && arr.children && arr.children.length > 0) {
     const enabledChildren = arr.children.filter(item => !item.disabled)
-    
+
     if (enabledChildren.length > 0) {
       const matchingChild = enabledChildren.find(item => item.key === dataType)
-      
+
       if (matchingChild) {
         badgeList.value = [{
           label: matchingChild.name || matchingChild.label,
@@ -282,11 +284,11 @@ const handleDownload = async (row) => {
     //   window.open(url, '_blank', 'noopener,noreferrer')
     // }
     try {
-        const { data } = await downloadFileById({ rule: currentDataType.value, id: row.id as string })
-        // const url = `${import.meta.env.VITE_BASE_URL}potdata/${currentDataType.value}/download?id=${row.id}&satoken=${token}`
-        window.open(data?.data, '_blank', 'noopener,noreferrer')
+      const { data } = await downloadFileById({ rule: currentDataType.value, id: row.id as string })
+      // const url = `${import.meta.env.VITE_BASE_URL}potdata/${currentDataType.value}/download?id=${row.id}&satoken=${token}`
+      window.open(data?.data, '_blank', 'noopener,noreferrer')
     } catch (err) {
-        console.error('下载失败:', err)
+      console.error('下载失败:', err)
     }
   } catch (err) {
     console.error('下载失败:', err)
