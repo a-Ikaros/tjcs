@@ -62,14 +62,14 @@ export const useStatisticsStore = defineStore("statistics", {
             clazz: 'Oc',
             count: 1066
           },
-          {
-            clazz: 'MacroMechanics',
-            count: 3186156
-          },
-          {
-            clazz: 'MacroHeat',
-            count: 3186156
-          },
+          // {
+          //   clazz: 'MacroMechanics',
+          //   count: 3186156
+          // },
+          // {
+          //   clazz: 'MacroHeat',
+          //   count: 3186156
+          // },
           {
             clazz: 'Op',
             count: 4040
