@@ -378,6 +378,16 @@ const getCurProductList = () => {
       user: '材料计算设计专用数据资源节点',
       time: '2026.02.06',
     },
+    {
+      id: '4',
+      title: '宏观共性基础数据采集整合工具',
+      desc: '宏观数据采集工具面向大型仿真计算用数据，提供自动化采集与标准化整合功能，支持高效提取力学性能、热物性等宏观共性基础数据，实现多源数据的统一管理与快速复用，显著提升仿真数据采集与整理效率。',
+      img: productBlockImg,
+      user: '材料计算设计专用数据资源节点',
+      time: '2025.01.20',
+      link: '',
+      disabled: true
+    },
   ]
 
   const engineProducts = [

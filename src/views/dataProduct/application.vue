@@ -1,6 +1,6 @@
 <template>
   <div class="application-page">
-    <breadCrumb :breadCrumbList="breadCrumbList"></breadCrumb>
+    <!-- <breadCrumb :breadCrumbList="breadCrumbList"></breadCrumb> -->
     <div v-if="loadError" class="error-message">
       <div class="error-icon">⚠️</div>
       <h3>无法加载应用</h3>
@@ -36,7 +36,7 @@ const loadError = ref(false);
 const errorMessage = ref('');
 const iframeKey = ref(0);
 
-const isProduction = import.meta.env.PROD;
+const isProduction = import.meta.env.PROD && false;
 
 const urlMap = {
   FirstPrinciplesData: isProduction ? '/proxy/firstprinciples/' : 'http://172.31.6.90:5001/',
