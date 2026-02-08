@@ -31,28 +31,42 @@
 
 <script setup lang="ts">
 import { nextTick, onBeforeMount, onMounted, ref, watch, watchEffect } from 'vue';
-import { useRouter } from 'vue-router';
+import { useRouter, useRoute } from 'vue-router';
 import { menuData } from '@/components/menu';
 
 const router = useRouter()
-
+const route = useRoute()
 
 const activeIndex = ref('/dashboard')
+
+const getActiveIndex = () => {
+  const currentPath = route.path
+  const query = route.query
+  
+  if (currentPath === '/data-search' && query.type) {
+    return '/data-resources'
+  }
+  return currentPath
+}
+
 const handleSelect = (key: string, keyPath: string[]) => {
   router.push(key)
 }
 
-watch(() => router.currentRoute.value.path, () => {
-  const currentPath = router.currentRoute.value.path
+watch(() => route.path, () => {
   nextTick(() => {
-    if (currentPath) {
-      activeIndex.value = currentPath
-    }
+    activeIndex.value = getActiveIndex()
   })
-
 })
+
+watch(() => route.query, () => {
+  nextTick(() => {
+    activeIndex.value = getActiveIndex()
+  })
+})
+
 onBeforeMount(() => {
-  activeIndex.value = location.hash.slice(1)
+  activeIndex.value = getActiveIndex()
 })
 </script>
 

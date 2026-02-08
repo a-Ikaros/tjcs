@@ -1,12 +1,26 @@
 <template>
   <div class="application-page">
     <breadCrumb :breadCrumbList="breadCrumbList"></breadCrumb>
-    <iframe :src="iframeUrl" frameborder="0" class="application-iframe"></iframe>
+    <div v-if="loadError" class="error-message">
+      <div class="error-icon">⚠️</div>
+      <h3>无法加载应用</h3>
+      <p>抱歉，该应用暂时无法访问。这可能是由于服务器配置或网络问题导致的。</p>
+      <p class="error-detail">错误信息：{{ errorMessage }}</p>
+      <button @click="retryLoad" class="retry-button">重试</button>
+    </div>
+    <iframe 
+      v-else
+      :src="iframeUrl" 
+      frameborder="0" 
+      class="application-iframe"
+      @error="handleIframeError"
+      @load="handleIframeLoad"
+    ></iframe>
   </div>
 </template>
 
 <script setup lang="ts">
-import { computed } from 'vue';
+import { computed, ref } from 'vue';
 import { useRoute } from 'vue-router';
 import breadCrumb from '@/components/breadCrumb/index.vue';
 import { PrivateDomainDataSharingSystemData } from './detail/productData/PrivateDomainDataSharingSystemData';
@@ -18,6 +32,9 @@ import { DatabaseQueryToolData } from './detail/productData/DatabaseQueryToolDat
 import { ReaxFFData } from './detail/productData/ReaxFFData';
 
 const route = useRoute();
+const loadError = ref(false);
+const errorMessage = ref('');
+const iframeKey = ref(0);
 
 const isProduction = import.meta.env.PROD;
 
@@ -56,6 +73,22 @@ const breadCrumbList = computed(() => {
   const productName = productNameMap[id] || '产品申请';
   return ['首页', parentTitle, productName];
 });
+
+const handleIframeError = () => {
+  loadError.value = true;
+  errorMessage.value = '无法连接到服务器，请检查网络连接或稍后重试';
+};
+
+const handleIframeLoad = () => {
+  loadError.value = false;
+  errorMessage.value = '';
+};
+
+const retryLoad = () => {
+  loadError.value = false;
+  errorMessage.value = '';
+  iframeKey.value++;
+};
 </script>
 
 <style scoped>
@@ -69,5 +102,60 @@ const breadCrumbList = computed(() => {
   width: 100%;
   height: calc(100vh - 60px);
   border: none;
+}
+
+.error-message {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  height: calc(100vh - 60px);
+  padding: 40px;
+  text-align: center;
+  background-color: #f5f5f5;
+}
+
+.error-icon {
+  font-size: 64px;
+  margin-bottom: 20px;
+}
+
+.error-message h3 {
+  font-size: 24px;
+  color: #333;
+  margin-bottom: 16px;
+}
+
+.error-message p {
+  font-size: 16px;
+  color: #666;
+  margin-bottom: 12px;
+  max-width: 600px;
+}
+
+.error-detail {
+  font-size: 14px;
+  color: #999;
+  margin-top: 20px;
+  padding: 12px 20px;
+  background-color: #fff;
+  border-radius: 4px;
+  word-break: break-all;
+}
+
+.retry-button {
+  margin-top: 24px;
+  padding: 12px 32px;
+  font-size: 16px;
+  color: #fff;
+  background-color: #409eff;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+  transition: background-color 0.3s;
+}
+
+.retry-button:hover {
+  background-color: #66b1ff;
 }
 </style>

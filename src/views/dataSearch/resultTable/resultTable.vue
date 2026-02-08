@@ -11,7 +11,7 @@
       </el-badge>
     </div>
     <div class="res-total-line">
-      共找到 <span class="res-num">{{ selectedType === 'cdMachineLearn' ? '2446398' : total }}</span> 个结果
+      共找到 <span class="res-num">{{ getTotalNum }}</span> 个结果
       <span class="res-filter" @click="handleFilter">
         <img src="@/assets/img/dataSearch/icon_filter.png" alt="筛选" class="filter-icon" />
         <span>筛选</span>
@@ -128,6 +128,15 @@ const getDataMap = async () => {
 }
 const totalNumRes = computed(() => {
   return badgeList.value.map(item => dataMap.value[item.key] || 0)?.reduce((a, b) => a + b) || 0
+})
+
+const getTotalNum = computed(() => {
+  const numMap = {
+    'cdMachineLearn': '2446398',
+    'macroMechanics': '53102',
+    'macroHeat':'53102',
+  }
+  return numMap[selectedType.value] || '0'
 })
 onMounted(() => {
   getDataMap()
