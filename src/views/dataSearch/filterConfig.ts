@@ -386,6 +386,26 @@ export const filterConfigMap: Record<string, FilterConfig[]> = {
       clearable: true,
     },
   ],
+
+  // 磁性材料 - 筛选 Efermi 和 CBM
+  magneticMaterial: [
+    {
+      key: 'efermi',
+      label: 'Efermi',
+      type: 'numberRange',
+      placeholder: '请输入 Efermi 范围',
+      clearable: true,
+      unit: 'eV',
+    },
+    {
+      key: 'cbm',
+      label: 'CBM',
+      type: 'numberRange',
+      placeholder: '请输入 CBM 范围',
+      clearable: true,
+      unit: 'eV',
+    },
+  ],
 };
 
 /**

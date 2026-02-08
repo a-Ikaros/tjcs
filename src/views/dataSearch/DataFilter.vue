@@ -170,9 +170,16 @@ const handleFilterChange = () => {
           filters['energyAboveHull'] = { min: hasFrom ? filterValues[fromKey] : null, max: hasTo ? filterValues[toKey] : null };
         }
       } else {
-        if (hasFrom || hasTo) {
-          filters[config.key + 'From'] = hasFrom ? filterValues[fromKey] : null;
-          filters[config.key + 'To'] = hasTo ? filterValues[toKey] : null;
+        // 对于一些后端期望的字段，使用对象形式传递 {min,max}
+        if (config.key === 'efermi' || config.key === 'cbm') {
+          if (hasFrom || hasTo) {
+            filters[config.key] = { min: hasFrom ? filterValues[fromKey] : null, max: hasTo ? filterValues[toKey] : null };
+          }
+        } else {
+          if (hasFrom || hasTo) {
+            filters[config.key + 'From'] = hasFrom ? filterValues[fromKey] : null;
+            filters[config.key + 'To'] = hasTo ? filterValues[toKey] : null;
+          }
         }
       }
     } else {

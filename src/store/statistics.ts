@@ -53,12 +53,34 @@ export const useStatisticsStore = defineStore("statistics", {
         const { getStatisticsSetCount } = await import("@/api");
         const { data } = await getStatisticsSetCount();
         
-        const magneticMaterialData = {
-          clazz: 'MagneticMaterial',
-          count: 76
-        };
+        const additionalData = [
+          {
+            clazz: 'MagneticMaterial',
+            count: 76
+          },
+          {
+            clazz: 'Oc',
+            count: 1066
+          },
+          {
+            clazz: 'MacroMechanics',
+            count: 3186156
+          },
+          {
+            clazz: 'MacroHeat',
+            count: 3186156
+          },
+          {
+            clazz: 'Op',
+            count: 4040
+          },
+          {
+            clazz: '3dWeaving',
+            count: 360
+          }
+        ];
         
-        this.dataSetCount = [...data, magneticMaterialData];
+        this.dataSetCount = [...data, ...additionalData];
         this.lastFetchTime = Date.now();
         return this.dataSetCount;
       } catch (err) {

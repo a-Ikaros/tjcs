@@ -63,6 +63,38 @@ const loadPublicDataCount = async () => {
   }
 }
 
+const loadPrivateDataCount = async () => {
+  try {
+    await statisticsStore.fetchDataSetCount()
+    const countMap = statisticsStore.countMap
+    
+    datasetList.value = privateDatasets.map(item => {
+      let count = 0
+      
+      if (item.title === '电池有机正极材料数据') {
+        count = countMap['oc'] || 0
+      } else if (item.title === '有机光电材料数据') {
+        count = countMap['op'] || 0
+      } else if (item.title === '三维编织复合材料数据') {
+        count = countMap['3dWeaving'] || 0
+      } else if (item.title === '磁性材料电子结构性质计算数据库') {
+        count = countMap['magneticMaterial'] || 0
+      }
+      
+      return {
+        ...item,
+        num: count.toLocaleString()
+      }
+    })
+  } catch (err) {
+    console.error('Failed to load private data count:', err)
+    datasetList.value = privateDatasets.map(item => ({
+      ...item,
+      num: '0'
+    }))
+  }
+}
+
 const dataMap = {
   public: null,
   standard: standardDatasets,
@@ -76,6 +108,8 @@ watchEffect(() => {
   
   if (cardType === 'public') {
     loadPublicDataCount()
+  } else if (cardType === 'private') {
+    loadPrivateDataCount()
   } else {
     datasetList.value = dataMap[cardType] || []
   }
@@ -86,6 +120,8 @@ onMounted(() => {
   
   if (cardType === 'public') {
     loadPublicDataCount()
+  } else if (cardType === 'private') {
+    loadPrivateDataCount()
   }
 })
 
