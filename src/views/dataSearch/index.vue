@@ -142,15 +142,21 @@ const handlePublicDatasetJump = () => {
         if (card) {
           selectedCard.value = type
           searchPath.value = [rulesOptions.find(item => item.value === computeRules.value), { label: card.name, value: card.key }]
-          
+
           if (child) {
             searchPath.value.push({ label: child.name, value: child.key })
           }
-          
+
           if (resTable.value) {
-            resTable.value.refResTableData(card, type)
+            // 当 card 没有 children 时，refResTableData 期望接收一个数组，保持与 handleSelect 一致
+            if (!card.children || card.children.length === 0) {
+              const arr = [{ label: card.name, value: card.key }]
+              resTable.value.refResTableData(arr, type)
+            } else {
+              resTable.value.refResTableData(card, type)
+            }
           }
-          
+
           searchTableData()
         }
       })
@@ -166,11 +172,12 @@ const handlePrivateDatasetJump = () => {
     const dataset = privateDatasetTypes[type]
     selectedCard.value = dataset.key
     searchPath.value = [{ label: dataset.name, value: dataset.key }]
-    
+
     if (resTable.value) {
-      resTable.value.refResTableData(dataset, dataset.key)
+      // 私有数据集对象没有 children，传入数组以保证 badge 列表构建正确
+      resTable.value.refResTableData([{ label: dataset.name, value: dataset.key }], dataset.key)
     }
-    
+
     searchTableData()
   }
 }
@@ -264,7 +271,12 @@ onActivated(() => {
           }
           
           if (resTable.value) {
-            resTable.value.refResTableData(card, type)
+            if (!card.children || card.children.length === 0) {
+              const arr = [{ label: card.name, value: card.key }]
+              resTable.value.refResTableData(arr, type)
+            } else {
+              resTable.value.refResTableData(card, type)
+            }
           }
           
           searchTableData()
@@ -282,7 +294,7 @@ onActivated(() => {
     searchPath.value = [{ label: dataset.name, value: dataset.key }]
     
     if (resTable.value) {
-      resTable.value.refResTableData(dataset, dataset.key)
+      resTable.value.refResTableData([{ label: dataset.name, value: dataset.key }], dataset.key)
     }
     
     searchTableData()
@@ -513,8 +525,9 @@ const searchTableData = async () => {
     resTable.value.setTableData && resTable.value.setTableData(dataList)
     resTable.value.setTotal && resTable.value.setTotal(total)
     resTable.value.setCurrentPage && resTable.value.setCurrentPage(currentPage)
-    // 使用 API 返回的 total 值更新 totalNum
-    totalNum.value = `共计${resTable.value.totalNumRes}条`
+    // 使用 resultTable 暴露的计算结果更新 totalNum（注意 computed ref 的 .value）
+    const totalNumRes = resTable.value?.totalNumRes ?? 0
+    totalNum.value = `共计${totalNumRes}条`
   } catch (error) {
     console.error('搜索失败:', error)
   }

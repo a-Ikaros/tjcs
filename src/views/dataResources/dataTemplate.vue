@@ -26,7 +26,7 @@ const curProductList = ref([
         title: '二维材料计算数据模板',
         pdfPath: twoDimensional,
         user: '材料计算设计专用数据资源节点',
-        time: '2025.10.17',
+        time: '2026.01.20',
         link: ''
     },
     {
@@ -34,56 +34,56 @@ const curProductList = ref([
         title: '光电材料计算数据模板',
         pdfPath: optoelectronic,
         user: '材料计算设计专用数据资源节点',
-        time: '2025.10.17',
+        time: '2026.01.22',
     },
     {
         id: 'perovskite',
         title: '钙钛矿材料计算数据模板',
         pdfPath: perovskite,
         user: '材料计算设计专用数据资源节点',
-        time: '2025.12.25'
+        time: '2026.01.24'
     },
     {
         id: 'catalytic',
         title: '催化材料数据模板',
         pdfPath: catalytic,
         user: '材料计算设计专用数据资源节点',
-        time: '2025.12.25'
+        time: '2026.01.26'
     },
     {
         id: 'metallic',
         title: '合金钢综合材料数据模版',
         pdfPath: metallic,
         user: '材料计算设计专用数据资源节点',
-        time: '2025.12.25'
+        time: '2026.01.28'
     },
     {
         id: 'battery',
         title: '电池有机正极材料电压计算数据模板',
         pdfPath: battery,
         user: '材料计算设计专用数据资源节点',
-        time: '2025.12.25'
+        time: '2026.01.30'
     },
     {
         id: 'optoelectronics',
         title: '有机光电材料电荷传输计算数据模板',
         pdfPath: optoelectronics,
         user: '材料计算设计专用数据资源节点',
-        time: '2025.12.25'
+        time: '2026.02.01'
     },
     {
         id: 'composite',
         title: '三维编织复合材料性能数据模板',
         pdfPath: composite,
         user: '材料计算设计专用数据资源节点',
-        time: '2025.12.25'
+        time: '2026.02.03'
     },
     {
         id: 'stainless-steel',
         title: '不锈钢综合材料数据模版',
         pdfPath: stainlessSteel,
         user: '材料计算设计专用数据资源节点',
-        time: '2025.12.25'
+        time: '2026.02.05'
     }
 ])
 

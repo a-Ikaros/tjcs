@@ -22,7 +22,7 @@ const curProductList = ref([
         title: 'TCSTM 00120-2019 材料基因工程数据通则',
         pdfPath: pdf1,
         user: '材料计算设计专用数据资源节点',
-        time: '2025.10.17',
+        time: '2026.01.20',
         link: ''
     },
     {
@@ -30,21 +30,21 @@ const curProductList = ref([
         title: 'TCSTM 00837-2022 材料基因工程数据 元数据标准化原则与方法',
         pdfPath: pdf2,
         user: '材料计算设计专用数据资源节点',
-        time: '2025.10.17',
+        time: '2026.01.23',
     },
     {
         id: 'dataMid',
         title: 'TCSTM 00838-2022 材料基因工程 材料数据标识（MID）',
         pdfPath: pdf3,
         user: '材料计算设计专用数据资源节点',
-        time: '2025.12.25'
+        time: '2026.01.26'
     },
     {
         id: 'dataTerm',
         title: 'TCSTM 00839-2022 材料基因工程 术语',
         pdfPath: pdf4,
         user: '材料计算设计专用数据资源节点',
-        time: '2025.12.25'
+        time: '2026.01.29'
     }
 ])
 

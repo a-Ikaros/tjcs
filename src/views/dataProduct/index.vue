@@ -194,7 +194,7 @@ const getProductList = () => {
       desc: '材料数据库统一采集工具是一款基于 OPTIMADE 标准的材料数据库查询软件，专为材料科学研究人员设计。通过本工具可以统一查询全球多个材料数据库，提供可视化元素选择、智能结果管理和数据导出功能，无需逐个访问不同数据库，大幅提升材料数据检索效率。',
       img: productBlockImg,
       user: '材料计算设计专用数据资源节点',
-      time: '2026.02.09',
+      time: '2025.01.25',
       link: ''
     },
     {
@@ -203,7 +203,7 @@ const getProductList = () => {
       desc: '第一性原理计算数据采集软件是一款专为科研人员开发的自动化Web端采集工具，实现Quantum-ESPRESSO网站UPF赝势数据和Turbomole网站基组数据的自动化高效采集，结合实时监控、自定义采集范围及输出目录和全局重置实用功能，为量子化学与材料科学研究提供稳定可靠的数据获取解决方案。',
       img: productBlockImg,
       user: '材料计算设计专用数据资源节点',
-      time: '2026.02.09'
+      time: '2025.01.28'
     },
     {
       id: 'ReaxFFData',
@@ -211,7 +211,7 @@ const getProductList = () => {
       desc: '反应力场数据采集软件ReaxFFCollector面向文献中ReaXFF参数主要以PDF形式发布、难以直接复用的问题，提供从PDF自动提取、清洗与格式修复的一体化解决方案。该软件可将分散目易出错的反应力场文本标准化为可被LAMMPS等主流分子动力学软件直接读取的力场文件，并通过自动化验证快速评估参数可用性，显著降低人工整理成本，提高反应力场参数复用的可靠性与分子动力学研究效率。',
       img: productBlockImg,
       user: '材料计算设计专用数据资源节点',
-      time: '2026.02.09',
+      time: '2025.02.01',
       link: ''
     },
     {
@@ -220,7 +220,7 @@ const getProductList = () => {
       desc: 'TDB（热力学数据库，Thermodynamic DataBase）文件包含热力学参数的完整描述，内部包括元素、相、组成、参数等多个部分，结构复杂多样，是介观尺度相图计算用的共性基础数据。TDB元数据抽取与校验平台集成了从数据获取到结果验证的全流程功能，帮助高效管理和利用.TDB文件。',
       img: productBlockImg,
       user: '材料计算设计专用数据资源节点',
-      time: '2026.02.09',
+      time: '2025.02.03',
       link: ''
     },
     {
@@ -229,7 +229,7 @@ const getProductList = () => {
       desc: '相场模拟数据采集软件是一款专为材料科学研究人员设计的专业数据采集工具。该软件采用自动化技术，通过Web界面实现NIST相场数据库的高效采集，支持批量数据下载和智能断点续传功能。系统提供实时任务监控、日志查看和统计分析等功能，帮助科研人员快速获取高质量的相场模拟数据集，提升科研效率和数据处理精度。',
       img: productBlockImg,
       user: '材料计算设计专用数据资源节点',
-      time: '2026.02.09'
+      time: '2025.02.05'
     },
     {
       id: 'LiteratureData',
@@ -237,7 +237,8 @@ const getProductList = () => {
       desc: '材料文献数据挖掘系统是支撑新材料计算设计数据资源节点--文献数据挖掘工具。面向PDF、markdown等材料文献文件类型，自动识别并挖掘材料成分、工艺、性能等要素，抽取结构化性质数据，同时构建材料结构化知识图谱，具有图谱可视化功能，同时支持根据抽取的性质数据知识库开展智能知识问答。',
       img: productBlockImg,
       user: '材料计算设计专用数据资源节点',
-      time: '2026.02.09',
+      time: '2025.02.06',
+      link: ''
     },
     {
       id: 'OrganicCathodePotentialEngine',
@@ -245,7 +246,7 @@ const getProductList = () => {
       desc: '有机正极材料还原电位生产引擎，基于能斯特方程量化材料在中性与还原态之间的能量差异，实现电位的高效精准计算。高效生产出的电位数据将用于机器学习训练，以预测有机正极材料的工作电压。',
       img: productBlockImg,
       user: '材料计算设计专用数据资源节点',
-      time: '2026.02.09',
+      time: '2025.01.22',
       link: location.pathname + '#/data-product/application/OrganicCathodePotentialEngine'
     },
     {
@@ -254,7 +255,7 @@ const getProductList = () => {
       desc: '电池电极材料溶解度生产引擎，通过溶剂化体系与气相体系的单点能差值精确表征溶解特性，实现溶解性能的高效精准计算。高效生产出的溶解度参数将用于溶剂筛选与配方优化，以预测材料在复杂溶液体系中的溶解行为。',
       img: productBlockImg,
       user: '材料计算设计专用数据资源节点',
-      time: '2026.02.09',
+      time: '2025.01.24',
       link: location.pathname + '#/data-product/application/BatteryElectrodeSolubilityEngine'
     },
   ]
@@ -265,7 +266,7 @@ const getProductList = () => {
       desc: '宏观数据采集工具面向大型仿真计算用数据，提供自动化采集与标准化整合功能，支持高效提取力学性能、热物性等宏观共性基础数据，实现多源数据的统一管理与快速复用，显著提升仿真数据采集与整理效率。',
       img: productBlockImg,
       user: '材料计算设计专用数据资源节点',
-      time: '2026.02.09',
+      time: '2025.01.20',
       link: ''
     },
     {
@@ -274,7 +275,7 @@ const getProductList = () => {
       desc: '晶体结构数据净化与整合工具面向MP、OQMD、ICSD等主流材料数据库中晶体结构数据存在重复与错误的问题，提供跨库自动去重、关键参数验证与数据质量筛选的一体化处理能力，可快速输出洁净、可靠的结构数据集，显著提升计算材料学中数据准备的效率与可靠性。',
       img: productBlockImg,
       user: '材料计算设计专用数据资源节点',
-      time: '2026.02.09',
+      time: '2025.01.21',
       disabled: true
     },
     {
@@ -283,7 +284,7 @@ const getProductList = () => {
       desc: '多元合金机器学习势NEP生产引擎提供了构建金属及多元合金NEP的详细流程，主要包含三部分：初始势函数构建、主动学习与探索及NEP势训练与测试。',
       img: productBlockImg,
       user: '材料计算设计专用数据资源节点',
-      time: '2026.02.09',
+      time: '2025.01.23',
       disabled: true
     },
     {
@@ -292,7 +293,7 @@ const getProductList = () => {
       desc: '基于第一性原理自动化生产面向相图计算所需的热力学数据库TDB数据，实现材料微观数据到介观数据的高效转换。',
       img: productBlockImg,
       user: '材料计算设计专用数据资源节点',
-      time: '2026.02.09',
+      time: '2025.01.26',
       disabled: true
     },
     {
@@ -301,7 +302,7 @@ const getProductList = () => {
       desc: '通过第一性原理计算的方法，对从materials project筛选的能带缺失磁性材料进行电子结构性质生产补充。',
       img: productBlockImg,
       user: '材料计算设计专用数据资源节点',
-      time: '2026.02.09',
+      time: '2025.01.27',
       disabled: true
     },
     {
@@ -310,7 +311,7 @@ const getProductList = () => {
       desc: '通过现有磁性材料数据对图神经网络模型进行训练，并分出测试集数据对模型准确度进行测试。训练后模型可预测未知的磁性材料性能',
       img: productBlockImg,
       user: '材料计算设计专用数据资源节点',
-      time: '2026.02.09',
+      time: '2025.01.28',
       disabled: true
     }
   ]
@@ -332,7 +333,7 @@ const getCurProductList = () => {
       desc: '材料数据库统一采集工具是一款基于 OPTIMADE 标准的材料数据库查询软件，专为材料科学研究人员设计。通过本工具可以统一查询全球多个材料数据库，提供可视化元素选择、智能结果管理和数据导出功能，无需逐个访问不同数据库，大幅提升材料数据检索效率。',
       img: productBlockImg,
       user: '材料计算设计专用数据资源节点',
-      time: '2026.02.09',
+      time: '2026.01.25',
       link: ''
     },
     {
@@ -341,7 +342,7 @@ const getCurProductList = () => {
       desc: '第一性原理计算数据采集软件是一款专为科研人员开发的自动化Web端采集工具，实现Quantum-ESPRESSO网站UPF赝势数据和Turbomole网站基组数据的自动化高效采集，结合实时监控、自定义采集范围及输出目录和全局重置实用功能，为量子化学与材料科学研究提供稳定可靠的数据获取解决方案。',
       img: productBlockImg,
       user: '材料计算设计专用数据资源节点',
-      time: '2026.02.09'
+      time: '2026.01.28'
     },
     {
       id: 'ReaxFFData',
@@ -349,7 +350,7 @@ const getCurProductList = () => {
       desc: '反应力场数据采集软件ReaxFFCollector面向文献中ReaXFF参数主要以PDF形式发布、难以直接复用的问题，提供从PDF自动提取、清洗与格式修复的一体化解决方案。该软件可将分散目易出错的反应力场文本标准化为可被LAMMPS等主流分子动力学软件直接读取的力场文件，并通过自动化验证快速评估参数可用性，显著降低人工整理成本，提高反应力场参数复用的可靠性与分子动力学研究效率。',
       img: productBlockImg,
       user: '材料计算设计专用数据资源节点',
-      time: '2026.02.09',
+      time: '2026.02.01',
       link: ''
     },
     {
@@ -358,7 +359,7 @@ const getCurProductList = () => {
       desc: 'TDB（热力学数据库，Thermodynamic DataBase）文件包含热力学参数的完整描述，内部包括元素、相、组成、参数等多个部分，结构复杂多样，是介观尺度相图计算用的共性基础数据。TDB元数据抽取与校验平台集成了从数据获取到结果验证的全流程功能，帮助高效管理和利用.TDB文件。',
       img: productBlockImg,
       user: '材料计算设计专用数据资源节点',
-      time: '2026.02.09',
+      time: '2026.02.03',
       link: ''
     },
     {
@@ -367,7 +368,7 @@ const getCurProductList = () => {
       desc: '相场模拟数据采集软件是一款专为材料科学研究人员设计的专业数据采集工具。该软件采用自动化技术，通过Web界面实现NIST相场数据库的高效采集，支持批量数据下载和智能断点续传功能。系统提供实时任务监控、日志查看和统计分析等功能，帮助科研人员快速获取高质量的相场模拟数据集，提升科研效率和数据处理精度。',
       img: productBlockImg,
       user: '材料计算设计专用数据资源节点',
-      time: '2026.02.09'
+      time: '2026.02.05'
     },
     {
       id: 'LiteratureData',
@@ -375,7 +376,7 @@ const getCurProductList = () => {
       desc: '材料文献数据挖掘系统是支撑新材料计算设计数据资源节点--文献数据挖掘工具。面向PDF、markdown等材料文献文件类型，自动识别并挖掘材料成分、工艺、性能等要素，抽取结构化性质数据，同时构建材料结构化知识图谱，具有图谱可视化功能，同时支持根据抽取的性质数据知识库开展智能知识问答。',
       img: productBlockImg,
       user: '材料计算设计专用数据资源节点',
-      time: '2026.02.09',
+      time: '2026.02.06',
     },
   ]
 
@@ -386,7 +387,7 @@ const getCurProductList = () => {
       desc: '有机正极材料还原电位生产引擎，基于能斯特方程量化材料在中性与还原态之间的能量差异，实现电位的高效精准计算。高效生产出的电位数据将用于机器学习训练，以预测有机正极材料的工作电压。',
       img: productBlockImg,
       user: '材料计算设计专用数据资源节点',
-      time: '2026.02.09',
+      time: '2026.01.22',
       link: location.pathname + '#/data-product/application/OrganicCathodePotentialEngine'
     },
     {
@@ -395,7 +396,7 @@ const getCurProductList = () => {
       desc: '电池电极材料溶解度生产引擎，通过溶剂化体系与气相体系的单点能差值精确表征溶解特性，实现溶解性能的高效精准计算。高效生产出的溶解度参数将用于溶剂筛选与配方优化，以预测材料在复杂溶液体系中的溶解行为。',
       img: productBlockImg,
       user: '材料计算设计专用数据资源节点',
-      time: '2026.02.09',
+      time: '2026.01.24',
       link: location.pathname + '#/data-product/application/BatteryElectrodeSolubilityEngine'
     },
     {
@@ -404,7 +405,7 @@ const getCurProductList = () => {
       desc: '晶体结构数据净化与整合工具面向MP、OQMD、ICSD等主流材料数据库中晶体结构数据存在重复与错误的问题，提供跨库自动去重、关键参数验证与数据质量筛选的一体化处理能力，可快速输出洁净、可靠的结构数据集，显著提升计算材料学中数据准备的效率与可靠性。',
       img: productBlockImg,
       user: '材料计算设计专用数据资源节点',
-      time: '2026.02.09',
+      time: '2026.01.21',
       disabled: true
     },
     {
@@ -413,7 +414,7 @@ const getCurProductList = () => {
       desc: '多元合金机器学习势NEP生产引擎提供了构建金属及多元合金NEP的详细流程，主要包含三部分：初始势函数构建、主动学习与探索及NEP势训练与测试。',
       img: productBlockImg,
       user: '材料计算设计专用数据资源节点',
-      time: '2026.02.09',
+      time: '2026.01.23',
       disabled: true
     },
     {
@@ -422,7 +423,7 @@ const getCurProductList = () => {
       desc: '基于第一性原理自动化生产面向相图计算所需的热力学数据库TDB数据，实现材料微观数据到介观数据的高效转换。',
       img: productBlockImg,
       user: '材料计算设计专用数据资源节点',
-      time: '2026.02.09',
+      time: '2026.01.26',
       disabled: true
     },
     {
@@ -431,7 +432,7 @@ const getCurProductList = () => {
       desc: '通过第一性原理计算的方法，对从materials project筛选的能带缺失磁性材料进行电子结构性质生产补充。',
       img: productBlockImg,
       user: '材料计算设计专用数据资源节点',
-      time: '2026.02.09',
+      time: '2026.01.27',
       disabled: true
     },
     {
@@ -440,7 +441,7 @@ const getCurProductList = () => {
       desc: '通过现有磁性材料数据对图神经网络模型进行训练，并分出测试集数据对模型准确度进行测试。训练后模型可预测未知的磁性材料性能',
       img: productBlockImg,
       user: '材料计算设计专用数据资源节点',
-      time: '2026.02.09',
+      time: '2026.01.28',
       disabled: true
     }
   ]
@@ -451,21 +452,21 @@ const getCurProductList = () => {
       desc: '收录超过 50 万条无机材料晶体结构数据，包含晶格参数、原子坐标、空间群等完整信息，支持 CIF 格式导出。',
       img: productBlockImg,
       user: '材料计算设计专用数据资源节点',
-      time: '2025.10.20'
+      time: '2026.01.22'
     },
     {
       title: '材料热力学性能数据库',
       desc: '整合相图、热容、熵等热力学数据，覆盖 2000+ 材料体系，提供相稳定性分析与热力学计算支持。',
       img: productBlockImg,
       user: '材料计算设计专用数据资源节点',
-      time: '2025.09.15'
+      time: '2026.01.24'
     },
     {
       title: '材料力学性能数据库',
       desc: '收集各类材料的拉伸、压缩、疲劳等力学性能数据，包含应力-应变曲线与失效模式分析。',
       img: productBlockImg,
       user: '材料计算设计专用数据资源节点',
-      time: '2025.08.25'
+      time: '2026.01.26'
     }
   ]
 
@@ -476,7 +477,7 @@ const getCurProductList = () => {
       desc: '上传您的材料数据，请选择计算尺度和类型后上传文件。',
       img: productBlockImg,
       user: '材料计算设计专用数据资源节点',
-      time: '2026.02.09',
+      time: '2026.01.20',
       isUploadCard: true
     },
     {
@@ -485,7 +486,7 @@ const getCurProductList = () => {
       desc: '为企业提供私有数据存储、管理与交易服务，支持数据确权、定价与安全共享，保障数据资产价值。',
       img: productBlockImg,
       user: '材料计算设计专用数据资源节点',
-      time: '2025.11.01',
+      time: '2026.01.21',
     },
    
   ]
@@ -496,21 +497,21 @@ const getCurProductList = () => {
       desc: '提供 VASP 软件的安装配置、参数优化与结果分析工具，支持高通量计算与自动化工作流。',
       img: productBlockImg,
       user: '材料计算设计专用数据资源节点',
-      time: '2025.10.15'
+      time: '2026.01.23'
     },
     {
       title: 'LAMMPS 分子动力学软件库',
       desc: '集成 LAMMPS 分子动力学模拟软件，提供常用势函数库、参数模板与后处理工具。',
       img: productBlockImg,
       user: '材料计算设计专用数据资源节点',
-      time: '2025.09.28'
+      time: '2026.01.25'
     },
     {
       title: 'Materials Studio 工具集',
       desc: '提供 Materials Studio 软件的使用教程、脚本模板与常用模块配置指南，加速材料模拟研究。',
       img: productBlockImg,
       user: '材料计算设计专用数据资源节点',
-      time: '2025.08.18'
+      time: '2026.01.27'
     }
   ]
 
@@ -520,35 +521,35 @@ const getCurProductList = () => {
       desc: '根据客户需求定制化采集特定领域的材料数据，包括文献、专利、实验数据等多源数据整合。',
       img: productBlockImg,
       user: '材料计算设计专用数据资源节点',
-      time: '2025.11.05'
+      time: '2026.01.22'
     },
     {
       title: '材料计算仿真服务',
       desc: '提供专业的材料计算仿真服务，包括第一性原理计算、分子动力学模拟、相图计算等。',
       img: productBlockImg,
       user: '材料计算设计专用数据资源节点',
-      time: '2025.10.25'
+      time: '2026.01.24'
     },
     {
       title: '材料数据分析与建模服务',
       desc: '提供材料数据分析、机器学习建模与预测服务，帮助客户挖掘数据价值与优化材料设计。',
       img: productBlockImg,
       user: '材料计算设计专用数据资源节点',
-      time: '2025.09.30'
+      time: '2026.01.26'
     },
     {
       title: '材料数据库搭建服务',
       desc: '为企业或科研机构提供材料数据库搭建服务，包括数据标准化、系统开发与运维支持。',
       img: productBlockImg,
       user: '材料计算设计专用数据资源节点',
-      time: '2025.09.10'
+      time: '2026.01.28'
     },
     {
       title: '材料咨询与培训服务',
       desc: '提供材料领域的专业咨询与技术培训，包括材料设计、数据分析、软件使用等方面的指导。',
       img: productBlockImg,
       user: '材料计算设计专用数据资源节点',
-      time: '2025.08.20'
+      time: '2026.01.30'
     }
   ]
 
@@ -558,7 +559,8 @@ const getCurProductList = () => {
       desc: '连接不同数据源的数据集成工具，支持跨系统数据交换与共享，实现数据价值最大化。',
       img: productBlockImg,
       user: '材料计算设计专用数据资源节点',
-      time: '2025.10.28'
+      time: '2026.01.25',
+      link: 'https://www.matbd.cn/sjcp/sjcpzt/ysx/10/'
     },
   ]
 
