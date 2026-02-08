@@ -136,7 +136,7 @@ const getTotalNum = computed(() => {
     'macroMechanics': '53102',
     'macroHeat':'53102',
   }
-  return numMap[selectedType.value] || '0'
+  return numMap[selectedType.value] || total.value
 })
 onMounted(() => {
   getDataMap()
