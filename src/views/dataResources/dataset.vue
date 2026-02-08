@@ -1,6 +1,9 @@
 <template>
   <div class="overview">
-    <div v-for="item in datasetList" :key="item.title" class="overview-item" @click="handleClick(item)">
+    <div v-for="item in datasetList" :key="item.title" 
+      class="overview-item" 
+      :class="{ 'item-disabled': item.title === '三维编织复合材料数据' }"
+      @click="handleClick(item)">
       <div class="item-num">{{ `-共${item.num}条` }}</div>
       <div class="item-title">{{ item.title }}</div>
       <div class="item-desc">
@@ -126,6 +129,10 @@ onMounted(() => {
 })
 
 const handleClick = (item: any) => {
+  if (item.title === '三维编织复合材料数据') {
+    return
+  }
+  
   if (item.link) {
     if (item.link.startsWith('/data-search')) {
       const urlParams = new URLSearchParams(item.link.split('?')[1])
@@ -176,6 +183,16 @@ const handleClick = (item: any) => {
 
   .item-desc {}
 
+}
+
+.overview-item.item-disabled {
+  opacity: 0.6;
+  cursor: not-allowed;
+}
+
+.overview-item.item-disabled:hover {
+  box-shadow: none;
+  transform: none;
 }
 
 .overview-item:hover {
