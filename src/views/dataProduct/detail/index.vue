@@ -29,7 +29,7 @@
                     </div>
                 </div>
                 <div class="frame-top-right">
-                    <img :src="data.headImg" :alt="data.name" />
+                    <img :src="data.headImg" :alt="data.name" v-if="data.headImg" />
                 </div>
             </div>
             <div class="frame-bottom">
@@ -71,7 +71,7 @@
 </template>
 
 <script setup lang="ts">
-import { ref, onMounted } from 'vue';
+import { ref, onMounted, computed } from 'vue';
 import { useRoute } from 'vue-router';
 import breadCrumb from '@/components/breadCrumb/index.vue';
 import DataUploadDialog from '@/components/DataUploadDialog.vue'
@@ -79,10 +79,17 @@ import DataUploadDialog from '@/components/DataUploadDialog.vue'
 import { data as productData } from './index';
 import dataProductUser from '@/assets/img/dataProduct/product-icon-user.png'
 import dataProductTime from '@/assets/img/dataProduct/product-icon-time.png'
-const breadCrumbList = ref(['首页', '数据产品', '数据产品详情']);
-const data = ref<any>([])
 const route = useRoute();
 const showUploadDialog = ref(false)
+
+const breadCrumbList = computed(() => {
+  const from = route.query.from as string;
+  const parentTitle = from === 'data-sharing' ? '数据共享' : '数据产品';
+  const productName = data.value?.name || '数据产品详情';
+  return ['首页', parentTitle, productName];
+});
+
+const data = ref<any>([])
 
 const handleClickBtn = (url:string) => {
     if (data.value.showDialog) {

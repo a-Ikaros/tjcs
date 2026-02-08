@@ -5,8 +5,8 @@ export const DataUpload = {
   unit: "材料计算设计专用数据资源节点",
   time: "2026.02.01",
   description:
-    "上传您的材料数据，支持 Excel 和 JSON 格式，请选择数据尺度和类型后上传文件。",
-  headImg: uploadImage1,
+    "上传您的材料数据，请选择计算尺度和类型后上传文件。",
+  // headImg: uploadImage1,
   btnName: "上传数据",
   showDialog: true,
   content: [

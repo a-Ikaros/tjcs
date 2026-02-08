@@ -300,8 +300,13 @@ onActivated(() => {
 onDeactivated(() => {
 });
 
-
-const breadCrumbList = ['首页', '数据检索']
+const breadCrumbList = computed(() => {
+  const type = route.query.type as string;
+  if (type) {
+    return ['首页', '数据资源']
+  }
+  return ['首页', '数据检索']
+})
 const computeRules = ref('micro')
 const rulesOptions = [
   { label: '微观尺度', value: 'micro' },

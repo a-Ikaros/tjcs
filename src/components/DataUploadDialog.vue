@@ -131,9 +131,9 @@ const handleUpload = async () => {
         <div class="form-item">
           <div class="form-label">
             <span class="required">*</span>
-            数据尺度
+            计算尺度
           </div>
-          <el-select v-model="formData.scale" placeholder="请选择数据尺度" class="form-select" @change="handleScaleChange">
+          <el-select v-model="formData.scale" placeholder="请选择计算尺度" class="form-select" @change="handleScaleChange">
             <el-option v-for="option in scaleOptions" :key="option.value" :label="option.label" :value="option.value" />
           </el-select>
         </div>

@@ -15,7 +15,7 @@ export const MesoMtdData = {
     "TDB（热力学数据库，Thermodynamic DataBase）文件包含热力学参数的完整描述，内部包括元素、相、组成、参数等多个部分，结构复杂多样，是介观尺度相图计算用的共性基础数据。TDB元数据抽取与校验平台集成了从数据获取到结果验证的全流程功能，帮助高效管理和利用.TDB文件。",
   headImg: image1,
   btnName: "申请使用",
-  btnLink: "/#/data-product/application/MesoMtdData",
+  btnLink: location.pathname + "#/data-product/application/MesoMtdData",
   content: [
     {
       descName: "软件介绍",
@@ -139,7 +139,7 @@ export const MesoMtdData = {
         },
         {
           type: "p",
-          text: "配置完成后，点击\"开始\"或\"提交\"按钮创建任务。平台将自动按照选定流程执行元数据解析、模型抽取、校验等步骤。用户此时可前往任务列表页查看该任务的状态，平台会以后台方式完成处理。",
+          text: '配置完成后，点击"开始"或"提交"按钮创建任务。平台将自动按照选定流程执行元数据解析、模型抽取、校验等步骤。用户此时可前往任务列表页查看该任务的状态，平台会以后台方式完成处理。',
         },
         {
           type: "subTitle",
@@ -147,7 +147,7 @@ export const MesoMtdData = {
         },
         {
           type: "p",
-          text: "在任务列表或详情页监控任务状态。当任务状态显示为\"已完成\"时，点击该任务进入详情页即可查看结果。用户能看到提取生成的 JSON 元数据、check 校验文件和 diff 差异报告等内容。如需保存结果，可直接在详情页下载单个发布包，或返回任务列表进行批量导出。",
+          text: '在任务列表或详情页监控任务状态。当任务状态显示为"已完成"时，点击该任务进入详情页即可查看结果。用户能看到提取生成的 JSON 元数据、check 校验文件和 diff 差异报告等内容。如需保存结果，可直接在详情页下载单个发布包，或返回任务列表进行批量导出。',
         },
         {
           type: "img",

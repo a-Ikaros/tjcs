@@ -25,7 +25,9 @@ export const PrivateDomainDataSharingSystemData = {
     "私域材料数据安全共享专区是以高价值数据价值流通与协同利用为核心的数据协作平台。实现跨主体材料数据的可控流动及复杂协同计算，支撑私域高价值数据的有偿交换。平台提供与中心目录及计算层的双向对接接口，同时支持节点级数据的注册、授权、审计及收益结算，创新高价值数据的共享与有偿使用机制。",
   headImg: img1,
   btnName: "申请使用",
-  btnLink: "/#/data-product/application/PrivateDomainDataSharingSystemData",
+  btnLink:
+    location.pathname +
+    "#/data-product/application/PrivateDomainDataSharingSystemData",
   content: [
     {
       descName: "软件介绍",
@@ -386,7 +388,7 @@ export const PrivateDomainDataSharingSystemData = {
         },
         {
           type: "p",
-          text: "操作：在 Data Binding 模块中点击 Add Data Binding，生成如图所示的\"节点–变量名–数据集\"依赖关系。对于每一条绑定关系，需要指定节点 ID 以及代码中用于读取该节点数据集的变量名。然后，在 Dataset 列中点击 Bind Dataset。系统将在右侧面板中展示你当前已订阅的数据集列表。",
+          text: '操作：在 Data Binding 模块中点击 Add Data Binding，生成如图所示的"节点–变量名–数据集"依赖关系。对于每一条绑定关系，需要指定节点 ID 以及代码中用于读取该节点数据集的变量名。然后，在 Dataset 列中点击 Bind Dataset。系统将在右侧面板中展示你当前已订阅的数据集列表。',
         },
         {
           type: "img",

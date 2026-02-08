@@ -4,7 +4,7 @@
     <div class="top-header">
       <div class="header-content">
         <div class="logo-section">
-          <img src="@/assets/img/new-material-logo.png" alt="新材料大数据中心" class="logo-img" />
+          <img src="@/assets/img/new-material-logo.png" alt="材料计算设计专用数据资源节点" class="logo-img" />
           <span class="system-name">材料计算设计专用数据资源节点</span>
         </div>
         <div class="title-section">
@@ -18,7 +18,7 @@
       <div class="register-container">
         <div class="register-header">
           <div class="title-section">
-            <h1 class="main-title">新材料大数据中心</h1>
+            <h1 class="main-title">材料计算设计专用数据资源节点</h1>
             <p class="sub-title">欢迎注册账号</p>
           </div>
         </div>
@@ -87,7 +87,7 @@
           <el-form-item prop="agreement">
             <el-checkbox v-model="registerForm.agreement">
               阅读并同意
-              <el-link type="primary" @click.stop="showAgreement">《新材料大数据中心注册协议》</el-link>
+              <el-link type="primary" @click.stop="showAgreement">《材料计算设计专用数据资源节点注册协议》</el-link>
             </el-checkbox>
           </el-form-item>
 
@@ -110,19 +110,19 @@
       <div class="footer-content">
         <p class="copyright">京ICP备2024053208号-4</p>
         <p class="copyright">京公网安备100000000001号</p>
-        <p class="copyright">版权所有：新材料大数据中心</p>
+        <p class="copyright">材料计算设计专用数据资源节点</p>
       </div>
     </div>
 
     <el-dialog
       v-model="agreementVisible"
-      title="新材料大数据中心注册协议"
+      title="材料计算设计专用数据资源节点注册协议"
       width="600px"
       :close-on-click-modal="false"
     >
       <div class="agreement-content">
         <h3>一、服务条款的确认和接纳</h3>
-        <p>欢迎使用新材料大数据中心服务。请您仔细阅读本协议，您的注册和使用行为将被视为对本协议的接受和同意。</p>
+        <p>欢迎使用材料计算设计专用数据资源节点服务。请您仔细阅读本协议，您的注册和使用行为将被视为对本协议的接受和同意。</p>
         
         <h3>二、用户注册</h3>
         <p>1. 用户注册时必须提供真实、准确、完整的个人资料。</p>
@@ -198,7 +198,7 @@ const registerRules: FormRules = {
     { pattern: /^1[3-9]\d{9}$/, message: '请输入正确的手机号码', trigger: 'blur' }
   ],
   code: [
-    { required: true, message: '请输入验证码', trigger: 'blur' }
+    { required: true, message: '暂无验证码，可用1234代替', trigger: 'blur' }
   ],
   password: [
     { required: true, message: '请输入登录密码', trigger: 'blur' },

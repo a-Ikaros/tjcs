@@ -27,7 +27,7 @@ export const list: Array<cardInfo> = [
     },
     {
         path: 'private',
-        name: '私域数据集',
+        name: '私有数据集',
         icon: privateIcon,
         children:[
             {

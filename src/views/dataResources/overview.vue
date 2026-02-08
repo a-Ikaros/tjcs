@@ -14,15 +14,16 @@
 <script setup lang="ts">
 import { onMounted, ref } from "vue";
 import dataIcon from '@/assets/img/dataResources/data-icon.png'
-import { getStatistics } from "@/api";
+import { useStatisticsStore } from "@/store/statistics";
 
 const overviewList = ref([])
+const statisticsStore = useStatisticsStore()
 
 const formatNumber = (num, separator = ',') => {
   return num.toString().replace(/\B(?=(\d{3})+(?!\d))/g, separator);
 }
 onMounted(async () => {
-  const { data } = await getStatistics()
+  const data = await statisticsStore.fetchStatistics()
   const getNumber = (key: string) => {
     return data?.find(item => item.key === key)?.val || 0
   }

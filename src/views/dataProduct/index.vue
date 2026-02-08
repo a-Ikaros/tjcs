@@ -134,7 +134,12 @@ import ProductionBlock from '@/components/ProductionBlock.vue'
 const router = useRouter();
 const route = useRoute()
 
-const breadCrumbList = ['首页', '数据产品']
+const breadCrumbList = computed(() => {
+  if (route.name === 'data-sharing') {
+    return ['首页', '数据共享']
+  }
+  return ['首页', '数据产品']
+})
 const menuList = ref([])
 
 const selectedLi = ref('all')
@@ -149,7 +154,12 @@ const jumpToDetail = (item) => {
   if (item.link) {
     jumpTo(item.link)
   } else {
-    const url = router.resolve({ name: 'data-product-detail', params: { id: item.id } }).href;
+    const from = route.name === 'data-sharing' ? 'data-sharing' : 'data-product';
+    const url = router.resolve({ 
+      name: 'data-product-detail', 
+      params: { id: item.id },
+      query: { from }
+    }).href;
     window.open(url, '_blank', 'noreferrer');
   }
 }
@@ -178,7 +188,7 @@ const selectSoftwareHeader = (header: string) => {
 
 const getProductList = () => {
   onlineProduct.value = [
-     {
+    {
       id: 'DatabaseQueryToolData',
       title: '材料数据库统一采集工具',
       desc: '材料数据库统一采集工具是一款基于 OPTIMADE 标准的材料数据库查询软件，专为材料科学研究人员设计。通过本工具可以统一查询全球多个材料数据库，提供可视化元素选择、智能结果管理和数据导出功能，无需逐个访问不同数据库，大幅提升材料数据检索效率。',
@@ -213,7 +223,7 @@ const getProductList = () => {
       time: '2026.02.09',
       link: ''
     },
-     {
+    {
       id: 'PhaseFieldData',
       title: '相场模拟数据采集软件',
       desc: '相场模拟数据采集软件是一款专为材料科学研究人员设计的专业数据采集工具。该软件采用自动化技术，通过Web界面实现NIST相场数据库的高效采集，支持批量数据下载和智能断点续传功能。系统提供实时任务监控、日志查看和统计分析等功能，帮助科研人员快速获取高质量的相场模拟数据集，提升科研效率和数据处理精度。',
@@ -236,7 +246,7 @@ const getProductList = () => {
       img: productBlockImg,
       user: '材料计算设计专用数据资源节点',
       time: '2026.02.09',
-      link: '/#/data-product/application/OrganicCathodePotentialEngine'
+      link: location.pathname + '#/data-product/application/OrganicCathodePotentialEngine'
     },
     {
       id: 'BatteryElectrodeSolubilityEngine',
@@ -245,7 +255,7 @@ const getProductList = () => {
       img: productBlockImg,
       user: '材料计算设计专用数据资源节点',
       time: '2026.02.09',
-      link: '/#/data-product/application/BatteryElectrodeSolubilityEngine'
+      link: location.pathname + '#/data-product/application/BatteryElectrodeSolubilityEngine'
     },
   ]
   offlineProduct.value = [
@@ -316,7 +326,7 @@ watch(() => selectedLi.value, () => {
 const curProductList = ref([])
 const getCurProductList = () => {
   const toolProducts = [
-     {
+    {
       id: 'DatabaseQueryToolData',
       title: '材料数据库统一采集工具',
       desc: '材料数据库统一采集工具是一款基于 OPTIMADE 标准的材料数据库查询软件，专为材料科学研究人员设计。通过本工具可以统一查询全球多个材料数据库，提供可视化元素选择、智能结果管理和数据导出功能，无需逐个访问不同数据库，大幅提升材料数据检索效率。',
@@ -351,7 +361,7 @@ const getCurProductList = () => {
       time: '2026.02.09',
       link: ''
     },
-     {
+    {
       id: 'PhaseFieldData',
       title: '相场模拟数据采集软件',
       desc: '相场模拟数据采集软件是一款专为材料科学研究人员设计的专业数据采集工具。该软件采用自动化技术，通过Web界面实现NIST相场数据库的高效采集，支持批量数据下载和智能断点续传功能。系统提供实时任务监控、日志查看和统计分析等功能，帮助科研人员快速获取高质量的相场模拟数据集，提升科研效率和数据处理精度。',
@@ -377,7 +387,7 @@ const getCurProductList = () => {
       img: productBlockImg,
       user: '材料计算设计专用数据资源节点',
       time: '2026.02.09',
-      link: 'http://mathtc.nscc-tj.cn/workflow_v3/work?project=133&category=5&name=%E6%9C%89%E6%9C%BA%E6%AD%A3%E6%9E%81%E6%9D%90%E6%96%99%E8%BF%98%E5%8E%9F%E7%94%B5%E4%BD%8D%E7%94%9F%E4%BA%A7%E5%BC%95%E6%93%8E&desc=%E6%9C%89%E6%9C%BA%E6%AD%A3%E6%9E%81%E6%9D%90%E6%96%99%E8%BF%98%E5%8E%9F%E7%94%B5%E4%BD%8D%E7%94%9F%E4%BA%A7%E5%BC%95%E6%93%8E'
+      link: location.pathname + '#/data-product/application/OrganicCathodePotentialEngine'
     },
     {
       id: 'BatteryElectrodeSolubilityEngine',
@@ -386,7 +396,7 @@ const getCurProductList = () => {
       img: productBlockImg,
       user: '材料计算设计专用数据资源节点',
       time: '2026.02.09',
-      link: 'http://mathtc.nscc-tj.cn/workflow_v3/work?project=134&category=5&name=%E7%94%B5%E6%B1%A0%E7%94%B5%E6%9E%81%E6%9D%90%E6%96%99%E6%BA%B6%E8%A7%A3%E5%BA%A6%E7%94%9F%E4%BA%A7%E5%BC%95%E6%93%8E&desc=%E7%94%B5%E6%B1%A0%E7%94%B5%E6%9E%81%E6%9D%90%E6%96%99%E6%BA%B6%E8%A7%A3%E5%BA%A6%E7%94%9F%E4%BA%A7%E5%BC%95%E6%93%8E'
+      link: location.pathname + '#/data-product/application/BatteryElectrodeSolubilityEngine'
     },
     {
       id: 'CrystalStructureProcessingTool',
@@ -460,23 +470,24 @@ const getCurProductList = () => {
   ]
 
   const privateDataProducts = [
-    {
-      id: 'PrivateDomainDataSharingSystemData',
-      title: '私域数据有偿交换',
-      desc: '为企业提供私域数据存储、管理与交易服务，支持数据确权、定价与安全共享，保障数据资产价值。',
-      img: productBlockImg,
-      user: '材料计算设计专用数据资源节点',
-      time: '2025.11.01',
-    },
-      {
+     {
       title: '公益数据上传',
       id: 'DataUpload',
-      desc: '上传您的材料数据，支持 Excel 和 JSON 格式，请选择数据尺度和类型后上传文件。',
+      desc: '上传您的材料数据，请选择计算尺度和类型后上传文件。',
       img: productBlockImg,
       user: '材料计算设计专用数据资源节点',
       time: '2026.02.09',
       isUploadCard: true
-    }
+    },
+    {
+      id: 'PrivateDomainDataSharingSystemData',
+      title: '私域数据有偿交换',
+      desc: '为企业提供私有数据存储、管理与交易服务，支持数据确权、定价与安全共享，保障数据资产价值。',
+      img: productBlockImg,
+      user: '材料计算设计专用数据资源节点',
+      time: '2025.11.01',
+    },
+   
   ]
 
   const materialSoftwareProducts = [

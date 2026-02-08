@@ -17,7 +17,7 @@ export const FirstPrinciplesData = {
     "第一性原理计算数据采集软件是一款专为科研人员开发的自动化Web端采集工具，实现Quantum-ESPRESSO网站UPF赝势数据和Turbomole网站基组数据的自动化高效采集，结合实时监控、自定义采集范围及输出目录和全局重置实用功能，为量子化学与材料科学研究提供稳定可靠的数据获取解决方案。",
   headImg: image1, // head,
   btnName: "申请使用",
-  btnLink: "/#/data-product/application/FirstPrinciplesData",
+  btnLink: location.pathname + "#/data-product/application/FirstPrinciplesData",
   content: [
     {
       descName: "软件介绍",
@@ -45,7 +45,7 @@ export const FirstPrinciplesData = {
         },
         {
           type: "p",
-          text: "点击\"Quantum-ESPRESSO UPF赝势\"和\"Turbomole基组数据\"即可直接进入对应的工具页面。",
+          text: '点击"Quantum-ESPRESSO UPF赝势"和"Turbomole基组数据"即可直接进入对应的工具页面。',
         },
         {
           type: "img",
@@ -62,7 +62,7 @@ export const FirstPrinciplesData = {
         },
         {
           type: "p",
-          text: "提供隐藏模式和可视化模式选择。勾选\"隐藏模型运行\"按钮，即选择隐藏模式采集，取消勾选即为选择可视化模式。隐藏模式适合生产环境运行，节省资源；可视化模式显示浏览器操作过程，便于调试和观察采集步骤。",
+          text: '提供隐藏模式和可视化模式选择。勾选"隐藏模型运行"按钮，即选择隐藏模式采集，取消勾选即为选择可视化模式。隐藏模式适合生产环境运行，节省资源；可视化模式显示浏览器操作过程，便于调试和观察采集步骤。',
         },
         {
           type: "subTitle",
@@ -70,7 +70,7 @@ export const FirstPrinciplesData = {
         },
         {
           type: "p",
-          text: "点击\"采集范围\"下拉栏，支持采集全部元素、采集指定元素和采集指定范围元素三种采集范围选择。",
+          text: '点击"采集范围"下拉栏，支持采集全部元素、采集指定元素和采集指定范围元素三种采集范围选择。',
         },
         {
           type: "subTitle",
@@ -78,7 +78,7 @@ export const FirstPrinciplesData = {
         },
         {
           type: "p",
-          text: "点击\"下载目录\"下拉栏，自定义下载目录路径，支持绝对路径和相对路径。软件按元素符号自动创建子目录组织数据，每个元素目录包含对应的UPF文件和注释信息。",
+          text: '点击"下载目录"下拉栏，自定义下载目录路径，支持绝对路径和相对路径。软件按元素符号自动创建子目录组织数据，每个元素目录包含对应的UPF文件和注释信息。',
         },
         {
           type: "img",
@@ -91,7 +91,7 @@ export const FirstPrinciplesData = {
         },
         {
           type: "p",
-          text: "点击\"开始采集\"后，任务列表会展示出任务名称、时间和完成情况（包括完成、失败、取消和运行中），任务栏右侧有\"取消任务\"和\"详情\"选项，可以用于中止任务和查看任务详情功能。",
+          text: '点击"开始采集"后，任务列表会展示出任务名称、时间和完成情况（包括完成、失败、取消和运行中），任务栏右侧有"取消任务"和"详情"选项，可以用于中止任务和查看任务详情功能。',
         },
         {
           type: "img",
@@ -121,7 +121,7 @@ export const FirstPrinciplesData = {
         },
         {
           type: "p",
-          text: "点击\"隐藏模式运行\"以隐藏模式启动，默认可视化模式运行。",
+          text: '点击"隐藏模式运行"以隐藏模式启动，默认可视化模式运行。',
         },
         {
           type: "subTitle",
@@ -129,7 +129,7 @@ export const FirstPrinciplesData = {
         },
         {
           type: "p",
-          text: "点击\"起始基组\"、\"输出格式\"和\"基组类型\"下拉栏设置针对Turbomole网站信息自定义爬取范围。起始基组提供从不同基组开始采集的功能；输出格式支持TURBOMOLE、Molpro、Gaussian和Dalton等多种格式；基组类型区分Basis、J-Basis、JK-Basis和C-Basis，针对不同计算方法优化。",
+          text: '点击"起始基组"、"输出格式"和"基组类型"下拉栏设置针对Turbomole网站信息自定义爬取范围。起始基组提供从不同基组开始采集的功能；输出格式支持TURBOMOLE、Molpro、Gaussian和Dalton等多种格式；基组类型区分Basis、J-Basis、JK-Basis和C-Basis，针对不同计算方法优化。',
         },
         {
           type: "subTitle",
@@ -137,7 +137,7 @@ export const FirstPrinciplesData = {
         },
         {
           type: "p",
-          text: "点击\"采集范围\"下拉栏，与Quantum-ESPRESSO模板类似，支持全部元素、指定元素和元素范围三种模式。由于基组数据的维度更高（基组×格式×类型×元素），处理时间和存储空间需求更大。",
+          text: '点击"采集范围"下拉栏，与Quantum-ESPRESSO模板类似，支持全部元素、指定元素和元素范围三种模式。由于基组数据的维度更高（基组×格式×类型×元素），处理时间和存储空间需求更大。',
         },
         {
           type: "img",
@@ -150,7 +150,7 @@ export const FirstPrinciplesData = {
         },
         {
           type: "p",
-          text: "点击\"开始采集\"后，任务列表会展示出任务名称、时间和完成情况（包括完成、失败、取消和运行中），任务栏右侧有\"取消任务\"和\"详情\"选项，可以用于中止任务和查看任务详情功能。",
+          text: '点击"开始采集"后，任务列表会展示出任务名称、时间和完成情况（包括完成、失败、取消和运行中），任务栏右侧有"取消任务"和"详情"选项，可以用于中止任务和查看任务详情功能。',
         },
         {
           type: "subTitle",

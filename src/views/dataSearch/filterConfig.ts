@@ -117,7 +117,14 @@ export const filterConfigMap: Record<string, FilterConfig[]> = {
     //   clearable: true,
     // },
   ],
-
+  machineLearnGap:[{
+      key: 'potentialType',
+      label: 'Potential Type',
+      type: 'select',
+      api: '/potdata/machineLearnGap/getPotentialTypes',
+      placeholder: '请选择 Potential Type',
+      clearable: true,
+    },],
   // 多体势 - 筛选 Elements、Potential Type 和 Year
   nist: [
     {

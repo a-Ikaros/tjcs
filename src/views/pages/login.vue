@@ -4,7 +4,7 @@
     <div class="top-header">
       <div class="header-content">
         <div class="logo-section">
-          <img src="@/assets/img/new-material-logo.png" alt="新材料大数据中心" class="logo-img" />
+          <img src="@/assets/img/new-material-logo.png" alt="材料计算设计专用数据资源节点" class="logo-img" />
           <span class="system-name">材料计算设计专用数据资源节点</span>
         </div>
         <div class="title-section">
@@ -82,7 +82,7 @@
       <div class="footer-content">
         <p class="copyright">京ICP备2024053208号-4</p>
         <p class="copyright">京公网安备100000000001号</p>
-        <p class="copyright">版权所有：新材料大数据中心</p>
+        <p class="copyright">材料计算设计专用数据资源节点</p>
       </div>
     </div>
   </div>

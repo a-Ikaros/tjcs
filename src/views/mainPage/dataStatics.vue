@@ -5,12 +5,13 @@ import dataCol from '@/assets/img/dataStatics/data-col.png'
 import dataEngine from "@/assets/img/dataStatics/data-engine.png";
 import dataRecord from "@/assets/img/dataStatics/data-record.png";
 import { useRouter } from "vue-router";
-import { getStatistics } from "@/api";
+import { useStatisticsStore } from "@/store/statistics";
 const router = useRouter()
+const statisticsStore = useStatisticsStore()
 
 const dataList = ref([])
 onMounted(async () => {
-  const { data } = await getStatistics()
+  const data = await statisticsStore.fetchStatistics()
   const getNumber = (key: string) => {
     return data?.find(item => item.key === key)?.val || 0
   }

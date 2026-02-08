@@ -11,7 +11,7 @@
       </el-badge>
     </div>
     <div class="res-total-line">
-      共找到 <span class="res-num">{{ total }}</span> 个结果
+      共找到 <span class="res-num">{{ selectedType === 'cdMachineLearn' ? '2446398' : total }}</span> 个结果
       <span class="res-filter" @click="handleFilter">
         <img src="@/assets/img/dataSearch/icon_filter.png" alt="筛选" class="filter-icon" />
         <span>筛选</span>
@@ -24,7 +24,7 @@
         :width="col.width || 'auto'" :align="col.align || 'center'" :min-width="col.minWidth || '120px'" empty-text="-">
         <template #default="scope" v-if="col.key === 'elements'">
           <span>{{ Array.isArray(scope.row.elements) ? scope.row.elements?.join(', ') || '-' : scope.row.elements
-            }}</span>
+          }}</span>
         </template>
         <template #default="scope" v-else-if="col.removeUnit">
           <span>{{ removeUnit(scope.row[col.key]) || '-' }}</span>
@@ -33,7 +33,7 @@
           <span>{{ col.prefix + (scope.row[col.key] || '-') }}</span>
         </template>
         <template #default="scope" v-else>
-          <span>{{ (scope.row[col.key] === 'null' ? '-' : scope.row[col.key]) || '-' }}</span>
+          <span>{{ getData(scope.row[col.key]) }}</span>
         </template>
       </el-table-column>
       <el-table-column label="操作" width="120" align="center" fixed="right">
@@ -90,6 +90,7 @@ import { computed, onMounted, ref, watch } from 'vue';
 import { ElMessageBox } from 'element-plus'
 import { capitalizeFirstLetter, buildCountMap } from '@/utils/common';
 import { useStatisticsStore } from '@/store/statistics';
+import { get } from '@antv/x6/lib/common/dom/event';
 
 const router = useRouter()
 const statisticsStore = useStatisticsStore()
@@ -113,6 +114,10 @@ const currentTableColumns = computed(() => {
   return tableCol[selectedType.value] || tableCol.pairPotential
 })
 
+const getData = (key: string) => {
+  if(!key) return '-'
+  return ['null', " "].indexOf(key) > -1 ? '-' : key 
+}
 const getDataMap = async () => {
   try {
     const res = await statisticsStore.fetchDataSetCount()

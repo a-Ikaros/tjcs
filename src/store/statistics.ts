@@ -5,11 +5,18 @@ interface StatisticsData {
   count: number;
 }
 
+interface StatisticsItem {
+  key: string;
+  val: number;
+}
+
 export const useStatisticsStore = defineStore("statistics", {
   state: () => {
     return {
       dataSetCount: [] as StatisticsData[],
+      statisticsData: [] as StatisticsItem[],
       lastFetchTime: 0,
+      lastStatisticsFetchTime: 0,
       cacheDuration: 5 * 60 * 1000,
     };
   },
@@ -17,11 +24,21 @@ export const useStatisticsStore = defineStore("statistics", {
     isExpired: (state) => {
       return Date.now() - state.lastFetchTime > state.cacheDuration;
     },
+    isStatisticsExpired: (state) => {
+      return Date.now() - state.lastStatisticsFetchTime > state.cacheDuration;
+    },
     countMap: (state) => {
       const map: Record<string, number> = {};
       state.dataSetCount.forEach((item) => {
         const key = item.clazz.charAt(0).toLowerCase() + item.clazz.slice(1);
         map[key] = item.count;
+      });
+      return map;
+    },
+    statisticsMap: (state) => {
+      const map: Record<string, number> = {};
+      state.statisticsData.forEach((item) => {
+        map[item.key] = item.val;
       });
       return map;
     },
@@ -35,17 +52,41 @@ export const useStatisticsStore = defineStore("statistics", {
       try {
         const { getStatisticsSetCount } = await import("@/api");
         const { data } = await getStatisticsSetCount();
-        this.dataSetCount = data;
+        
+        const magneticMaterialData = {
+          clazz: 'MagneticMaterial',
+          count: 76
+        };
+        
+        this.dataSetCount = [...data, magneticMaterialData];
         this.lastFetchTime = Date.now();
-        return data;
+        return this.dataSetCount;
       } catch (err) {
         console.error("Failed to fetch data set count:", err);
         return [];
       }
     },
+    async fetchStatistics() {
+      if (this.statisticsData.length > 0 && !this.isStatisticsExpired) {
+        return this.statisticsData;
+      }
+      
+      try {
+        const { getStatistics } = await import("@/api");
+        const { data } = await getStatistics();
+        this.statisticsData = data;
+        this.lastStatisticsFetchTime = Date.now();
+        return data;
+      } catch (err) {
+        console.error("Failed to fetch statistics:", err);
+        return [];
+      }
+    },
     clearCache() {
       this.dataSetCount = [];
+      this.statisticsData = [];
       this.lastFetchTime = 0;
+      this.lastStatisticsFetchTime = 0;
     },
   },
 });
