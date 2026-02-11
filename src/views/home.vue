@@ -16,7 +16,7 @@
     </div>
     <div class="page-footer">
       <div class="footer-title">材料计算设计专用数据资源节点</div>
-      <div class="footer-copyright">版权所有@2025 国家超级计算天津中心 保留一切权利 津IPC备12008252号-1</div>
+      <!-- <div class="footer-copyright">版权所有@2025 国家超级计算天津中心 保留一切权利 津IPC备12008252号-1</div> -->
     </div>
   </div>
 </template>

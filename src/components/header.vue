@@ -2,20 +2,21 @@
   <div class="header">
     <div class="header-padding">
       <div class="header-left">
-        <img class="logo" src="../assets/img/logo.svg" alt=""/>
-        <div class="web-title">材料计算设计专用数据资源节点</div>
+        <img class="matbd-logo" src="../assets/img/matbd-logo.jpg" alt="" />
+        <!-- <img class="logo" src="../assets/img/logo.svg" alt=""/>
+        <div class="web-title">材料计算设计专用数据资源节点</div> -->
       </div>
       <div class="header-right">
         <div class="header-user-con">
 
-          <img :src="langImg" alt="语言" style="width: 20px;margin-right: 6px;"/>
+          <img :src="langImg" alt="语言" style="width: 20px;margin-right: 6px;" />
           <el-dropdown class="user-name" trigger="click" @command="handleCommand">
-                              <span class="lang-switch cur-p">
-                                  {{ '中文' }}
-                                  <el-icon class="lang-switch">
-                                      <arrow-down/>
-                                  </el-icon>
-                              </span>
+            <span class="lang-switch cur-p">
+              {{ '中文' }}
+              <el-icon class="lang-switch">
+                <arrow-down />
+              </el-icon>
+            </span>
             <template #dropdown>
               <el-dropdown-menu>
                 <el-dropdown-item>中文</el-dropdown-item>
@@ -28,7 +29,7 @@
           <!--            </el-tooltip>-->
           <!--          </div>-->
           <!-- 用户头像 -->
-          <img class="user-avator" style="width: 20px;margin-right: 6px;" :src="imgurl"/>
+          <img class="user-avator" style="width: 20px;margin-right: 6px;" :src="imgurl" />
 
           <!-- 未登录状态 -->
           <template v-if="!isLoggedIn">
@@ -43,7 +44,7 @@
               <span class="user-phone cur-p">
                 {{ userPhone }}
                 <el-icon class="el-icon--right">
-                  <arrow-down/>
+                  <arrow-down />
                 </el-icon>
               </span>
               <template #dropdown>
@@ -157,7 +158,6 @@ const handleCommand = async (command: string) => {
 };
 </script>
 <style scoped>
-
 .header {
   box-sizing: border-box;
   display: flex;
@@ -186,6 +186,11 @@ const handleCommand = async (command: string) => {
   align-items: center;
   padding-left: 20px;
   height: 100%;
+}
+
+.matbd-logo {
+  height: 45px;
+  margin-right: 20px;
 }
 
 .logo {

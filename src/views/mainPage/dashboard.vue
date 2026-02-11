@@ -93,11 +93,18 @@
         <div class="mtb30">
           <titleLine :nameZh="'建设单位'" :nameEn="'/ CONSTRUCTION ENTITY'"></titleLine>
           <div class="mtb30 wp100 construction-box">
-            <img class="" src="../../assets/img/construction/national-supercomputing-center-tianjin.png" alt=""
+            <img class="construction-img-first" src="../../assets/img/construction/bjkjdx.png" alt=""
+              @click="jumpTo('https://www.nscc-tj.cn/zxjj/index')"  />
+            <img class="construction-img-first" src="../../assets/img/construction/szsys.png" alt=""
               @click="jumpTo('https://www.nscc-tj.cn/zxjj/index')" />
+            <img class="construction-img-first" src="../../assets/img/construction/zggy.png" alt=""
+              @click="jumpTo('https://www.ustb.edu.cn/')" />
+            <img class="" src="../../assets/img/construction/national-supercomputing-center-tianjin.png" alt=""
+              @click="jumpTo('https://www.szlab.ac.cn/')" />
             <img class="" src="../../assets/img/construction/sichuan-university.png" alt=""
-              @click="jumpTo('https://www.scu.edu.cn/')" />
-            <img class="" src="../../assets/img/construction/institute-of-applied-physics-and-computational-mathematics.png" alt=""
+              @click="jumpTo('https://www.cisri.com.cn/index.htm')" />
+            <img class=""
+              src="../../assets/img/construction/institute-of-applied-physics-and-computational-mathematics.png" alt=""
               @click="jumpTo('https://www.caep.ac.cn/')" />
             <img class="" src="../../assets/img/construction/china-first-heavy-industries.png" alt=""
               @click="jumpTo('https://www.cfhi.com/')" />
@@ -234,7 +241,7 @@ onMounted(async () => {
   }
   friendList.value = [
     {
-      title: '中华人民共和国信息部',
+      title: '中华人民共和国工业和信息化部',
       link: 'https://wap.miit.gov.cn/'
     },
     {
@@ -248,20 +255,7 @@ onMounted(async () => {
     {
       title: '中华人民共和国财政部',
       link: 'https://www.mof.gov.cn/index.htm'
-    },
-    {
-      title: '北京科技大学',
-      link: 'https://www.ustb.edu.cn/'
-    },
-    {
-      title: '苏州实验室',
-      link: 'https://www.szlab.ac.cn/'
-    },
-    {
-      title: '中国钢研',
-      link: 'https://www.cisri.com.cn/index.htm'
-    },
-  ]
+    }]
 
 })
 </script>
@@ -518,7 +512,7 @@ onMounted(async () => {
   background-color: #ffffff;
   height: 48px;
   display: flex;
-  justify-content: center;
+  justify-content: space-around;
   align-items: center;
   position: relative;
   padding: 24px;
@@ -529,7 +523,7 @@ onMounted(async () => {
   .link-block {
     font-size: 18px;
     color: #1760c2;
-    width: calc(25% - 12px);
+    // width: calc(25% - 12px);
     font-weight: 700;
     display: flex;
     justify-content: center;
@@ -566,7 +560,15 @@ onMounted(async () => {
     cursor: pointer;
     display: flex;
     flex-wrap: wrap;
-    justify-content: space-around;
+    justify-content: center;
+
+    .construction-img-first {
+      width: 26%;
+      height: 52px;
+      object-fit: contain;
+      padding: 4px 0;
+      box-sizing: border-box;
+    }
 
     img {
       width: 24%;
