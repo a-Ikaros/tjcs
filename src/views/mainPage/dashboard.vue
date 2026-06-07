@@ -94,11 +94,11 @@
           <titleLine :nameZh="'建设单位'" :nameEn="'/ CONSTRUCTION ENTITY'"></titleLine>
           <div class="mtb30 wp100 construction-box">
             <img class="construction-img-first" src="../../assets/img/construction/bjkjdx.png" alt=""
-              @click="jumpTo('https://www.nscc-tj.cn/zxjj/index')"  />
+              @click="jumpTo('https://www.ustb.edu.cn/')"  />
             <img class="construction-img-first" src="../../assets/img/construction/szsys.png" alt=""
-              @click="jumpTo('https://www.nscc-tj.cn/zxjj/index')" />
+              @click="jumpTo('https://www.szlab.ac.cn/')" />
             <img class="construction-img-first" src="../../assets/img/construction/zggy.png" alt=""
-              @click="jumpTo('https://www.ustb.edu.cn/')" />
+              @click="jumpTo('https://www.cisri.com.cn/index.htm')" />
             <img class="" src="../../assets/img/construction/national-supercomputing-center-tianjin.png" alt=""
               @click="jumpTo('https://www.szlab.ac.cn/')" />
             <img class="" src="../../assets/img/construction/sichuan-university.png" alt=""

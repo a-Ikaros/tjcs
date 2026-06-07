@@ -184,7 +184,7 @@ const handleCommand = async (command: string) => {
 .header-left {
   display: flex;
   align-items: center;
-  padding-left: 20px;
+  /* padding-left: 20px; */
   height: 100%;
 }
 
